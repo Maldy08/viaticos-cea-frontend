@@ -7,7 +7,7 @@ export const LoginPage = () => {
         <div className="loginPage">
             <div className="row d-flex justify-content-center">
                 <div className="col-md-6 login-form-1 login-container">
-                    <h3>Ingreso</h3>
+                    <h3>Acceso al Sistema</h3>
                     <form>
                         <div className="form-group mb-2">
                             <input 

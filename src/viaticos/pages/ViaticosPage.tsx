@@ -3,6 +3,8 @@ import { ViaticosLayout } from "../layout/ViaticosLayout"
 
 export const ViaticosPage = () => {
   return (
-    <ViaticosLayout/>
+    <ViaticosLayout>
+       <h3>viaticos layout</h3>
+    </ViaticosLayout>
   )
 }
