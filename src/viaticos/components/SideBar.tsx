@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import '../styles/SideBar.css';
 
 export const SideBar = () => {
@@ -10,10 +11,10 @@ export const SideBar = () => {
                     <ul className="nav flex-column bg-white mb-0">
 
                       <li className="nav-item">
-                        <a href="#" className="nav-link  text-dark">
+                        <Link className='nav-link text-dark' to='/capturar-viatico'>
                         <i className="fa fa-address-card mr-3 text-primary fa-fw"></i>
                           Capturar
-                        </a>
+                        </Link>
                       </li>
                       <li className="nav-item">
                         <a href="#" className="nav-link text-dark">

@@ -1,6 +1,4 @@
-import { Header, Footer } from "../components"
-import { SeleccionarEjercicio } from "../components/SeleccionarEjercicio"
-import { SideBar } from "../components/SideBar"
+import { SideBar, Header, Footer } from "../components"
 
 type ModuleProps = {
   children: React.ReactNode
