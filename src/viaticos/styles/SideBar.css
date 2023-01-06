@@ -16,6 +16,18 @@
     margin-left: 17rem;
     transition: all 0.4s;
   }
+
+  .nav-active{
+    color: white;
+    background-color: #651930;
+    transition: all .3s ease-out;
+  }
+
+  .nav-link:hover{
+    color: white;
+    background-color: #651930;
+    transition: all .3s ease-out;
+  }
   
   /* for toggle behavior */
   

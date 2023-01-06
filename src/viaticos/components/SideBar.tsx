@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import '../styles/SideBar.css';
 
 export const SideBar = () => {
@@ -11,25 +11,25 @@ export const SideBar = () => {
                     <ul className="nav flex-column bg-white mb-0">
 
                       <li className="nav-item">
-                        <Link className='nav-link text-dark' to='/capturar-viatico'>
-                        <i className="fa fa-address-card mr-3 text-primary fa-fw"></i>
-                          Capturar
-                        </Link>
+                        <NavLink className={ ({ isActive }) => isActive ? 'nav-active nav-link': 'nav-link' } to='/capturar-viatico'>
+                          <i className="fa fa-address-card mr-3 text-primary fa-fw"></i>
+                            Capturar
+                        </NavLink>
                       </li>
                       <li className="nav-item">
-                        <a href="#" className="nav-link text-dark">
+                        <a href="#" className="nav-link ">
                         <i className="fa fa-cubes mr-3 text-primary fa-fw"></i>
                           Listado
                         </a>
                       </li>
                       <li className="nav-item">
-                        <a href="#" className="nav-link text-dark">
+                        <a href="#" className="nav-link ">
                         <i className="fa fa-picture-o mr-3 text-primary fa-fw"></i>
                             Imprimir Formato
                         </a>
                       </li>
                       <li className="nav-item">
-                        <a href="#" className="nav-link text-dark">
+                        <a href="#" className="nav-link ">
                         <i className="fa fa-picture-o mr-3 text-primary fa-fw"></i>
                             Capturar Informe
                         </a>
