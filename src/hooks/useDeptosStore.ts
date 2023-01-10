@@ -16,8 +16,8 @@ export const useDeptosStore = () => {
     const startLoadingDeptos = async() => {
        try {
         const { data } = await viaticosApi.get<Response>('/Deptos');
-        console.log( { data } );
-        dispatch( onListDeptos( deptos ));
+       
+        dispatch( onListDeptos( data ));
         
        } catch (error) {
          console.log( { error });

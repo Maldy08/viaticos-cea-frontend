@@ -33,16 +33,16 @@ export const Departamentos = () => {
                         <tbody>
                            { isLoadingDeptos ? <tr><th scope="row">Cargando....</th></tr> 
                             :
-                            JSON.stringify(deptos)
-                              // deptos.map( depto => (
-                              //   <tr key={ depto.id }>
-                              //       <td>{ depto.id }</td>
-                              //       <td>{ depto.idCea }</td>
-                              //       <td>{ depto.idShpoa }</td>
-                              //       <td>{ depto.descripcion }</td>
-                              //       <td>{ depto.prog }</td>
-                              //   </tr>
-                              // )) 
+                           
+                               deptos.map( depto => (
+                                 <tr key={ depto.id }>
+                                     <td>{ depto.id }</td>
+                                     <td>{ depto.idCea }</td>
+                                     <td>{ depto.idShpoa }</td>
+                                     <td>{ depto.descripcion }</td>
+                                     <td>{ depto.prog }</td>
+                                 </tr>
+                               )) 
                           }
                         </tbody>
 
