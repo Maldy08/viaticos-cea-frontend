@@ -2,7 +2,7 @@ import { SideBar, Header, Footer } from "../components"
 import '../styles/ViaticosLayout.css';
 
 type ModuleProps = {
-  children: React.ReactNode
+  children: React.ReactNode;
 }
 
 export const ViaticosLayout: React.FunctionComponent<ModuleProps> = ({ children }) => {

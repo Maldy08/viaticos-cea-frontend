@@ -3,3 +3,4 @@ export * from './Footer';
 
 export * from './SeleccionarEjercicio';
 export * from './SideBar';
+export * from './TableDeptos';

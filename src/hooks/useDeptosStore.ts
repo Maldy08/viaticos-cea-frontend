@@ -1,8 +1,8 @@
 import { useDispatch, useSelector } from "react-redux"
 import { RootState } from "../store/store";
 import { viaticosApi } from "../api";
-import { onListDeptos } from "../store/deptos/deptosSlice";
-import { Deptos } from "../interfaces/interfaces";
+import { onGetDeptoById, onListDeptos } from "../store/deptos/deptosSlice";
+import { Deptos } from '../interfaces/interfaces';
 
 
 export const useDeptosStore = () => {
@@ -11,6 +11,10 @@ export const useDeptosStore = () => {
 
     type Response = {
         data: Deptos[]
+    }
+
+    type ResponseById = {
+        data: Deptos;
     }
 
     const startLoadingDeptos = async() => {
@@ -24,9 +28,20 @@ export const useDeptosStore = () => {
        }
     }
 
+    const startLoadingDeptoById = async( id: number) => {
+      try {
+         const { data } = await viaticosApi.get<ResponseById>(`/Deptos?id=${ id }`);
+         dispatch( onGetDeptoById( data ));
+        
+      } catch (error) {
+        console.log({ error });
+      }
+    }
+
     return {
         deptos,
         startLoadingDeptos,
+        startLoadingDeptoById,
         isLoadingDeptos,
     }
 
