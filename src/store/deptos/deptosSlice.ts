@@ -1,10 +1,13 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { Deptos } from '../../interfaces/interfaces';
+
+const deptos = {} as Deptos[];
 
 export const deptosSlice = createSlice({
     name:'deptos',
     initialState: {
         isLoadingDeptos:true, 
-        deptos: [] ,
+        deptos: deptos ,
     },
     reducers:{
         onListDeptos: ( state, { payload = [] } ) => {

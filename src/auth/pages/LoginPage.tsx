@@ -10,8 +10,8 @@ const loginFormFields = {
 
 export const LoginPage = () => {
     const { startLogin, errorMessage, status } = useAuthStore();
-    const [login, setLogin] = useState("");
-    const [pass, setPass] = useState("");
+    const [login, setLogin] = useState(loginFormFields.loginUser);
+    const [pass, setPass] = useState(loginFormFields.loginPassword);
 
     const onChangeLogin = (event : React.ChangeEvent<HTMLInputElement>) => {
         setLogin( event.target.value );

@@ -6,7 +6,7 @@ import { Deptos } from "../interfaces/interfaces";
 
 
 export const useDeptosStore = () => {
-    const { deptos } = useSelector( ( state: RootState ) => state.deptos);
+    const { deptos, isLoadingDeptos } = useSelector( ( state: RootState ) => state.deptos);
     const dispatch = useDispatch();
 
     type Response = {
@@ -17,9 +17,8 @@ export const useDeptosStore = () => {
        try {
         const { data } = await viaticosApi.get<Response>('/Deptos');
         console.log( { data } );
-        //dispatch( onListDeptos( deptos ));
+        dispatch( onListDeptos( deptos ));
         
-         //dispatch( onListDeptos( deptos ) );
        } catch (error) {
          console.log( { error });
        }
@@ -28,6 +27,7 @@ export const useDeptosStore = () => {
     return {
         deptos,
         startLoadingDeptos,
+        isLoadingDeptos,
     }
 
 }
