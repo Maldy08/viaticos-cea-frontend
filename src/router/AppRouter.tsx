@@ -1,12 +1,12 @@
 import { Navigate, Route, Routes } from "react-router-dom"
 import { AuthRoutes } from "../auth/routes/AuthRoutes";
 import { ViaticosRoutes } from "../viaticos/routes/ViaticosRoutes";
-import { useCheckAuth } from '../hooks/useCheckAuth';
+import { useAuthStore } from "../hooks";
 
 
 export const AppRouter = () => {
 
-  const status = useCheckAuth();
+  const { status } = useAuthStore();
 
   return (
    <Routes>

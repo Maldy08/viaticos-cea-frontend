@@ -17,6 +17,12 @@ export const SideBar = () => {
                         </NavLink>
                       </li>
                       <li className="nav-item">
+                        <NavLink className={ ({ isActive }) => isActive ? 'nav-active nav-link': 'nav-link' } to='/deptos'>
+                          <i className="fa fa-address-card mr-3 text-primary fa-fw"></i>
+                            Departamentos
+                        </NavLink>
+                      </li>
+                      <li className="nav-item">
                         <a href="#" className="nav-link ">
                         <i className="fa fa-cubes mr-3 text-primary fa-fw"></i>
                           Listado
