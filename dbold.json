@@ -1,4 +1,5 @@
-[
+{
+  "usuarios": [
     {
       "usuario": 33,
       "login": "0611",
@@ -671,9 +672,8 @@
       "idPue": 54,
       "descripcion": "SUPERVISOR DE SEGURIDAD E HIGIENE"
     }
-  ]
-
-  [
+  ],
+  "departamentos": [
     {
       "id": 1,
       "idCea": 1,
@@ -1229,4 +1229,13 @@
       "empRespon": 7198,
       "agrupaDir": 1
     }
+  ],
+  "users": [
+    {
+      "id": 1,
+      "name": "Carlos Maldonado",
+      "user": "carlos",
+      "pass": "12345"
+    }
   ]
+}
