@@ -3,21 +3,25 @@ import { User } from "../../interfaces/interfaces";
 
 interface initialStateProps {
     status:string;
-    user: User,
+    user: { },
     errorMessage:any;
 }
 
-const user = {} as User;
+//const user = {} as User;
 
-const initialState = { status: 'cheking', user: {}, errorMessage : undefined }; 
+//const initialState = { status: 'checking', user: {}, errorMessage : undefined }; 
 
 export const authSlice = createSlice({
     name: 'auth',
-    initialState,
+    initialState:{
+        status:'checking',
+        user:{},
+        errorMessage:undefined
+    },
     reducers: {
         onCheking: ( state ) => {
-            state.status = 'cheking';
-            state.user = user;
+            state.status = 'checking';
+            state.user = {};
             state.errorMessage = undefined;
         },
         onLogin: ( state, { payload } ) => {
@@ -27,12 +31,12 @@ export const authSlice = createSlice({
         },
         onLogout: ( state , { payload }) => {
             state.status = 'not-authenticated';
-            state.user = user;
+            state.user = {};
             state.errorMessage = payload;
         },
         clearErrorMessage: ( state ) => {
             state.errorMessage = undefined;
-        }
+        },
     }
 });
 

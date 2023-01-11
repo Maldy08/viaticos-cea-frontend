@@ -1,12 +1,17 @@
+import { useEffect } from "react";
 import { Navigate, Route, Routes } from "react-router-dom"
 import { AuthRoutes } from "../auth/routes/AuthRoutes";
+import { useAuthStore, useCheckAuth } from "../hooks";
 import { ViaticosRoutes } from "../viaticos/routes/ViaticosRoutes";
-import { useAuthStore } from "../hooks";
-
 
 export const AppRouter = () => {
 
-  const { status } = useAuthStore();
+   const { status, checkAuthToken } = useAuthStore();
+
+   useEffect(() => {
+      checkAuthToken();
+   }, [])
+   
 
   return (
    <Routes>

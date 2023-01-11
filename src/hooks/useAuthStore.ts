@@ -18,7 +18,9 @@ export const useAuthStore = () => {
         try {
             const { data } = await viaticosApi.post<Response>(`/Auth/login?user=${ login }&password=${ pass }`);
             //const { data } = await viaticosApi.post(`/Auth/login?user=${ login }&password=${ pass }`);
-            console.log( { data })
+           // console.log( { data })
+            localStorage.setItem('token', data.token );
+            localStorage.setItem('token-init-date', new Date().getTime().toString());
             dispatch( onLogin( { user: data, token: data.token }) )
             
 
@@ -29,8 +31,26 @@ export const useAuthStore = () => {
         
     }
 
+    const checkAuthToken = async() => {
+        const token = localStorage.getItem('token');
+        if( !token ) return dispatch( onLogout({ user: {} }) );
+
+        try {
+            
+        } catch (error) {
+            localStorage.clear();
+            dispatch( onLogout({ user: { } }))
+        }
+    }
+
     const startLogOut = () => {
+        localStorage.clear();
         dispatch( onLogout({ user: {} }) );
+    }
+
+    const checkAuthentication =  async() => {
+        const token = localStorage.getItem('token');
+        
     }
 
     return {
@@ -40,5 +60,6 @@ export const useAuthStore = () => {
         user,
         startLogin,
         startLogOut,
+        checkAuthToken,
     }
 }

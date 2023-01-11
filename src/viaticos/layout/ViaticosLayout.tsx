@@ -16,6 +16,9 @@ export const ViaticosLayout: React.FunctionComponent<ModuleProps> = ({ children 
 
         </div>
       <Footer/>
+      
     </div>
+
+    
   )
 }
