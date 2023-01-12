@@ -1,7 +1,7 @@
 import { Navigate, Route, Routes } from "react-router-dom"
-import { useAuthStore } from "../../hooks";
 import { ViaticosPage, CapturarViaticos } from "../pages"
 import { Departamentos } from "../pages/Departamentos"
+import { ListadoViaticos } from "../pages/ListadoViaticos"
 
 
 export const ViaticosRoutes = ( ) => {
@@ -12,6 +12,7 @@ export const ViaticosRoutes = ( ) => {
         <Route path="/" element={ <ViaticosPage /> } />
         <Route path="/capturar-viatico" element={ <CapturarViaticos/>} />
         <Route path="/deptos" element={ <Departamentos/>}/>
+        <Route path="/listado-viaticos" element={ <ListadoViaticos/> } />
         <Route path="/*" element={ <Navigate to="/" /> } />
     </Routes>
   )

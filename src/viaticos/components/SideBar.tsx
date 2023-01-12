@@ -23,12 +23,12 @@ export const SideBar = () => {
                         </NavLink>
                       </li>
                       <li className="nav-item">
-                        <a href="#" className="nav-link ">
-                        <i className="fa fa-cubes mr-3 text-primary fa-fw"></i>
-                          Listado
-                        </a>
+                        <NavLink className={ ({ isActive }) => isActive ? 'nav-active nav-link': 'nav-link' } to='/listado-viaticos'>
+                          <i className="fa fa-address-card mr-3 text-primary fa-fw"></i>
+                            Listado
+                        </NavLink>
                       </li>
-                      <li className="nav-item">
+{/*                       <li className="nav-item">
                         <a href="#" className="nav-link ">
                         <i className="fa fa-picture-o mr-3 text-primary fa-fw"></i>
                             Imprimir Formato
@@ -39,7 +39,7 @@ export const SideBar = () => {
                         <i className="fa fa-picture-o mr-3 text-primary fa-fw"></i>
                             Capturar Informe
                         </a>
-                      </li>
+                      </li> */}
                       
                     </ul>
               </div>

@@ -1,17 +1,21 @@
 import { useEffect } from "react";
 import { Navigate, Route, Routes } from "react-router-dom"
 import { AuthRoutes } from "../auth/routes/AuthRoutes";
-import { useAuthStore, useCheckAuth } from "../hooks";
+import { useAuthStore } from "../hooks";
 import { ViaticosRoutes } from "../viaticos/routes/ViaticosRoutes";
+import { Loading } from "../ui";
 
 export const AppRouter = () => {
 
    const { status, checkAuthToken } = useAuthStore();
-
+   
    useEffect(() => {
       checkAuthToken();
    }, [])
    
+   if( status === 'checking' ) {
+      return <Loading />
+   }
 
   return (
    <Routes>
@@ -21,7 +25,7 @@ export const AppRouter = () => {
           : <Route path="/auth/*" element={ <AuthRoutes /> } />
        } 
 
-      <Route path="/*" element={ <Navigate to="/auth/login" />}  />
+      <Route path="/*" element={ <Navigate to="/auth/login" /> } />
    </Routes>
   )
 }
