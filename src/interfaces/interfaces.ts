@@ -52,8 +52,19 @@ export interface Viaticos {
   cajaVale:number;
   cajaRepo:number;
   noEmpCea:number;
-  inforResult:String;
+  inforResult:string;
 
+}
+
+export interface ListViaticos {
+  viatico:number;
+  fecha:string; //date
+  origen:string;
+  destino:string;
+  motivo:string;
+  salida:string; //date
+  regreso:string; //date
+  estatus:string;
 }
 
 /* "usuario": 1;

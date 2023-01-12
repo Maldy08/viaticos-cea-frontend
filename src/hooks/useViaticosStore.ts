@@ -6,7 +6,7 @@ import { onError, onListViaticosByEmpleado } from "../store/viaticos/viaticosSli
 
 export const useViaticosStore = () => {
 
-    const { isLoading, viaticos, viatico, errorMessage } = useSelector( ( state: RootState ) => state.viaticos );
+    const { isLoading, listviaticos, viatico, errorMessage } = useSelector( ( state: RootState ) => state.viaticos );
     const dispatch = useDispatch();
 
     const startLoadingViaticosByEmpleado = async ( ejercicio:number, empleado:number) => {
@@ -28,7 +28,7 @@ export const useViaticosStore = () => {
     return {
         isLoading,
         viatico,
-        viaticos,
+        listviaticos,
         errorMessage,
         startLoadingViaticosByEmpleado,
     }
