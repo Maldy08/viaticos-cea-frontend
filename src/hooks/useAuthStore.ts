@@ -1,6 +1,6 @@
 import { useSelector, useDispatch } from "react-redux"
 import { viaticosApi } from "../api";
-import { onCheking, onLogin, onLogout } from "../store/auth/authSlice";
+import { onCheckUserById, onCheking, onAuthError, onLogin, onLogout } from "../store/auth/authSlice";
 import { RootState } from '../store/store';
 
 export const useAuthStore = () => {
@@ -12,26 +12,22 @@ export const useAuthStore = () => {
         ok:boolean;
         id:number;
         user:string;
+        userData:{ }
     }
 
     const startLogin = async ( login: string, pass: string ) => {
         dispatch( onCheking() );
         try {
             const { data } = await viaticosApi.post(`/Auth/login?user=${ login }&password=${ pass }`);
-            //const { data } = await viaticosApi.post(`/Auth/login?user=${ login }&password=${ pass }`);
-           // console.log( { data })
+
             localStorage.setItem('token', data.token );
-            // localStorage.setItem('id', Number.toString(data.id));
-            //localStorage.setItem('user',data.user);
-            //localStorage.setItem('token-init-date', new Date().getTime().toString());
-            //localStorage.setitem('data',JSON.stringify(data.token,data.id,data.ok,data.user));
             localStorage.setItem("data", JSON.stringify(data));
             dispatch( onLogin( { user: data } ) )
-            
 
         } catch (error) {
-
             console.log({ error });
+            dispatch( onAuthError() );
+           // dispatch( onError( { error }) );
         }
         
     }
@@ -47,13 +43,27 @@ export const useAuthStore = () => {
             
         } catch (error) {
             localStorage.clear();
-            dispatch( onLogout({ user: { } }))
+            console.log({ error });
+            dispatch( onLogout({ user: { } }));
         }
     }
 
     const startLogOut = () => {
         localStorage.clear();
         dispatch( onLogout({ user: { } }));
+    }
+
+    const startCheckingUserById = async ( id: number) => {
+        const token = localStorage.getItem('token');
+        if( !token ) return dispatch( onLogout( { user: { }}) );
+        try {
+            const { data } = await viaticosApi.get<Response>(`/Auth/usuarioById?id=${ id }`);
+            dispatch( onCheckUserById( { user: data } ) );
+            
+        } catch (error) {
+            localStorage.clear();
+            console.log({ error });
+        }
     }
 
     return {
@@ -64,5 +74,6 @@ export const useAuthStore = () => {
         startLogin,
         startLogOut,
         checkAuthToken,
+        startCheckingUserById,
     }
 }

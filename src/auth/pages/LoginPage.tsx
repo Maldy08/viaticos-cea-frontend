@@ -1,70 +1,92 @@
-import { useState } from "react";
+
+import { Formik, Field, Form, ErrorMessage } from "formik";
+import * as Yup from 'yup';
 import { useAuthStore } from "../../hooks";
 import { AuthLayout } from "../layout/AuthLayout"
 import '../styles/LoginPage.css';
 
-const loginFormFields = {
-    loginUser: '',
-    loginPassword: ''
-}
+
 
 export const LoginPage = () => {
-    const { startLogin, errorMessage, status } = useAuthStore();
-    const [login, setLogin] = useState(loginFormFields.loginUser);
-    const [pass, setPass] = useState(loginFormFields.loginPassword);
-
-    const onChangeLogin = (event : React.ChangeEvent<HTMLInputElement>) => {
-        setLogin( event.target.value );
-    }
-
-    const onChangePass = ( event: React.ChangeEvent<HTMLInputElement>) => {
-        setPass( event.target.value );
-    }
-
-    const loginSubmit = ( event: React.FormEvent<HTMLFormElement> ) => {
-        event.preventDefault();
-        startLogin( login, pass );
-    }
+    
+    const { startLogin, status } = useAuthStore();
+    const disabled = status === 'checking'?  true : false;
 
   return (
+    
+
     <AuthLayout>
         <div className="loginPage">
             <div className="row d-flex justify-content-center">
                 <div className="col-md-6 login-form-1 login-container">
                     <h3>Acceso al Sistema</h3>
-                    <form onSubmit={ loginSubmit }>
-                        <div className="form-group mb-2">
-                            <input 
-                                type="text"
-                                className="form-control"
-                                placeholder="Usuario"
-                                name='loginUser'
-                                value={ login }
-                                onChange={ onChangeLogin }
-                             
-                            />
-                        </div>
-                        <div className="form-group mb-2">
-                            <input
-                                type="password"
-                                className="form-control"
-                                placeholder="Contraseña"
-                                name='loginPassword'
-                                value={ pass }
-                                onChange={ onChangePass }
-                            />
-                        </div>
-                        <div className="d-grid gap-2">
-                            <input 
-                                type="submit"
-                                className="btnSubmit"
-                                value="Iniciar Sesión" 
-                            />
-                        </div>
-                    </form>
+                    <Formik
+                        initialValues={ { 
+                            login: '',
+                            password: ''
+                        }}
+
+                        onSubmit={ ( { login, password } ) =>{
+                           startLogin( login, password );
+                        }}
+
+                        validationSchema={
+                            Yup.object({
+                                login: Yup.string()
+                                        .required('Requerido'),
+                                password: Yup.string()
+                                        .required('Requerido')
+                            })
+                        }
+                    >
+                        {
+                            () => (
+                                <Form>
+                                    <div className="form-group mb-2">
+                                        <Field 
+                                            name="login" 
+                                            type="text" 
+                                            className="form-control"
+                                            placeholder="Usuario" 
+                                         />
+                                         <ErrorMessage name="login" component="span"/>
+                                    </div>
+                                    <div className="form-group mb-2">
+                                        <Field 
+                                                name="password" 
+                                                type="password" 
+                                                className="form-control"
+                                                placeholder="Password" 
+                                            />
+                                         <ErrorMessage name="password" component="span"/>
+
+                                    </div>
+                                    <div className="d-grid gap-2">
+                                        <button 
+                                            type="submit" 
+                                            className="btnSubmit"
+                                            disabled={ disabled }
+                                         >Iniciar Sesión
+                                         </button>
+                                    </div>
+                                </Form>
+                            )
+                        }
+                    </Formik>
+                </div>
+            </div>
+
+            <div className="row d-flex justify-content-center">
+                <div className="col-md-6">
+                    <div className="error-message mt-5">
+                        <p className="text-center">{ status }</p>
+                    </div> 
                 </div>
             </div>
         </div>
     </AuthLayout>
+    
   )
 }
+
+
