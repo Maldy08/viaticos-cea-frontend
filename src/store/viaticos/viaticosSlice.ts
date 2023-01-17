@@ -8,7 +8,7 @@ export const viaticosSlice = createSlice({
     name: 'viaticos',
     initialState: {
         isLoading:true,
-        listviaticos: [],
+        listviaticos: [ ],
         viatico: viatico ,
         errorMessage: undefined
     },
