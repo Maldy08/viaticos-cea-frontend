@@ -50,16 +50,12 @@ export const CapturarViaticos = () => {
 
             {/* //TODO: Envolver en un Form */}
 
-
-            <div className="container px-4">
-              <div className="row gx-4">
-
                   <Formik
                         initialValues={{
                           idoficina:1,
                           ejercicio:2023,
                           fecha: new Date(),
-                          empleado:0,
+                          empleado:7148,
                           estatus:0,
                           noviat:0,
                           fechasal: "",
@@ -75,26 +71,55 @@ export const CapturarViaticos = () => {
                         }}
                     >
                       {
-                        () => (
+                        ({ values, setFieldValue }) => (
                           <Form>
-                              <div className="col">
-                                <div className="form-floating">
-                                  <Field name="idoficina" as="select" className="form-select text-uppercase">
-                                    {
-                                      !isLoading && oficinas.map( oficina => (
-                                        <option key={ oficina.idOfi } value={ oficina.idOfi }>{ oficina.nombre }</option>
-                                      ))
-                                    }
-                                  </Field>
-                                  <label htmlFor="idoficina">Oficina</label>
-                                </div>
-                              </div>
+                              <div className="container px-4">
+                                  <div className="row gx-4">
+                                    <div className="col">
+                                      <div className="form-floating">
+                                        <Field name="idoficina" as="select" className="form-select text-uppercase">
+                                          {
+                                            !isLoading && oficinas.map( oficina => (
+                                              <option key={ oficina.idOfi } value={ oficina.idOfi }>{ oficina.nombre }</option>
+                                            ))
+                                          }
+                                        </Field>
+                                        <label htmlFor="idoficina">Oficina</label>
+                                      </div>
+                                  </div>
 
-                              <div className="col">
-                                <div className="form-floating">
-                                  <Field name="ejercicio" type="text" className="form-control"/>
-                                  <label htmlFor="ejercicio">Ejercicio</label>
-                                </div>
+                                    <div className="col">
+                                      <div className="form-floating">
+                                        <Field name="ejercicio" type="text" className="form-control"/>
+                                        <label htmlFor="ejercicio">Ejercicio</label>
+                                      </div>
+                                    </div>
+
+                                    <div className="col">
+                                      <div className="form-floating">
+                                        <div className="p-0">
+                                        <label className="fecha">Fecha</label>
+                                          <DatePicker 
+                                            name="fecha"
+                                            title="fecha"
+                                            className="form-control"
+                                            selected={ values.fecha } 
+                                            onChange={(date:any) => setFieldValue('fecha', date)}
+                                         />
+
+                                        </div>
+                                      </div>
+                                    </div>
+
+                                    <div className="col">
+                                      <div className="form-floating">
+                                        <Field name="empleado" className="form-control" type="text"/>
+                                        <label htmlFor="empleado2">Empleado</label>
+
+                                      </div>
+                                    </div>
+
+                                  </div>
                               </div>
 
                           </Form>
@@ -103,9 +128,6 @@ export const CapturarViaticos = () => {
 
                  </Formik>
 
-            </div>
-        </div>
-        
       </div>
     </ViaticosLayout>
   )

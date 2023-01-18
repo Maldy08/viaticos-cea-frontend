@@ -1,5 +1,6 @@
 import { Navigate, Route, Routes } from "react-router-dom"
 import { ViaticosPage, CapturarViaticos } from "../pages"
+import { CapturarViaticosOld } from "../pages/CapturarViaticosOld"
 import { Departamentos } from "../pages/Departamentos"
 import { ListadoViaticos } from "../pages/ListadoViaticos"
 
