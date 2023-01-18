@@ -56,6 +56,15 @@ export interface Viaticos {
 
 }
 
+export interface ViaticosPart {
+  oficina:number;
+  ejercicio:number;
+  noviat:number;
+  partida:number;
+  import:number;
+
+}
+
 export interface ListViaticos {
   viatico:number;
   fecha:string; //date
@@ -65,6 +74,25 @@ export interface ListViaticos {
   salida:string; //date
   regreso:string; //date
   estatus:string;
+}
+
+export interface Empleado {
+  idEmpleado: number;
+  nombre: string;
+  paterno: string;
+  materno: string;
+  nivel: number;
+  depto: number;
+  obra: number;
+  deptoPpto: number;
+  municipio: number;
+  activo: string
+}
+
+export interface Oficina {
+  idOfi:number;
+  nombre: string;
+  rutaTrans: string;
 }
 
 /* "usuario": 1;

@@ -14,6 +14,10 @@ export const empleadosSlice = createSlice({
             state.isLoading = false;
             state.empleados = payload;
         },
+        onListEmpleadosByDeptoppto: ( state, { payload = [] } ) => {
+            state.isLoading = false;
+            state.empleados = payload;
+        },
         onError: ( state ) => {
             state.isLoading = false;
             state.errorMessage = "Error";
@@ -25,4 +29,4 @@ export const empleadosSlice = createSlice({
     }
 });
 
-export const { onListEmpleadosByDepto, onError, clearErrorMessage } = empleadosSlice.actions;
+export const { onListEmpleadosByDepto, onListEmpleadosByDeptoppto, onError, clearErrorMessage } = empleadosSlice.actions;

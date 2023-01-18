@@ -3,13 +3,15 @@ import { authSlice } from "./auth/authSlice";
 import { deptosSlice } from "./deptos/deptosSlice";
 import { viaticosSlice } from "./viaticos/viaticosSlice";
 import { empleadosSlice } from './empleados/empleadosSlice';
+import { oficinasSlice } from "./oficinas/oficinasSlice";
 
  const store = configureStore({
     reducer:{
         auth: authSlice.reducer,
         deptos: deptosSlice.reducer,
         viaticos: viaticosSlice.reducer,
-        empleados: empleadosSlice.reducer
+        empleados: empleadosSlice.reducer,
+        oficinas: oficinasSlice.reducer,
     },
 });
 
