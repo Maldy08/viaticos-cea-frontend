@@ -95,6 +95,12 @@ export interface Oficina {
   rutaTrans: string;
 }
 
+export interface Ciudades {
+  idCiudad:number;
+  idEstado:number;
+  ciudad:string;
+}
+
 /* "usuario": 1;
   "login": "A",
   "pass": "Z",

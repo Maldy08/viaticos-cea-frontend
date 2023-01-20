@@ -1,12 +1,15 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { Empleado } from '../../interfaces/interfaces';
 
+const empleado = {} as Empleado;
+const empleados = [] as Empleado[];
 
 export const empleadosSlice = createSlice({
     name: 'empleados',
     initialState: {
         isLoading: true,
-        empleados: [ ],
-        empleado: { },
+        empleados: empleados,
+        empleado: empleado,
         errorMessage: ''
     },
     reducers: {

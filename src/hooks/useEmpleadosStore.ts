@@ -20,7 +20,7 @@ export const useEmpleadosStore = () => {
 
         try {
 
-            const { data } = await viaticosApi.get<EmpleadoResponseArray>(`/Empleados/byDepto/${ depto }`);
+            const { data } = await viaticosApi.get<EmpleadoResponseArray>(`/Empleados/byDeptocomi/${ depto }`);
             dispatch( onListEmpleadosByDepto( data ));
 
         } catch (error) {
