@@ -18,16 +18,20 @@ Modal.setAppElement('#root');
 
 export const EmpleadosModal = () => {
 
-  const { isEmpleadosModalOpen, closeEmpleadosModal } = useUiStore();
-  const { empleados, startLoadingEmpleadosByDepto, isLoading:isLoadingEmpleados } = useEmpleadosStore();
+  const { isEmpleadosModalOpen, closeEmpleadosModal, selectEmpleadoModal } = useUiStore();
+  const { empleados, startLoadingEmpleadosByDepto, isLoading:isLoadingEmpleados, startLoadingEmpleadoById } = useEmpleadosStore();
   const { depto } = useLocalData()
 
   useEffect(() => {
       startLoadingEmpleadosByDepto( depto )
   }, [])
   
-  const onDoubleClickRow = ( event:any ) => {
-     console.log( { event } );
+  const onDoubleClickRow = ( empleado:number ) => {
+   
+     console.log(empleado);
+     selectEmpleadoModal(empleado);
+     startLoadingEmpleadoById( empleado );
+     closeEmpleadosModal();
   }
 
   return (
@@ -35,15 +39,15 @@ export const EmpleadosModal = () => {
       isOpen={ isEmpleadosModalOpen }
       style={ customStyles }
       shouldCloseOnEsc
-      onRequestClose={ closeEmpleadosModal}
+      onRequestClose={ closeEmpleadosModal }
+      
     >
-
-      <h3>Empleados</h3>
-      <hr />
 
       <div className="modal-empleados">
         <div className="header">
-          <div className="container">
+          <h3>Empleados</h3>
+          <hr />
+            <div className="container">
             <table className='table table-sm  table-hover'>
               <thead>
                 <tr className='text-center'>
@@ -55,7 +59,7 @@ export const EmpleadosModal = () => {
                   {
                     !isLoadingEmpleados && 
                      empleados.map( ({ idEmpleado, nombre, paterno, materno }) => (
-                        <tr key={ idEmpleado } onDoubleClick={ onDoubleClickRow }>
+                        <tr key={ idEmpleado } onDoubleClick={ () => onDoubleClickRow( idEmpleado ) }>
                           <th scope='row'>{ idEmpleado }</th>
                           <td>{ nombre } {paterno} { materno }</td>
                         </tr>

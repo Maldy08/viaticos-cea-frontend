@@ -89,6 +89,20 @@ export interface Empleado {
   activo: string
 }
 
+export interface VistaEmpledo {
+  activo:string;
+  empleado:number;
+  paterno:string;
+  materno:string;
+  nombre:string;
+  idPue:number;
+  descripcionPuesto:string;
+  deptoue:number;
+  descripcionDepto:string;
+  deptocomi:number;
+  nombreCompleto:string
+}
+
 export interface Oficina {
   idOfi:number;
   nombre: string;

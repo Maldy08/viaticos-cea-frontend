@@ -11,12 +11,14 @@ export const uiSlice = createSlice({
             state.isEmpleadosModalOpen = true ;
             
         },
-        onCloseEmpleadosModal: ( state, { payload } ) => {
+        onCloseEmpleadosModal: ( state ) => {
             state.isEmpleadosModalOpen = false;
+        },
+        onSelectEmpleado: ( state , { payload } ) => {
             state.empleadoModalSelected = payload;
         }
         
     }
 });
 
-export const { onOpenEmpleadosModal, onCloseEmpleadosModal } = uiSlice.actions;
+export const { onOpenEmpleadosModal, onCloseEmpleadosModal, onSelectEmpleado } = uiSlice.actions;

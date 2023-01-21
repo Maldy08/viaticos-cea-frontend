@@ -2,21 +2,28 @@ import DatePicker  from "react-datepicker";
 import { ViaticosLayout } from "../layout/ViaticosLayout"
 import '../styles/CapturarViaticos.css';
 import "react-datepicker/dist/react-datepicker.css";
-import { useEffect } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import * as Yup from 'yup';
-import { useCiudadesStore, useLocalData, useOficinasStore, useUiStore } from "../../hooks";
+import { useCiudadesStore, useEmpleadosStore, useLocalData, useOficinasStore, useUiStore } from "../../hooks";
 
+const initHeaderData= ({
+  noEmpleado: 0,
+  nombreCompleto: '',
+  deptoDescripcion: '',
+  descripcionPuesto: ''
 
+});
 
 export const CapturarViaticos = () => {
 
-  const { noEmpleado, nombreCompleto, deptoDescripcion, descripcionPuesto } = useLocalData();
+  let { noEmpleado, nombreCompleto, deptoDescripcion, descripcionPuesto } = useLocalData();
   const { isLoading ,oficinas, startLoadingOficinas } = useOficinasStore();
   const { isLoading: isLoadingCiudades, startLoadingCiudades, ciudades } = useCiudadesStore();
-  const { openEmpleadosModal } = useUiStore();
+  const { empleado } = useEmpleadosStore();
+  const { openEmpleadosModal, empleadoModalSelected } = useUiStore();
 
-  const getDays = ( fecha1: Date, fecha2:Date ) =>{
+  const getDays = ( fecha1:Date, fecha2:Date ) =>{
     const days = fecha2.getTime() - fecha1.getTime()
     const difference = Math.round(days / (1000 * 3600 * 24));
     return difference + 1;
@@ -31,11 +38,21 @@ export const CapturarViaticos = () => {
  }, [])
 
  const onClickCatalogoEmpleados = () => {
-
-    //alert(depto)
     openEmpleadosModal();
  }
 
+ if( empleadoModalSelected !== 0 ) {
+    noEmpleado = empleado.empleado;
+    nombreCompleto = empleado.nombreCompleto;
+    deptoDescripcion = empleado.descripcionDepto;
+    descripcionPuesto = empleado.descripcionPuesto;
+ }
+
+//  const onChangeEmpleado =  ( e: ChangeEvent<HTMLInputElement>) => {
+
+//   console.log( e.target.value )
+
+//  }
 
   return (
     <ViaticosLayout>
@@ -44,7 +61,7 @@ export const CapturarViaticos = () => {
                 <div className="row">
                     <div className="col-md-2">
                       <label htmlFor="empleado" className="form-label mb-2">EMPLEADO</label>
-                      <input readOnly className="form-control form-control-sm" value={ noEmpleado } type="text" name="empleado" title="empleado" />
+                      <span className="form-control">{ noEmpleado }</span>
                     </div>
                     <div className="col-md-8">
                        <span className=" d-block text-decoration-underline">{ nombreCompleto }</span>
@@ -74,7 +91,6 @@ export const CapturarViaticos = () => {
                           idoficina:1,
                           ejercicio:2023,
                           fecha: new Date(),
-                          empleado:noEmpleado,
                           estatus:0,
                           noviat:0,
                           fechasal: new Date(),
@@ -92,7 +108,6 @@ export const CapturarViaticos = () => {
 >
                       {
                         ({ values, setFieldValue }) => (
-
                           
                           <Form>
                               <div className="container px-4">
@@ -101,8 +116,8 @@ export const CapturarViaticos = () => {
                                       <div className="form-floating">
                                         <Field name="idoficina" as="select" className="form-select text-uppercase">
                                           {
-                                            !isLoading && oficinas.map( oficina => (
-                                              <option key={ oficina.idOfi } value={ oficina.idOfi }>{ oficina.nombre }</option>
+                                            !isLoading && oficinas.map( ({ idOfi, nombre }) => (
+                                              <option key={ idOfi } value={ idOfi }>{ nombre }</option>
                                             ))
                                           }
                                         </Field>
@@ -135,7 +150,7 @@ export const CapturarViaticos = () => {
 
                                     <div className="col">
                                       <div className="form-floating">
-                                        <Field disabled name="empleado" className="form-control" type="text"/>
+                                        <span className="form-control">{ noEmpleado }</span>
                                         <label htmlFor="empleado2">Empleado</label>
                                       </div>
                                     </div>
@@ -204,10 +219,10 @@ export const CapturarViaticos = () => {
                                       <div className="form-floating">
                                         <Field name="destinoid" as="select" className="form-control text-uppercase">
                                         {
-                                            !isLoadingCiudades && ciudades.map( ciudades => (
-                                              <option key={ ciudades.idCiudad } value={ ciudades.idCiudad }>{ ciudades.ciudad }</option>
+                                            !isLoadingCiudades && ciudades.map(({ idCiudad, ciudad }) => (
+                                              <option key={ idCiudad } value={ idCiudad }>{ ciudad }</option>
                                             ))
-                                          }
+                                        }
                                         </Field>
                                         <label htmlFor="destinoid">Ciudad de Destino</label>
                                       </div>

@@ -14,6 +14,8 @@ export const useLocalData = () => {
     const isActivoViaticos = localData.userData.viaticos;
     const viaticosNivel = localData.userData.viaticosNivel;
 
+
+
     return {
 
         activo,
@@ -25,6 +27,7 @@ export const useLocalData = () => {
         nombreCompleto,
         isActivoViaticos,
         viaticosNivel,
+    
 
     }
 }
