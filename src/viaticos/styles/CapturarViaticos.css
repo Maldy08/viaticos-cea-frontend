@@ -1,4 +1,10 @@
 .capturar-viaticos .header{
-    background-color:#fbfafa;
+    /* background-color:#fbfafa; */
     padding: 15px;
+}
+
+
+.nombre-completo {
+    font-size: 20px;
+    text-decoration: underline;
 }

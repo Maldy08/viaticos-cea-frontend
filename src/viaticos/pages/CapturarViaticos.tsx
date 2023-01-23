@@ -63,8 +63,8 @@ export const CapturarViaticos = () => {
                       <label htmlFor="empleado" className="form-label mb-2">EMPLEADO</label>
                       <span className="form-control">{ noEmpleado }</span>
                     </div>
-                    <div className="col-md-8">
-                       <span className=" d-block text-decoration-underline">{ nombreCompleto }</span>
+                    <div className="col">
+                       <span className="d-block nombre-completo">{ nombreCompleto }</span>
                        <span className="d-block">{ deptoDescripcion }</span>
                        <span className="d-block">{ descripcionPuesto }</span>
                     </div>
@@ -88,24 +88,24 @@ export const CapturarViaticos = () => {
 
                   <Formik
                         initialValues={{
-                          idoficina:1,
-                          ejercicio:2023,
-                          fecha: new Date(),
-                          estatus:0,
-                          noviat:0,
-                          fechasal: new Date(),
-                          fechareg: new Date(),
-                          dias:1,
-                          origenid:0,
-                          destinoid:0,
-                          motivo:"",
-                          inforact:""
+                            idoficina:1,
+                            ejercicio:2023,
+                            fecha: new Date(),
+                            estatus:0,
+                            noviat:0,
+                            fechasal: new Date(),
+                            fechareg: new Date(),
+                            dias:1,
+                            origenid:0,
+                            destinoid:0,
+                            motivo:"",
+                            inforact:""
                         }}
                         onSubmit={ (values) => {
                           console.log( values );
                         }}
 
->
+                    >
                       {
                         ({ values, setFieldValue }) => (
                           
@@ -125,7 +125,7 @@ export const CapturarViaticos = () => {
                                       </div>
                                   </div>
 
-                                    <div className="col">
+                                    <div className="col-md-2">
                                       <div className="form-floating">
                                         <Field disabled name="ejercicio" type="text" className="form-control"/>
                                         <label htmlFor="ejercicio">Ejercicio</label>
@@ -148,14 +148,14 @@ export const CapturarViaticos = () => {
                                       </div>
                                     </div>
 
-                                    <div className="col">
+                                    <div className="col-md-2">
                                       <div className="form-floating">
                                         <span className="form-control">{ noEmpleado }</span>
                                         <label htmlFor="empleado2">Empleado</label>
                                       </div>
                                     </div>
 
-                                    <div className="col-md-1">
+                                    <div className="col-md-2">
                                       <div className="form-floating">
                                         <Field name="noviat" type="text" className="form-control" disabled />
                                         <label htmlFor="noviat">No. Viatico</label>
@@ -197,7 +197,7 @@ export const CapturarViaticos = () => {
                                       </div>
                                     </div>
 
-                                    <div className="col">
+                                    <div className="col-md-1">
                                       <div className="form-floating">
                                         <Field name="dias" className="form-control" type="number" min="1" disabled/>
                                         <label htmlFor="dias">Dias</label>
@@ -206,10 +206,10 @@ export const CapturarViaticos = () => {
 
                                     <div className="col">
                                       <div className="form-floating">
-                                        <Field name="origenid" as="select" className="form-control text-uppercase">
+                                        <select title="origenid" name="origenid" onChange={ ( e ) => { setFieldValue('origenid', e.target.value ); console.log( e.target.value)}}  className="form-control text-uppercase">
                                           <option value="1">Mexicali</option>
                                           <option value="2">Tijuana</option>
-                                        </Field>
+                                        </select>
                                         <label htmlFor="origenid">Ciudad de Origen</label>
                                       </div>
                                     </div>
@@ -218,6 +218,7 @@ export const CapturarViaticos = () => {
                                     <div className="col">
                                       <div className="form-floating">
                                         <Field name="destinoid" as="select" className="form-control text-uppercase">
+                                          <option value="0">Seleccionar...</option>
                                         {
                                             !isLoadingCiudades && ciudades.map(({ idCiudad, ciudad }) => (
                                               <option key={ idCiudad } value={ idCiudad }>{ ciudad }</option>
@@ -241,6 +242,36 @@ export const CapturarViaticos = () => {
                                     </div>
 
                                   </div>
+
+                                  <div className="row d-block mt-3">
+                                    <div className="col"> 
+                                      <div className="form-floating">
+                                          <Field
+                                            className="form-control" 
+                                            placeholder="Titulo de la Comision" 
+                                            style={{ fontSize: '14px'}}
+                                            name="motivo"
+                                            as="textarea"
+                                            />
+                                          <label htmlFor="movtivo">Titulo de la Comision</label>
+                                      </div>
+                                    </div>
+
+                                    <div className="col mt-3">
+                                     <div className="form-floating">
+                                          <Field 
+                                              className="form-control" 
+                                              placeholder="Actividades" 
+                                              name="inforact"
+                                              as="textarea"
+                                              style={{ height: '100px', fontSize: '14px'}}
+                                            />
+                                          <label htmlFor="inforact">Actividades</label>
+                                      </div>                       
+                                    </div>
+
+                                  </div>
+                                  <button type="submit" className="btn btn-outline-primary">Submit</button>
                               </div>
 
                           </Form>

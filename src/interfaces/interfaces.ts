@@ -115,33 +115,13 @@ export interface Ciudades {
   ciudad:string;
 }
 
-/* "usuario": 1;
-  "login": "A",
-  "pass": "Z",
-  "activo": true,
-  "compras": true,
-  "comprasNivel": true,
-  "almacen": true,
-  "almacenNivel": true,
-  "activos": true,
-  "activosNivel": true,
-  "contabilidad": true,
-  "contabilidadNivel": true,
-  "presupuestos": true,
-  "presupuestosNivel": true,
-  "nominas": false,
-  "nominasNivel": false,
-  "depto": 23,
-  "noEmpleado": 7120,
-  "bd": true,
-  "caja": false,
-  "cajaNivel": false,
-  "polnom": " ",
-  "viaticos": true,
-  "viaticosNivel": true,
-  "vales": true,
-  "valesNivel": true,
-  "deptoDescripcion": "COORDINACION DE INFORMATICA",
-  "nombreCompleto": "MANUEL REYES RAMIREZ",
-  "idPue": 97,
-  "descripcion": "COORDINADOR DE INFORMATICA" */
+export interface Estados {
+  idEstado:number;
+  idPais:number;
+  estado:string;
+}
+
+export interface Paises {
+  idPais:number;
+  pais:string;
+}

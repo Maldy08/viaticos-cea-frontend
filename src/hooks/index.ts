@@ -7,3 +7,4 @@ export * from './useOficinasStore';
 export * from './useCiudadesStore';
 export * from './useLocalData';
 export * from './useUiStore';
+export * from './useEstadosStore';
