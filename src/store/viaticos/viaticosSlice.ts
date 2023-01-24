@@ -1,8 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { ListViaticos, Viaticos } from '../../interfaces/interfaces';
+import { ListViaticos, Viaticos, ViaticosConsecutivo } from '../../interfaces/interfaces';
 
 const listViaticos = { } as ListViaticos[]
 const viatico = { } as Viaticos
+const consecutivo = {} as ViaticosConsecutivo
 
 export const viaticosSlice = createSlice({
     name: 'viaticos',
@@ -10,7 +11,8 @@ export const viaticosSlice = createSlice({
         isLoading:true,
         listviaticos: [ ],
         viatico: viatico ,
-        errorMessage: undefined
+        errorMessage: undefined,
+        consecutivo:consecutivo
     },
     reducers: {
         onListViaticosByEmpleado:( state, { payload = [] } ) => {
@@ -19,9 +21,13 @@ export const viaticosSlice = createSlice({
         },
         onError: ( state, { payload } ) => {
             state.errorMessage = payload ;
+        },
+        onGetConsecutivo: ( state, { payload }) => {
+            state.isLoading = false;
+            state.consecutivo = payload;
         } 
     }
     
 });
 
-export const { onListViaticosByEmpleado, onError } = viaticosSlice.actions;
+export const { onListViaticosByEmpleado, onGetConsecutivo ,onError } = viaticosSlice.actions;

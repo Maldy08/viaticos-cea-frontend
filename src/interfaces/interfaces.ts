@@ -11,6 +11,8 @@ export interface User {
     nombreCompleto:string;
     idPue:number;
     descripcion:string;
+    municipio:number;
+    oficina:number;
 }
 
 export interface Deptos {
@@ -51,7 +53,7 @@ export interface Viaticos {
   caja:number;
   cajaVale:number;
   cajaRepo:number;
-  noEmpCea:number;
+  noEmpCrea:number;
   inforResult:string;
 
 }
@@ -100,7 +102,11 @@ export interface VistaEmpledo {
   deptoue:number;
   descripcionDepto:string;
   deptocomi:number;
-  nombreCompleto:string
+  nombreCompleto:string;
+  municipio:number;
+  oficina:number;
+  nivel:number;
+  
 }
 
 export interface Oficina {
@@ -124,4 +130,8 @@ export interface Estados {
 export interface Paises {
   idPais:number;
   pais:string;
+}
+
+export interface ViaticosConsecutivo {
+ consecutivo:number;
 }

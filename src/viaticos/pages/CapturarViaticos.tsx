@@ -1,41 +1,46 @@
+import { useEffect } from "react";
 import DatePicker  from "react-datepicker";
-import { ViaticosLayout } from "../layout/ViaticosLayout"
-import '../styles/CapturarViaticos.css';
-import "react-datepicker/dist/react-datepicker.css";
-import { ChangeEvent, useEffect, useState } from "react";
-import { ErrorMessage, Field, Form, Formik } from "formik";
+import {  Field, Form, Formik } from "formik";
 import * as Yup from 'yup';
-import { useCiudadesStore, useEmpleadosStore, useLocalData, useOficinasStore, useUiStore } from "../../hooks";
+import { useCiudadesStore, useEmpleadosStore, useLocalData, useOficinasStore, useUiStore, useViaticosStore } from "../../hooks";
+import { ViaticosLayout } from "../layout/ViaticosLayout"
 
-const initHeaderData= ({
-  noEmpleado: 0,
-  nombreCompleto: '',
-  deptoDescripcion: '',
-  descripcionPuesto: ''
+import "react-datepicker/dist/react-datepicker.css";
+import '../styles/CapturarViaticos.css';
 
-});
 
 export const CapturarViaticos = () => {
 
   let { noEmpleado, nombreCompleto, deptoDescripcion, descripcionPuesto } = useLocalData();
   const { isLoading ,oficinas, startLoadingOficinas } = useOficinasStore();
   const { isLoading: isLoadingCiudades, startLoadingCiudades, ciudades } = useCiudadesStore();
-  const { empleado } = useEmpleadosStore();
+  const { empleado, startLoadingEmpleadoById } = useEmpleadosStore();
   const { openEmpleadosModal, empleadoModalSelected } = useUiStore();
+  const { consecutivo, startGetConsecutivo } = useViaticosStore();
 
-  const getDays = ( fecha1:Date, fecha2:Date ) =>{
+  const getDays = ( fecha1:Date, fecha2:Date ) => {
     const days = fecha2.getTime() - fecha1.getTime()
     const difference = Math.round(days / (1000 * 3600 * 24));
     return difference + 1;
+  }
+  
+  const getImporteViatico = ( dias:number) => {
+
+     return dias * 230;
   }
 
   useEffect(() => {
      startLoadingOficinas();
   }, [])
-
+ 
   useEffect(() => {
     startLoadingCiudades();
  }, [])
+
+ useEffect(() => {
+  startLoadingEmpleadoById( noEmpleado );
+}, [])
+
 
  const onClickCatalogoEmpleados = () => {
     openEmpleadosModal();
@@ -48,6 +53,7 @@ export const CapturarViaticos = () => {
     descripcionPuesto = empleado.descripcionPuesto;
  }
 
+ 
 //  const onChangeEmpleado =  ( e: ChangeEvent<HTMLInputElement>) => {
 
 //   console.log( e.target.value )
@@ -88,15 +94,15 @@ export const CapturarViaticos = () => {
 
                   <Formik
                         initialValues={{
-                            idoficina:1,
+                            idoficina:empleado.oficina,
                             ejercicio:2023,
                             fecha: new Date(),
-                            estatus:0,
+                            estatus:1,
                             noviat:0,
                             fechasal: new Date(),
                             fechareg: new Date(),
                             dias:1,
-                            origenid:0,
+                            origenid:empleado.municipio,
                             destinoid:0,
                             motivo:"",
                             inforact:""
@@ -105,6 +111,8 @@ export const CapturarViaticos = () => {
                           console.log( values );
                         }}
 
+                        enableReinitialize={ true }
+                        
                     >
                       {
                         ({ values, setFieldValue }) => (
@@ -114,7 +122,11 @@ export const CapturarViaticos = () => {
                                   <div className="row gx-4">
                                     <div className="col">
                                       <div className="form-floating">
-                                        <Field name="idoficina" as="select" className="form-select text-uppercase">
+                                        <Field 
+                                            name="idoficina" 
+                                            as="select" 
+                                            className="form-select text-uppercase"
+                                        >
                                           {
                                             !isLoading && oficinas.map( ({ idOfi, nombre }) => (
                                               <option key={ idOfi } value={ idOfi }>{ nombre }</option>
@@ -141,7 +153,9 @@ export const CapturarViaticos = () => {
                                             title="fecha"
                                             className="form-control"
                                             selected={ values.fecha } 
-                                            onChange={( date:any ) => setFieldValue('fecha', date)}
+                                            onChange={
+                                              ( date:any ) => setFieldValue('fecha', date)
+                                            }
                                          />
 
                                         </div>
@@ -175,7 +189,15 @@ export const CapturarViaticos = () => {
                                               className="form-control"
                                               selected={ values.fechasal }
                                               dateFormat="dd/MM/yyyy"
-                                              onChange={( date:any ) => { setFieldValue('fechasal', date ); setFieldValue('fechareg',date ); setFieldValue('dias', getDays( date, date )) }}
+                                              onChange={
+                                                ( date:any ) => 
+                                                  { 
+                                                    setFieldValue('fechasal', date ); 
+                                                    setFieldValue('fechareg',date ); 
+                                                    setFieldValue('dias', 
+                                                    getDays( date, date ))
+                                                  }
+                                                }
                                           />
                                         </div>
                                       </div>
@@ -191,7 +213,14 @@ export const CapturarViaticos = () => {
                                               minDate={ values.fechasal }
                                               selected={ values.fechareg }
                                               dateFormat="dd/MM/yyyy"
-                                              onChange={( date:any ) => { setFieldValue('fechareg', date ); setFieldValue('dias', getDays( values.fechasal, date ) )}}
+                                              onChange={
+                                                ( date:any ) =>
+                                                 { 
+                                                  setFieldValue('fechareg', date );
+                                                  setFieldValue('dias', 
+                                                  getDays( values.fechasal, date ) )
+                                                }
+                                              }
                                           />
                                         </div>
                                       </div>
@@ -206,10 +235,15 @@ export const CapturarViaticos = () => {
 
                                     <div className="col">
                                       <div className="form-floating">
-                                        <select title="origenid" name="origenid" onChange={ ( e ) => { setFieldValue('origenid', e.target.value ); console.log( e.target.value)}}  className="form-control text-uppercase">
+                                        <Field 
+                                            title="origenid" 
+                                            name="origenid" 
+                                            as="select" 
+                                            className="form-control text-uppercase"
+                                        >
                                           <option value="1">Mexicali</option>
                                           <option value="2">Tijuana</option>
-                                        </select>
+                                        </Field>
                                         <label htmlFor="origenid">Ciudad de Origen</label>
                                       </div>
                                     </div>
@@ -217,7 +251,11 @@ export const CapturarViaticos = () => {
                                     
                                     <div className="col">
                                       <div className="form-floating">
-                                        <Field name="destinoid" as="select" className="form-control text-uppercase">
+                                        <Field 
+                                          name="destinoid" 
+                                          as="select" 
+                                          className="form-control text-uppercase"
+                                        >
                                           <option value="0">Seleccionar...</option>
                                         {
                                             !isLoadingCiudades && ciudades.map(({ idCiudad, ciudad }) => (

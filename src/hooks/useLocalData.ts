@@ -13,6 +13,8 @@ export const useLocalData = () => {
     const nombreCompleto =  localData.userData.nombreCompleto;
     const isActivoViaticos = localData.userData.viaticos;
     const viaticosNivel = localData.userData.viaticosNivel;
+    const municipio = localData.userData.municipio;
+    const oficina = localData.userData.oficina;
 
 
 
@@ -27,7 +29,8 @@ export const useLocalData = () => {
         nombreCompleto,
         isActivoViaticos,
         viaticosNivel,
-    
+        municipio,
+        oficina,
 
     }
 }
