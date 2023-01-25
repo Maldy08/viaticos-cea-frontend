@@ -25,9 +25,15 @@ export const viaticosSlice = createSlice({
         onGetConsecutivo: ( state, { payload }) => {
             state.isLoading = false;
             state.consecutivo = payload;
-        } 
+        },
+        onAddNewViatico: ( state, { payload }) => {
+            console.log( payload );
+            state.isLoading = false;
+            state.viatico = payload;
+            
+        }
     }
     
 });
 
-export const { onListViaticosByEmpleado, onGetConsecutivo ,onError } = viaticosSlice.actions;
+export const { onListViaticosByEmpleado, onGetConsecutivo ,onError, onAddNewViatico } = viaticosSlice.actions;

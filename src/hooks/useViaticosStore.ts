@@ -1,8 +1,9 @@
 import { useDispatch, useSelector } from "react-redux"
 import { number } from "yup";
 import { viaticosApi } from "../api";
+import { Viaticos } from "../interfaces/interfaces";
 import { RootState } from "../store/store"
-import { onError, onGetConsecutivo, onListViaticosByEmpleado } from "../store/viaticos/viaticosSlice";
+import { onAddNewViatico, onError, onGetConsecutivo, onListViaticosByEmpleado } from "../store/viaticos/viaticosSlice";
 
 
 export const useViaticosStore = () => {
@@ -27,11 +28,13 @@ export const useViaticosStore = () => {
 
     }
 
-    const startGetConsecutivo = async ( ejercicio:number, oficina:number ) => {
+    const startGetConsecutivo = async ( ejercicio:number, oficina:number ) : Promise<any> => {
 
         try {
             const { data } = await viaticosApi.get(`/Viaticos/get-consecutivo/${ ejercicio }/${ oficina }`)
             dispatch( onGetConsecutivo( data ));
+            return (data);
+            //console.log( data );
             
         } catch ( error:any ) {
 
@@ -39,6 +42,21 @@ export const useViaticosStore = () => {
             throw new Error("Error al obtener el numero de consecutivo.");
             
         }
+    }
+
+    const startAddNewViatico = async ( viatico: Viaticos ) => {
+
+        try {
+
+            const { data } = await viaticosApi.post(`/Viaticos`, viatico );
+            dispatch( onAddNewViatico( { viatico } ) )
+            
+        } catch (error) {
+            
+            console.log( error );
+            throw new Error("Error al agregar Viatico");
+        }
+
     }
 
     return {
@@ -49,6 +67,7 @@ export const useViaticosStore = () => {
         errorMessage,
         startLoadingViaticosByEmpleado,
         startGetConsecutivo,
+        startAddNewViatico
     }
 
 

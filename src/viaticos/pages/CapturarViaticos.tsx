@@ -1,12 +1,13 @@
 import { SelectHTMLAttributes, useEffect } from "react";
 import DatePicker  from "react-datepicker";
-import {  Field, Form, Formik } from "formik";
+import {  ErrorMessage, Field, Form, Formik } from "formik";
 import * as Yup from 'yup';
 import { useCiudadesStore, useEmpleadosStore, useLocalData, useOficinasStore, useUiStore, useViaticosStore } from "../../hooks";
 import { ViaticosLayout } from "../layout/ViaticosLayout"
 
 import "react-datepicker/dist/react-datepicker.css";
 import '../styles/CapturarViaticos.css';
+import { Viaticos } from "../../interfaces/interfaces";
 
 
 export const CapturarViaticos = () => {
@@ -17,7 +18,12 @@ export const CapturarViaticos = () => {
   const { isLoading: isLoadingCiudades, startLoadingCiudades, ciudades } = useCiudadesStore();
   const { empleado, startLoadingEmpleadoById } = useEmpleadosStore();
   const { openEmpleadosModal, empleadoModalSelected } = useUiStore();
-  const { consecutivo, startGetConsecutivo } = useViaticosStore();
+  const { startGetConsecutivo, isLoading: isLoadingViatico, startAddNewViatico } = useViaticosStore();
+
+  const importeViaticoDentroEstadoNivel1 = 230;
+  const importeViaticoFueraEstadoNivel1 = 430;
+  const importeViaticoDentroEstadoNivel2 = 260;
+  const importeViaticoFueraEstadoNivel2 = 450;
 
 
   
@@ -46,7 +52,7 @@ export const CapturarViaticos = () => {
     descripcionPuesto = empleado.descripcionPuesto;
  }
 
-  const getDays = ( fecha1:Date, fecha2:Date ):number => {
+  const getDays = ( fecha1:Date, fecha2:Date ): number => {
     
     const days = fecha2.getTime() - fecha1.getTime()
     const difference = Math.round(days / (1000 * 3600 * 24));
@@ -55,7 +61,7 @@ export const CapturarViaticos = () => {
   
   }
 
-  const handleChangeDestino = (event: React.ChangeEvent<HTMLSelectElement> ):void => {
+  const handleChangeDestino = ( event: React.ChangeEvent<HTMLSelectElement> ): void => {
 
     const value = Number( event.target.value );
     value > 6 ? fueraDelEstado = true : fueraDelEstado = false;
@@ -64,10 +70,17 @@ export const CapturarViaticos = () => {
   
   }
 
-  const importePorDias = (dias:number):void => {
-    // const value = Number( event.target.value );
-    const importe = dias * 260;
-    console.log( importe );
+  const importePorDias = ( dias:number ): void => {
+
+    let importeViatico: number;
+    if( fueraDelEstado ) {
+       importeViatico = empleado.nivel < 17 ? importeViaticoFueraEstadoNivel1 * dias : importeViaticoFueraEstadoNivel2 * dias;
+    } else {
+       importeViatico = empleado.nivel < 17 ? importeViaticoDentroEstadoNivel1 * dias : importeViaticoDentroEstadoNivel2 * dias;
+    }
+
+    console.log( importeViatico );
+    
   }
 
   return (
@@ -109,19 +122,70 @@ export const CapturarViaticos = () => {
                             ejercicio:2023,
                             fecha: new Date(),
                             estatus:1,
-                            noviat:0,
+                            noViat:0,
                             fechasal: new Date(),
                             fechareg: new Date(),
                             dias:1,
                             origenid:empleado.municipio,
                             destinoid:0,
                             motivo:"",
-                            inforact:""
+                            inforact:"",
                         }}
-                        onSubmit={ ( values ) => {
-                          console.log( values );
-                        }}
+                        
+                        validationSchema={
+                            Yup.object({
+                              destinoid: Yup.number()
+                                           .integer()
+                                           .not([0],'Seleccione una opcion'),
+                              motivo: Yup.string()
+                                          .max(300,'Debe de contener 300 caracteres o menos')
+                                          .required('Este campo es requerido'),
+                              inforact: Yup.string()
+                                          .max(500,'Debe de contener 500 caracteres o menos')
+                                          .required('Este campo es requerido')
+                              
+                            })
+                        }
+                        
+                        
+                        onSubmit={ async ( values ) => {
 
+                            const consecutivo = await startGetConsecutivo( values.ejercicio, values.idoficina );
+                            const { noEmpleado:empCrea } = useLocalData()
+                            const newViatico = {
+                                oficina:values.idoficina,
+                                ejercicio: values.ejercicio,
+                                noViat:consecutivo + 1,
+                                fecha: values.fecha,
+                                noEmp: empleado.empleado,
+                                origenId: values.origenid,
+                                destinoId: values.destinoid,
+                                motivo: values.motivo,
+                                fechaSal: values.fechasal,
+                                fechaReg: values.fechareg,
+                                dias: values.dias,
+                                inforFecha: values.fechareg,
+                                inforAct: values.inforact,
+                                nota:'',
+                                estatus:1,
+                                pol:0,
+                                polMes:0,
+                                caja:0,
+                                cajaVale:0,
+                                cajaRepo:0,
+                                noEmpCrea:empCrea,
+                                inforResult:'LAS ACTIVIDADES QUE SE ASIGNARON EN LA COMISION FUERON REALIZADAS SATISFACTORIAMENTE'
+
+                            } as Viaticos 
+                             
+                            console.log( newViatico )
+                            
+                            //values.noviat = newViatico.noViat;
+                            //alert('Viatico creado exitosamente!!');
+                            //await startAddNewViatico( newViatico );
+
+                        }}
+                        
                         enableReinitialize={ true }
                         
                     >
@@ -146,7 +210,9 @@ export const CapturarViaticos = () => {
                                         </Field>
                                         <label htmlFor="idoficina">Oficina</label>
                                       </div>
+                                      
                                   </div>
+                                 
 
                                     <div className="col-md-2">
                                       <div className="form-floating">
@@ -182,8 +248,8 @@ export const CapturarViaticos = () => {
 
                                     <div className="col-md-2">
                                       <div className="form-floating">
-                                        <Field name="noviat" type="text" className="form-control" disabled />
-                                        <label htmlFor="noviat">No. Viatico</label>
+                                        <Field name="noViat" type="text" className="form-control" disabled />
+                                        <label htmlFor="noViat">No. Viatico</label>
                                       </div>
                                     </div>
 
@@ -272,7 +338,11 @@ export const CapturarViaticos = () => {
                                           name="destinoid" 
                                           as="select" 
                                           className="form-control text-uppercase"
-                                          onChange={ handleChangeDestino }
+                                          onChange={ ( event:any ) => {
+                                              setFieldValue('destinoid', event.target.value );
+                                              console.log( values.fechareg);
+                                              console.log( values.fechasal ); 
+                                          } }
                                         >
                                           <option value="0">Seleccionar...</option>
                                         {
@@ -282,7 +352,9 @@ export const CapturarViaticos = () => {
                                         }
                                         </Field>
                                         <label htmlFor="destinoid">Ciudad de Destino</label>
+                                        
                                       </div>
+                                      <ErrorMessage name="destinoid" component="span"/>
                                     </div>
 
                                     <div className="col">
@@ -302,6 +374,7 @@ export const CapturarViaticos = () => {
                                   <div className="row d-block mt-3">
                                     <div className="col"> 
                                       <div className="form-floating">
+                                     
                                           <Field
                                             className="form-control" 
                                             placeholder="Titulo de la Comision" 
@@ -309,8 +382,12 @@ export const CapturarViaticos = () => {
                                             name="motivo"
                                             as="textarea"
                                             />
-                                          <label htmlFor="movtivo">Titulo de la Comision</label>
+                                     
+                                          <label htmlFor="motivo">Titulo de la Comision</label>
+                                          
+                                        
                                       </div>
+                                      <ErrorMessage name="motivo" component="span"/>
                                     </div>
 
                                     <div className="col mt-3">
@@ -325,7 +402,7 @@ export const CapturarViaticos = () => {
                                           <label htmlFor="inforact">Actividades</label>
                                       </div>                       
                                     </div>
-
+                                    <ErrorMessage name="inforact" component="span"/>
                                   </div>
                                   <button type="submit" className="btn btn-outline-primary">Submit</button>
                               </div>

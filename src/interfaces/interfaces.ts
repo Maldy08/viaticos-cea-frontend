@@ -35,19 +35,19 @@ export interface Viaticos {
   oficina:number;
   ejercicio:number;
   noViat:number;
-  fecha:string; //date
+  fecha:Date; //date
   noEmp:number;
   origenId:number;
   destinoId:number;
   motivo:string;
-  fechaSal:string; //date
-  fechaReg:string; //date
+  fechaSal:Date; //date
+  fechaReg:Date; //date
   dias:number;
-  inforFecha:string //date
+  inforFecha:Date //date
   inforAct:string;
   nota:string;
   estatus:number;
-  fechaMod:string; //date
+  fechaMod:Date; //date
   pol:number;
   polMes:number;
   caja:number;
