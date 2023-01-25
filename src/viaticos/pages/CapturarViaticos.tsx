@@ -136,19 +136,19 @@ export const CapturarViaticos = () => {
                             Yup.object({
                               destinoid: Yup.number()
                                            .integer()
-                                           .not([0],'Seleccione una opcion'),
+                                           .not([0],'* Seleccione una opcion'),
                               motivo: Yup.string()
-                                          .max(300,'Debe de contener 300 caracteres o menos')
-                                          .required('Este campo es requerido'),
+                                          .max(300,'* Debe de contener 300 caracteres o menos')
+                                          .required('* Este campo es requerido'),
                               inforact: Yup.string()
-                                          .max(500,'Debe de contener 500 caracteres o menos')
-                                          .required('Este campo es requerido')
+                                          .max(500,'* Debe de contener 500 caracteres o menos')
+                                          .required('* Este campo es requerido')
                               
                             })
                         }
                         
                         
-                        onSubmit={ async ( values ) => {
+                        onSubmit={ async ( values, { setValues } ) => {
 
                             const consecutivo = await startGetConsecutivo( values.ejercicio, values.idoficina );
                             const { noEmpleado:empCrea } = useLocalData()
@@ -179,6 +179,9 @@ export const CapturarViaticos = () => {
                             } as Viaticos 
                              
                             console.log( newViatico )
+                            //resetForm()
+                            //setFieldValue('noViat', newViatico.noViat);
+                            //)
                             
                             //values.noviat = newViatico.noViat;
                             //alert('Viatico creado exitosamente!!');
@@ -354,7 +357,7 @@ export const CapturarViaticos = () => {
                                         <label htmlFor="destinoid">Ciudad de Destino</label>
                                         
                                       </div>
-                                      <ErrorMessage name="destinoid" component="span"/>
+                                      <ErrorMessage name="destinoid" component="span" className="error"/>
                                     </div>
 
                                     <div className="col">
@@ -387,7 +390,7 @@ export const CapturarViaticos = () => {
                                           
                                         
                                       </div>
-                                      <ErrorMessage name="motivo" component="span"/>
+                                      <ErrorMessage name="motivo" component="span" className="error"/>
                                     </div>
 
                                     <div className="col mt-3">
@@ -402,7 +405,7 @@ export const CapturarViaticos = () => {
                                           <label htmlFor="inforact">Actividades</label>
                                       </div>                       
                                     </div>
-                                    <ErrorMessage name="inforact" component="span"/>
+                                    <ErrorMessage name="inforact" component="span" className="error"/>
                                   </div>
                                   <button type="submit" className="btn btn-outline-primary">Submit</button>
                               </div>
