@@ -63,7 +63,7 @@ export interface ViaticosPart {
   ejercicio:number;
   noviat:number;
   partida:number;
-  import:number;
+  importe:number;
 
 }
 

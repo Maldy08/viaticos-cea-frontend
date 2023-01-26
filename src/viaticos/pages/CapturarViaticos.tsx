@@ -2,12 +2,12 @@ import { SelectHTMLAttributes, useEffect } from "react";
 import DatePicker  from "react-datepicker";
 import {  ErrorMessage, Field, Form, Formik } from "formik";
 import * as Yup from 'yup';
-import { useCiudadesStore, useEmpleadosStore, useLocalData, useOficinasStore, useUiStore, useViaticosStore } from "../../hooks";
+import { useCiudadesStore, useEmpleadosStore, useLocalData, useOficinasStore, usePartidasStore, useUiStore, useViaticosStore } from "../../hooks";
 import { ViaticosLayout } from "../layout/ViaticosLayout"
 
 import "react-datepicker/dist/react-datepicker.css";
 import '../styles/CapturarViaticos.css';
-import { Viaticos } from "../../interfaces/interfaces";
+import { Viaticos, ViaticosPart } from "../../interfaces/interfaces";
 
 
 export const CapturarViaticos = () => {
@@ -19,6 +19,7 @@ export const CapturarViaticos = () => {
   const { empleado, startLoadingEmpleadoById } = useEmpleadosStore();
   const { openEmpleadosModal, empleadoModalSelected } = useUiStore();
   const { startGetConsecutivo, isLoading: isLoadingViatico, startAddNewViatico } = useViaticosStore();
+  const { startAddNewPartidas } = usePartidasStore();
 
   const importeViaticoDentroEstadoNivel1 = 230;
   const importeViaticoFueraEstadoNivel1 = 430;
@@ -70,7 +71,7 @@ export const CapturarViaticos = () => {
   
   }
 
-  const importePorDias = ( dias:number ): void => {
+  const importePorDias = ( dias:number ): number => {
 
     let importeViatico: number;
     if( fueraDelEstado ) {
@@ -80,6 +81,8 @@ export const CapturarViaticos = () => {
     }
 
     console.log( importeViatico );
+    return importeViatico;
+
     
   }
 
@@ -153,6 +156,7 @@ export const CapturarViaticos = () => {
                             const consecutivo = await startGetConsecutivo( values.ejercicio, values.idoficina );
                             const { noEmpleado:empCrea } = useLocalData()
                             const newViatico = {
+
                                 oficina:values.idoficina,
                                 ejercicio: values.ejercicio,
                                 noViat:consecutivo + 1,
@@ -176,9 +180,20 @@ export const CapturarViaticos = () => {
                                 noEmpCrea:empCrea,
                                 inforResult:'LAS ACTIVIDADES QUE SE ASIGNARON EN LA COMISION FUERON REALIZADAS SATISFACTORIAMENTE'
 
-                            } as Viaticos 
+                            } as Viaticos;
+
+                            const newPartida = {
+
+                              partida:37501,
+                              ejercicio: 2023,
+                              importe: importePorDias( values.dias ),
+                              noviat: consecutivo + 1,
+                              oficina: values.idoficina
+
+                            } as ViaticosPart;
                              
-                            console.log( newViatico )
+                            console.log( newViatico );
+                            console.log( newPartida );
                             //resetForm()
                             //setFieldValue('noViat', newViatico.noViat);
                             //)
@@ -186,6 +201,7 @@ export const CapturarViaticos = () => {
                             //values.noviat = newViatico.noViat;
                             //alert('Viatico creado exitosamente!!');
                             //await startAddNewViatico( newViatico );
+                            // await startAddNewPartidas( newPartida );
 
                         }}
                         
@@ -343,6 +359,7 @@ export const CapturarViaticos = () => {
                                           className="form-control text-uppercase"
                                           onChange={ ( event:any ) => {
                                               setFieldValue('destinoid', event.target.value );
+                                              handleChangeDestino( event )
                                               console.log( values.fechareg);
                                               console.log( values.fechasal ); 
                                           } }
@@ -407,14 +424,43 @@ export const CapturarViaticos = () => {
                                     </div>
                                     <ErrorMessage name="inforact" component="span" className="error"/>
                                   </div>
-                                  <button type="submit" className="btn btn-outline-primary">Submit</button>
-                              </div>
+
+                                  <div className="row gx-4 mt-3">
+                                    <div className="col">
+                                      <table className="table table-bordered table-sm">
+                                        <thead className="text-center">
+                                          <tr>
+                                            <th>PARTIDA</th>
+                                            <th>DESCRIPCION</th>
+                                            <th>IMPORTE</th>
+                                            <th>OFI</th>
+                                            <th>ANO</th>
+                                            <th>VIAT</th>
+                                          </tr>
+                                        </thead>
+                                        <tbody className="text-center">
+                                          <tr>
+                                            <td>37501</td>
+                                            <td>VIATICOS EN EL PAIS</td>
+                                            <td>{ importePorDias( values.dias ) }</td>
+                                            <td>{ values.idoficina }</td>
+                                            <td>{ values.ejercicio }</td>
+                                            <td>{ values.noViat }</td>
+                                            
+                                          </tr>
+                                        </tbody>
+                                      </table>
+                                    </div>
+                                  </div>
+                                        
+                              </div> {/* */}
 
                           </Form>
                         )
                       }
 
                  </Formik>
+
 
       </div>
     </ViaticosLayout>

@@ -18,7 +18,7 @@ export const Header = () => {
       </div>
       <div className="navbar-right">
         {/* <button type='button' className='btn btn-primary' onClick={ logOutHanlder }>Cerrar sesion</button> */}
-         <div className="dropdown">
+{/*          <div className="dropdown">
             <button 
               className='btn btn-secondary dropdown-toggle'
               type='button'
@@ -29,7 +29,7 @@ export const Header = () => {
             <ul className="dropdown-menu" aria-labelledby='dropdownMenuButton1'>
                 <li><a className='dropdown-item' href="#">Cerrar sesion</a></li>
             </ul>
-         </div>
+         </div> */}
       </div>
     </div>
   )

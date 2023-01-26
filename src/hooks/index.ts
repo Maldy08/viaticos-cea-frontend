@@ -8,3 +8,4 @@ export * from './useCiudadesStore';
 export * from './useLocalData';
 export * from './useUiStore';
 export * from './useEstadosStore';
+export * from  './usePartidasStore';

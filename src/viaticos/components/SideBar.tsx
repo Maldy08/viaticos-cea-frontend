@@ -12,20 +12,20 @@ export const SideBar = () => {
 
                       <li className="nav-item">
                         <NavLink className={ ({ isActive }) => isActive ? 'nav-active nav-link': 'nav-link' } to='/capturar-viatico'>
-                          <i className="fa fa-address-card mr-3 text-primary fa-fw"></i>
-                            Capturar
+                          <i className="fa-solid fa-file mr-3"></i>
+                           <span className='m-1'>Capturar</span>
                         </NavLink>
                       </li>
-                      <li className="nav-item">
+{/*                       <li className="nav-item">
                         <NavLink className={ ({ isActive }) => isActive ? 'nav-active nav-link': 'nav-link' } to='/deptos'>
                           <i className="fa fa-address-card mr-3 text-primary fa-fw"></i>
                             Departamentos
                         </NavLink>
-                      </li>
+                      </li> */}
                       <li className="nav-item">
                         <NavLink className={ ({ isActive }) => isActive ? 'nav-active nav-link': 'nav-link' } to='/listado-viaticos'>
-                          <i className="fa fa-address-card mr-3 text-primary fa-fw"></i>
-                            Listado
+                          <i className="fa-regular fa-folder-open"></i>
+                            <span className='m-1'>Listado</span>
                         </NavLink>
                       </li>
 {/*                       <li className="nav-item">

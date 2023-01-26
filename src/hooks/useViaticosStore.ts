@@ -1,9 +1,8 @@
 import { useDispatch, useSelector } from "react-redux"
-import { number } from "yup";
 import { viaticosApi } from "../api";
 import { Viaticos } from "../interfaces/interfaces";
 import { RootState } from "../store/store"
-import { onAddNewViatico, onError, onGetConsecutivo, onListViaticosByEmpleado } from "../store/viaticos/viaticosSlice";
+import { onAddNewViatico, onGetConsecutivo, onListViaticosByEmpleado } from "../store/viaticos/viaticosSlice";
 
 
 export const useViaticosStore = () => {

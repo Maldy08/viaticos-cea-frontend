@@ -7,6 +7,7 @@ import { oficinasSlice } from "./oficinas/oficinasSlice";
 import { ciudadesSlice } from "./ciudades/ciudadesSlice";
 import { uiSlice } from "./ui/uiSlice";
 import { estadosSlice } from './estados/estadosSlice';
+import { partidasSlice } from "./partidas/partidasSlice";
 
  const store = configureStore({
     reducer:{
@@ -18,6 +19,7 @@ import { estadosSlice } from './estados/estadosSlice';
         ciudades: ciudadesSlice.reducer,
         ui: uiSlice.reducer,
         estados: estadosSlice.reducer,
+        partidas: partidasSlice.reducer,
     },
 });
 
