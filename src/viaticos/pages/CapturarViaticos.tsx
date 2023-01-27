@@ -1,4 +1,4 @@
-import { SelectHTMLAttributes, useEffect } from "react";
+import { useEffect } from "react";
 import DatePicker  from "react-datepicker";
 import {  ErrorMessage, Field, Form, Formik } from "formik";
 import * as Yup from 'yup';
@@ -67,8 +67,6 @@ export const CapturarViaticos = () => {
     const value = Number( event.target.value );
     value > 6 ? fueraDelEstado = true : fueraDelEstado = false;
   
-    console.log( fueraDelEstado );
-  
   }
 
   const importePorDias = ( dias:number ): number => {
@@ -80,10 +78,7 @@ export const CapturarViaticos = () => {
        importeViatico = empleado.nivel < 17 ? importeViaticoDentroEstadoNivel1 * dias : importeViaticoDentroEstadoNivel2 * dias;
     }
 
-    console.log( importeViatico );
     return importeViatico;
-
-    
   }
 
   return (
@@ -360,8 +355,6 @@ export const CapturarViaticos = () => {
                                           onChange={ ( event:any ) => {
                                               setFieldValue('destinoid', event.target.value );
                                               handleChangeDestino( event )
-                                              console.log( values.fechareg);
-                                              console.log( values.fechasal ); 
                                           } }
                                         >
                                           <option value="0">Seleccionar...</option>
@@ -454,8 +447,11 @@ export const CapturarViaticos = () => {
                                   </div>
                                         
                               </div> {/* */}
-
+                              <button type="submit" className="btn btn-primary btn-outline-primary">submit</button>
+                              <a href="http://localhost:5250/api-viaticos/Pdf" download>Download PDF</a>
                           </Form>
+
+                          
                         )
                       }
 

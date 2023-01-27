@@ -135,3 +135,18 @@ export interface Paises {
 export interface ViaticosConsecutivo {
  consecutivo:number;
 }
+
+export interface FormatoComisionReporte {
+  empleado:number;
+  nombreCompleto:string;
+  deptoDescripcion:string;
+  puestoDescripcion:string;
+  fechaRegistro:Date;
+  ciudadDestino:string;
+  estadoDestino:string;
+  fechaSalida:Date;
+  dias:number;
+  actividades:string;
+  motivo:string;
+  nombreDirector:string;
+}
