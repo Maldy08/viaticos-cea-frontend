@@ -14,7 +14,7 @@ export const ViaticosRoutes = ( ) => {
         <Route path="/capturar-viatico" element={ <CapturarViaticos/>} />
         <Route path="/deptos" element={ <Departamentos/>}/>
         <Route path="/listado-viaticos" element={ <ListadoViaticos/> } />
-        <Route path="/FormatoComision" element={ <FormatoComision/> } />
+        <Route path="/formato-comision/:oficina/:ejercicio/:noviat" element={ <FormatoComision/> } />
         <Route path="/*" element={ <Navigate to="/" /> } />
     </Routes>
   )

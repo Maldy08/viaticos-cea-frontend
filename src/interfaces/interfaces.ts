@@ -137,16 +137,29 @@ export interface ViaticosConsecutivo {
 }
 
 export interface FormatoComisionReporte {
-  empleado:number;
-  nombreCompleto:string;
-  deptoDescripcion:string;
-  puestoDescripcion:string;
-  fechaRegistro:Date;
-  ciudadDestino:string;
-  estadoDestino:string;
-  fechaSalida:Date;
-  dias:number;
-  actividades:string;
+  oficina:number;
+  ejercicio:number;
+  noViat:number;
+  fecha:Date;
+  noEmp:number;
+  origenId:number;
+  destinoId:number;
   motivo:string;
-  nombreDirector:string;
+  fechaSal:Date;
+  fechaReg:Date;
+  dias:number;
+  inforAct:string;
+  importe:number;
+  nombre:string;
+  materno:string;
+  paterno:string;
+  descripcionPuesto:string
+  cdOrigen:string;
+  cdDestino:string;
+  quienLoComisiona:string;
+  puestoQuienLoComisiona:string;
+  edoOrigen:string;
+  edoDestino:string;
+  deptoDescripcion:string;
+  
 }

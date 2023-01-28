@@ -2,12 +2,12 @@ import { useDispatch, useSelector } from "react-redux"
 import { viaticosApi } from "../api";
 import { Viaticos } from "../interfaces/interfaces";
 import { RootState } from "../store/store"
-import { onAddNewViatico, onGetConsecutivo, onListViaticosByEmpleado } from "../store/viaticos/viaticosSlice";
+import { onAddNewViatico, onGetConsecutivo, onGetFormatoComision, onListViaticosByEmpleado } from "../store/viaticos/viaticosSlice";
 
 
 export const useViaticosStore = () => {
 
-    const { isLoading, listviaticos, viatico, errorMessage, consecutivo } = useSelector( ( state: RootState ) => state.viaticos );
+    const { isLoading, listviaticos, viatico, errorMessage, consecutivo, formatoComision } = useSelector( ( state: RootState ) => state.viaticos );
     const dispatch = useDispatch();
 
     const startLoadingViaticosByEmpleado = async ( ejercicio:number, empleado:number ) => {
@@ -58,15 +58,29 @@ export const useViaticosStore = () => {
 
     }
 
+    const startGetFormatoComision = async ( oficina:number, ejercicio:number, noviat:number ) => {
+
+        try {
+            const { data } = await viaticosApi.get(`/Viaticos/formato-comision/${ oficina }/${ ejercicio }/${ noviat }`);
+            dispatch( onGetFormatoComision( data ) );
+            
+        } catch (error) {
+            console.log( error );
+            throw new Error("Error");
+        }
+    }
+
     return {
         isLoading,
         consecutivo,
         viatico,
         listviaticos,
+        formatoComision,
         errorMessage,
         startLoadingViaticosByEmpleado,
         startGetConsecutivo,
-        startAddNewViatico
+        startAddNewViatico,
+        startGetFormatoComision,
     }
 
 

@@ -1,9 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { ListViaticos, Viaticos, ViaticosConsecutivo } from '../../interfaces/interfaces';
+import { FormatoComisionReporte, ListViaticos, Viaticos, ViaticosConsecutivo } from '../../interfaces/interfaces';
 
 const listViaticos = { } as ListViaticos[]
 const viatico = { } as Viaticos
 const consecutivo = {} as ViaticosConsecutivo
+const formatoComision = {} as FormatoComisionReporte;
 
 export const viaticosSlice = createSlice({
     name: 'viaticos',
@@ -12,7 +13,8 @@ export const viaticosSlice = createSlice({
         listviaticos: [ ],
         viatico: viatico ,
         errorMessage: undefined,
-        consecutivo:consecutivo
+        consecutivo:consecutivo,
+        formatoComision:formatoComision
     },
     reducers: {
         onListViaticosByEmpleado:( state, { payload = [] } ) => {
@@ -27,13 +29,16 @@ export const viaticosSlice = createSlice({
             state.consecutivo = payload;
         },
         onAddNewViatico: ( state, { payload }) => {
-            console.log( payload );
             state.isLoading = false;
             state.viatico = payload;
             
+        },
+        onGetFormatoComision: ( state, { payload }) => {
+            state.isLoading = false;
+            state.formatoComision = payload;
         }
     }
     
 });
 
-export const { onListViaticosByEmpleado, onGetConsecutivo ,onError, onAddNewViatico } = viaticosSlice.actions;
+export const { onListViaticosByEmpleado, onGetConsecutivo ,onError, onAddNewViatico, onGetFormatoComision } = viaticosSlice.actions;

@@ -8,6 +8,7 @@ import { ViaticosLayout } from "../layout/ViaticosLayout"
 import "react-datepicker/dist/react-datepicker.css";
 import '../styles/CapturarViaticos.css';
 import { Viaticos, ViaticosPart } from "../../interfaces/interfaces";
+import { Link } from "react-router-dom";
 
 
 export const CapturarViaticos = () => {
@@ -447,10 +448,9 @@ export const CapturarViaticos = () => {
                                   </div>
                                         
                               </div> {/* */}
-                              <button type="submit" className="btn btn-primary btn-outline-primary">submit</button>
-                              <a href="http://localhost:5250/api-viaticos/Pdf" download>Download PDF</a>
+                              <button type="submit" className="btn btn-primary btn-outline-primary">Guardar</button>
+                              <Link to={`/formato-comision/${1}/${2022}/${2}` } target="_blank">asfjifj</Link>
                           </Form>
-
                           
                         )
                       }
