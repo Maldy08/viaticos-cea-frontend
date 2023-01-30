@@ -1,8 +1,10 @@
 import { FormatoComisionReporte } from "../../interfaces/interfaces"
-import logo from "../../assets/logobcycea.jpg";
 import { useViaticosStore } from "../../hooks";
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
+
+import logo from "../../assets/logobcycea.jpg";
+import '../styles/FormatoComision.css';
 
 const data = {} as FormatoComisionReporte;
 
@@ -21,7 +23,10 @@ export const FormatoComision = ()  => {
   }, [])
   
 
-  const getMes = ( mes:number ):string =>  {
+  const getMes = ( fecha:Date ):string =>  {
+
+    const mes = fecha.getMonth() + 1;
+
 
     let mesString:string = "";
 
@@ -110,6 +115,10 @@ export const FormatoComision = ()  => {
               <div><span><strong>P R E S E N T E .-</strong></span></div>
             </div>
           </div>
+        </div>
+
+        <div className="cotaine mt4">
+          <span>{ getMes( formatoComision.fecha )}</span>
         </div>
 
         {/* <div className="container mt-4">
