@@ -1,14 +1,15 @@
 import { useEffect } from "react";
 import DatePicker  from "react-datepicker";
+import { Link } from "react-router-dom";
 import {  ErrorMessage, Field, Form, Formik } from "formik";
 import * as Yup from 'yup';
 import { useCiudadesStore, useEmpleadosStore, useLocalData, useOficinasStore, usePartidasStore, useUiStore, useViaticosStore } from "../../hooks";
+import { Viaticos, ViaticosPart } from "../../interfaces/interfaces";
 import { ViaticosLayout } from "../layout/ViaticosLayout"
 
+import { getDays } from '../../helpers';
 import "react-datepicker/dist/react-datepicker.css";
 import '../styles/CapturarViaticos.css';
-import { Viaticos, ViaticosPart } from "../../interfaces/interfaces";
-import { Link } from "react-router-dom";
 
 
 export const CapturarViaticos = () => {
@@ -53,15 +54,6 @@ export const CapturarViaticos = () => {
     deptoDescripcion = empleado.descripcionDepto;
     descripcionPuesto = empleado.descripcionPuesto;
  }
-
-  const getDays = ( fecha1:Date, fecha2:Date ): number => {
-    
-    const days = fecha2.getTime() - fecha1.getTime()
-    const difference = Math.round(days / (1000 * 3600 * 24));
-    
-    return difference + 1;
-  
-  }
 
   const handleChangeDestino = ( event: React.ChangeEvent<HTMLSelectElement> ): void => {
 
@@ -147,10 +139,11 @@ export const CapturarViaticos = () => {
                         }
                         
                         
-                        onSubmit={ async ( values, { setValues } ) => {
+                        onSubmit={ async ( values, { setSubmitting } ) => {
 
                             const consecutivo = await startGetConsecutivo( values.ejercicio, values.idoficina );
                             const { noEmpleado:empCrea } = useLocalData()
+                            setSubmitting(false);
                             const newViatico = {
 
                                 oficina:values.idoficina,
@@ -208,6 +201,9 @@ export const CapturarViaticos = () => {
                         ({ values, setFieldValue }) => (
                           
                           <Form>
+                              <div className="d-flex">
+                                 <button type="submit" className="btn btn-outline-primary">Guardar</button>
+                              </div>
                               <div className="container px-4">
                                   <div className="row gx-4">
                                     <div className="col">
@@ -448,8 +444,8 @@ export const CapturarViaticos = () => {
                                   </div>
                                         
                               </div> {/* */}
-                              <button type="submit" className="btn btn-primary btn-outline-primary">Guardar</button>
-                              <Link to={`/formato-comision/${1}/${2022}/${2}` } target="_blank">asfjifj</Link>
+                             
+                              {/* <Link to={`/formato-comision/${1}/${2022}/${2}` } target="_blank">asfjifj</Link> */}
                           </Form>
                           
                         )
