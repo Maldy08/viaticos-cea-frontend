@@ -10,7 +10,7 @@ import '../styles/LoginPage.css';
 export const LoginPage = () => {
     
     const { startLogin, status } = useAuthStore();
-    const disabled = status === 'checking'?  true : false;
+    const disabled = status === 'checking';
 
   return (
     
@@ -26,8 +26,8 @@ export const LoginPage = () => {
                             password: ''
                         }}
 
-                        onSubmit={ ( { login, password } ) =>{
-                           startLogin( login, password );
+                        onSubmit={ async ( { login, password } ) =>{
+                           await startLogin( login, password );
                         }}
 
                         validationSchema={

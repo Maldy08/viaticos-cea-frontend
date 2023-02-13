@@ -1,11 +1,16 @@
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
-import logo from "../../assets/logobcycea.jpg";
 import { useViaticosStore } from "../../hooks";
-import '../styles/ReciboViaticos.css';
 
+import { getMes } from '../../helpers';
+import '../styles/ReciboViaticos.css';
+import logo from "../../assets/logobcycea.jpg";
 
 export const ReciboViaticos = () => {
+
+    let fechaViatico = new Date();
+    let fechaSalida = new Date();
+    let fechaRegreso = new Date();
 
     const { isLoading, formatoComision, startGetFormatoComision} = useViaticosStore();
     const { oficina, ejercicio, noviat } = useParams();
@@ -14,10 +19,16 @@ export const ReciboViaticos = () => {
         startGetFormatoComision( 1, 2022, 2 );
       }, [])
 
+    if( !isLoading ){
+        fechaViatico = new Date( formatoComision.fecha );
+        fechaSalida = new Date( formatoComision.fechaSal );
+        fechaRegreso = new Date( formatoComision.fechaReg );
+    }
+
   return (
     <>
     {
-        isLoading? <div><h3>Cargando informacion.....</h3></div>
+        isLoading? <div><h3>Cargando información.....</h3></div>
         :
         <div className="recibo-viaticos">
             <div className="container mt-4">
@@ -32,23 +43,26 @@ export const ReciboViaticos = () => {
                             <span>RECIBO DE VIATICOS</span>
                         </div>
                     </div>
+
                 </div>
             </div>
+            <hr/>
 
-            <div className="container mt-2">
-                <div className="d-grid justify-content-start">
-                    <div className="p-2">
-                        <div><span>BUENO POR: </span><span><b>{`$${ formatoComision.importe}`}</b></span></div>
+            <div className="container mt-4">
+                <div className="row">
+                    <div className="col-md-6 col-sm-6 border">
+                        <div className="p-2"><span>BUENO POR: </span><span><b>{`$${ formatoComision.importe}`}</b></span></div>
+                    </div>
+
+                    <div className="col-md-6 col-sm-6 border">
+                        <div className="p-2">NO. DE OFICIO: <span><b>{`V${formatoComision.oficina}-${ formatoComision.noViat }/${ formatoComision.ejercicio }`}</b></span></div>
+                        <div className="p-2">FECHA: <span>{ `${fechaViatico.getDate().toString()} DE ${ getMes( fechaViatico )} DE ${ formatoComision.ejercicio }` }</span></div>
                     </div>
 
                 </div>
+
             </div>
 
-            <div className="container mt-4">
-                <div className="d-flex flex-row">
-                    
-                </div>
-            </div>
         </div>
     }
     </>

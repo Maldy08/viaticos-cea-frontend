@@ -28,6 +28,13 @@ export const SideBar = () => {
                             <span className='m-1'>Listado</span>
                         </NavLink>
                       </li>
+                        <hr/>
+                        <li className="nav-item">
+                            <NavLink className={ ({ isActive }) => isActive ? 'nav-active nav-link': 'nav-link' } to='/cerrar-sesion'>
+                                <i className="fa-solid fa-right-from-bracket"></i>
+                                <span className='m-1'>Cerrar Sesion</span>
+                            </NavLink>
+                        </li>
 {/*                       <li className="nav-item">
                         <a href="#" className="nav-link ">
                         <i className="fa fa-picture-o mr-3 text-primary fa-fw"></i>
