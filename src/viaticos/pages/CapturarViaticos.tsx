@@ -144,6 +144,7 @@ export const CapturarViaticos = () => {
                             const consecutivo = await startGetConsecutivo( values.ejercicio, values.idoficina );
                             const { noEmpleado:empCrea } = useLocalData()
                             setSubmitting(false);
+                           
                             const newViatico = {
 
                                 oficina:values.idoficina,
@@ -183,6 +184,7 @@ export const CapturarViaticos = () => {
                              
                             console.log( newViatico );
                             console.log( newPartida );
+                            setSubmitting(true);
                             //resetForm()
                             //setFieldValue('noViat', newViatico.noViat);
                             //)
@@ -198,7 +200,7 @@ export const CapturarViaticos = () => {
                         
                     >
                       {
-                        ({ values, setFieldValue }) => (
+                        ({ values, setFieldValue, isSubmitting }) => (
                           
                           <Form>
                               <div className="d-flex">
