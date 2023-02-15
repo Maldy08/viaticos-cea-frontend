@@ -111,13 +111,13 @@ export const ReciboViaticos = () => {
                     <div className="col p-1 text-center">AUTORIZO</div>
                     <div className="col p-1 text-center">RECIBI</div>
                 </div>
-                <div className="d-flex justify-content-around border">
-                    <div className="mt-5 d-flex flex-column align-items-center">
+                <div className="row border">
+                    <div className="col mt-5 d-flex flex-column align-items-center">
                         <hr style={{width:'75%'}}/>
                         <div  className="font-weight-bold"><b> {`${formatoComision.quienLoComisiona}`}</b> </div>
                         <div className="p-1">{`${formatoComision.puestoQuienLoComisiona}`}</div>
                     </div>
-                    <div className="mt-5 d-flex flex-column align-items-center"> 
+                    <div className="col mt-5 d-flex flex-column align-items-center"> 
                     <hr style={{width:'75%'}}/>
                         <div  className="font-weight-bold"><b>{`${formatoComision.nombre} ${formatoComision.paterno} ${formatoComision.materno}`}</b> </div>
                         <div className="p-1">{`${formatoComision.descripcionPuesto}`}</div>
