@@ -52,11 +52,11 @@ export const ReciboViaticos = () => {
 
             <div className="container mt-4">
                 <div className="row">
-                    <div className="col-md-6 col-sm-6 border">
+                    <div className="col-md-6 border">
                         <div className="p-2"><span>BUENO POR: </span><span><b>{`$${ formatoComision.importe.toFixed(2)}`}</b></span></div>
                     </div>
 
-                    <div className="col-md-6 col-sm-6 border">
+                    <div className="col border">
                         <div className="p-2">NO. DE OFICIO: <span><b>{`V${formatoComision.oficina}-${ formatoComision.noViat }/${ formatoComision.ejercicio }`}</b></span></div>
                         <div className="p-2">FECHA: <span>{ `${fechaViatico.getDate().toString()} DE ${ getMes( fechaViatico )} DE ${ formatoComision.ejercicio }` }</span></div>
                     </div>
@@ -65,7 +65,7 @@ export const ReciboViaticos = () => {
             </div>
             <div className="container mt-4">
                 <div className="row">
-                    <div className="col-2 border">
+                    <div className="col-3 border">
                         <div className="p-2">NOMBRE:</div>
                         <div className="p-2">DEPARTAMENTO:</div>
                         <div className="p-2">PUESTO:</div>
@@ -82,12 +82,12 @@ export const ReciboViaticos = () => {
                     <div className="p-2 text-center">DATOS DE LA COMISION</div>
                 </div>
                 <div className="row border">
-                    <div className="col text-center">ORIGEN</div>
-                    <div className="col text-center">DESTINO</div>
-                    <div className="col text-center">FECHA INICIO</div>
-                    <div className="col text-center">FECHA TERMINO</div>
-                    <div className="col text-center">DIAS</div>
-                    <div className="col text-center">IMPORTE</div>
+                    <div className="col text-center datos-comision-titulos">ORIGEN</div>
+                    <div className="col text-center datos-comision-titulos">DESTINO</div>
+                    <div className="col text-center datos-comision-titulos">FECHA INICIO</div>
+                    <div className="col text-center datos-comision-titulos">FECHA TERMINO</div>
+                    <div className="col text-center datos-comision-titulos">DIAS</div>
+                    <div className="col text-center datos-comision-titulos">IMPORTE</div>
                 </div>
                 <div className="row border p-2">
                     <div className="col text-center">{`${formatoComision.cdOrigen}`} <br /> {`${formatoComision.edoOrigen}`}</div>
@@ -124,6 +124,7 @@ export const ReciboViaticos = () => {
                     </div>
                 </div>
             </div>
+            <footer className="mt-5 text-center">DIRECCION ADMINISTRATIVA FINANCIERA</footer>
         </div>
     }
     </>
