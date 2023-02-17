@@ -6,10 +6,16 @@
     font-size: 11px;
 }
 
-footer{
-    font-size: 10px;
-}
+/* footer{
+    font-size: 8px;
+    position: fixed;
+    bottom: 0;
+} */
 
 .gris{
     color: rgb(135, 135, 135);
+}
+
+.fontsize-10{
+    font-size: 10px;
 }

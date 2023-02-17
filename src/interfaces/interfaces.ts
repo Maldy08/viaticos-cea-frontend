@@ -161,5 +161,5 @@ export interface FormatoComisionReporte {
   edoOrigen:string;
   edoDestino:string;
   deptoDescripcion:string;
-  
+  inforResul:string;
 }

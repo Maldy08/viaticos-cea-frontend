@@ -2,6 +2,7 @@ import { Navigate, Route, Routes } from "react-router-dom"
 import {ViaticosPage, CapturarViaticos, FormatoComision, ReciboViaticos, CerrarSesion} from "../pages"
 import { CapturarViaticosOld } from "../pages/CapturarViaticosOld"
 import { Departamentos } from "../pages/Departamentos"
+import { InformeActividades } from "../pages/InformeActividades"
 import { ListadoViaticos } from "../pages/ListadoViaticos"
 
 
@@ -17,6 +18,7 @@ export const ViaticosRoutes = () => {
         <Route path="/formato-comision/:oficina/:ejercicio/:noviat" element={ <FormatoComision/> } />
         <Route path="/recibo-viatico/:oficina/:ejercicio/:noviat" element={ <ReciboViaticos/> } />
         <Route path="/*" element={ <Navigate to="/" /> } />
+        <Route path="/informe-actividades" element={< InformeActividades/>} />
     </Routes>
   )
 

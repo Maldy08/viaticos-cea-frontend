@@ -18,7 +18,7 @@ export const ReciboViaticos = () => {
     const { oficina, ejercicio, noviat } = useParams();
 
     useEffect(() => {
-        startGetFormatoComision( 1, 2022, 2 );
+        startGetFormatoComision( 2 , 2022, 1 );
       }, [])
 
     if( !isLoading ){
@@ -102,8 +102,8 @@ export const ReciboViaticos = () => {
                     <div className="col text-center gris">ACTIVIDADES</div>
                 </div>
                 <div className="row border">
-                    <div className="col-5 p-4 text-justify">{`${formatoComision.motivo}`} </div>
-                    <div className="col p-4 text-justify">{`${formatoComision.inforAct}`} </div>
+                    <div className="col-5 p-4 text-justify fontsize-10">{`${formatoComision.motivo}`} </div>
+                    <div className="col p-4 text-justify fontsize-10">{`${formatoComision.inforAct}`} </div>
                 </div>
             </div>
             <div className="container mt-4">
@@ -124,7 +124,6 @@ export const ReciboViaticos = () => {
                     </div>
                 </div>
             </div>
-            <footer className="mt-5 text-center">DIRECCION ADMINISTRATIVA FINANCIERA</footer>
         </div>
     }
     </>
