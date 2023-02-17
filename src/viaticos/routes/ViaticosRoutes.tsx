@@ -17,8 +17,8 @@ export const ViaticosRoutes = () => {
         <Route path="/cerrar-sesion" element={ <CerrarSesion/>} />
         <Route path="/formato-comision/:oficina/:ejercicio/:noviat" element={ <FormatoComision/> } />
         <Route path="/recibo-viatico/:oficina/:ejercicio/:noviat" element={ <ReciboViaticos/> } />
+        <Route path="/informe-actividades/:oficina/:ejercicio/:noviat" element={< InformeActividades/>} />
         <Route path="/*" element={ <Navigate to="/" /> } />
-        <Route path="/informe-actividades" element={< InformeActividades/>} />
     </Routes>
   )
 
