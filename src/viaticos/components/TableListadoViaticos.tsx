@@ -1,23 +1,22 @@
 import moment from "moment";
 import React from "react";
 import { useEffect } from "react";
-import { useState } from "react";
 import DataTable, { TableColumn } from "react-data-table-component";
 import 'styled-components';
 import { useViaticosStore } from "../../hooks/useViaticosStore";
 import 'bootstrap/dist/css/bootstrap.min.css'
-import { Dropdown, DropdownItem, DropdownMenu, DropdownToggle } from "reactstrap";
+import { Dropdown, DropdownItem, DropdownMenu, DropdownToggle, UncontrolledDropdown } from "reactstrap";
 
-const options = [
-  'one', 'two', 'three'
-];
+// const[dropdown, setDropdown] = React.useState<boolean>(false); 
 
-const[dropdown, setDropdown] = React.useState<boolean>(false); 
+//   const abrirCerrarDropdown = () => {
+//     setDropdown((dropdown) => !dropdown);
+//     setDropdown(!dropdown);
 
-  const abrirCerrarDropdown = () => {
-    setDropdown((dropdown) => !dropdown);
-    setDropdown(!dropdown);
+// }
 
+const alertas= () => {
+  alert('a');
 }
 
 interface DataRow {
@@ -61,17 +60,18 @@ interface DataRow {
     },
     {
       name: 'Fomarto',
-      cell: (row: any) => <Dropdown size="sm" isOpen={dropdown} toggle={abrirCerrarDropdown}>
-      <DropdownToggle caret >
+      cell: (row: any) => <UncontrolledDropdown size="sm">
+        <DropdownToggle caret >
         Ejemplo
       </DropdownToggle>
       <DropdownMenu>
         <DropdownItem header>Encabezado</DropdownItem>
-        <DropdownItem>Accion 1</DropdownItem>
+        <DropdownItem onClick={alertas}>Accion 1</DropdownItem>
         <DropdownItem>Accion 2</DropdownItem>
         <DropdownItem>Accion 3</DropdownItem>
       </DropdownMenu>
-    </Dropdown>
+      </UncontrolledDropdown>
+      
     
     },
     { 
