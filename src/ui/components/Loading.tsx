@@ -1,16 +1,15 @@
 import { ViaticosLayout } from "../../viaticos/layout/ViaticosLayout"
+import '../../viaticos/styles/Loading.css'
 
 
 export const Loading = () => {
   return (
 
       <div className="container px-4">
-        <div className="row gx-4">
-          <div className="col">
-            <div className="text-center">
-              <div className="spinner-border" role="status">
-                <span className="visually-hidden">Loading...</span>
-              </div>
+        <div className="loading">
+          <div className="loader">
+            <div className="spinner-grow m-5" role="status">
+              <span className="loader"></span>
             </div>
           </div>
         </div>

@@ -1,4 +1,5 @@
 import { Navigate, Route, Routes } from "react-router-dom"
+import { Loading } from "../../ui"
 import {ViaticosPage, CapturarViaticos, FormatoComision, ReciboViaticos, CerrarSesion} from "../pages"
 import { CapturarViaticosOld } from "../pages/CapturarViaticosOld"
 import { Departamentos } from "../pages/Departamentos"
@@ -18,6 +19,7 @@ export const ViaticosRoutes = () => {
         <Route path="/formato-comision/:oficina/:ejercicio/:noviat" element={ <FormatoComision/> } />
         <Route path="/recibo-viatico/:oficina/:ejercicio/:noviat" element={ <ReciboViaticos/> } />
         <Route path="/informe-actividades/:oficina/:ejercicio/:noviat" element={< InformeActividades/>} />
+        <Route path="loading" element={ <Loading/>} />
         <Route path="/*" element={ <Navigate to="/" /> } />
     </Routes>
   )
