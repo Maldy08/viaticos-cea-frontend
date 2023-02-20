@@ -1,8 +1,24 @@
 import moment from "moment";
+import React from "react";
 import { useEffect } from "react";
+import { useState } from "react";
 import DataTable, { TableColumn } from "react-data-table-component";
 import 'styled-components';
 import { useViaticosStore } from "../../hooks/useViaticosStore";
+import 'bootstrap/dist/css/bootstrap.min.css'
+import { Dropdown, DropdownItem, DropdownMenu, DropdownToggle } from "reactstrap";
+
+const options = [
+  'one', 'two', 'three'
+];
+
+const[dropdown, setDropdown] = React.useState<boolean>(false); 
+
+  const abrirCerrarDropdown = () => {
+    setDropdown((dropdown) => !dropdown);
+    setDropdown(!dropdown);
+
+}
 
 interface DataRow {
   viatico:number;
@@ -15,7 +31,9 @@ interface DataRow {
   estatus:string;
 }
 
-   const columns: TableColumn<DataRow>[] = [
+
+
+  const columns: TableColumn<DataRow>[] = [
     { 
       name: 'No. Viático',
       selector: row => row.viatico,
@@ -40,6 +58,21 @@ interface DataRow {
       name: 'Motivo',
       selector: row => row.movito,
       grow: 3
+    },
+    {
+      name: 'Fomarto',
+      cell: (row: any) => <Dropdown size="sm" isOpen={dropdown} toggle={abrirCerrarDropdown}>
+      <DropdownToggle caret >
+        Ejemplo
+      </DropdownToggle>
+      <DropdownMenu>
+        <DropdownItem header>Encabezado</DropdownItem>
+        <DropdownItem>Accion 1</DropdownItem>
+        <DropdownItem>Accion 2</DropdownItem>
+        <DropdownItem>Accion 3</DropdownItem>
+      </DropdownMenu>
+    </Dropdown>
+    
     },
     { 
       name: 'Salida',
@@ -97,8 +130,7 @@ export const TableListadoViaticos = ( { ejercicio, empleado }: Props ) => {
   useEffect(() => {
     startLoadingViaticosByEmpleado( ejercicio, empleado );
   }, [])
-
-
+    
   return (
     <div className="">
       <DataTable
