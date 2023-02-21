@@ -4,26 +4,40 @@ import DataTable, { TableColumn } from "react-data-table-component";
 import 'styled-components';
 import { useViaticosStore } from "../../hooks/useViaticosStore";
 import 'bootstrap/dist/css/bootstrap.min.css'
-import { Dropdown, DropdownItem, DropdownMenu, DropdownToggle, UncontrolledDropdown } from "reactstrap";
+import { Dropdown, DropdownItem, DropdownMenu, DropdownToggle, Row, UncontrolledDropdown } from "reactstrap";
 import '../styles/ListadoViaticos.css';
 import { FormatoComision } from "../pages";
+import { Button } from 'reactstrap';
 
 
 
-const abrirComision = () => {
-    window.open("recibo-viatico/oficina1/2022/2", '_blank')
+const abrirComision = (oficina: number, ejercicio: number, noViatico: number) => {
+    const link = "formato-comision/"+ oficina +"/" + ejercicio +"/" + noViatico;
+  window.open(link, '_blank');
 }
 
-const abrirRecibo = () => {
-  
-  const link = "recibo-viatico/"+  +"/2022/2";
-  console.log(link);
-  // window.open(link, '_blank');
+const abrirRecibo = (oficina: number, ejercicio: number, noViatico: number) => {
+  const link = "recibo-viatico/"+ oficina +"/" + ejercicio +"/" + noViatico;
+  window.open(link, '_blank');
 }
 
-const abrirInforme = () => {
-    window.open("recibo-viatico/oficina1/2022/2", '_blank')
+const abrirInforme = (oficina: number, ejercicio: number, noViatico: number) => {
+  const link = "informe-actividades/"+ oficina +"/" + ejercicio +"/" + noViatico;
+  window.open(link, '_blank');
 }
+
+// const botonEditarDisponible = (estatus: string) => {
+//   if (estatus == '1'){
+//     <Button color="secondary" size="sm">
+//         ✎
+//       </Button>
+//   }
+//   else {
+//     <Button color="secondary" size="sm" dis>
+//         ✎
+//       </Button>
+//   }
+// }
 
 interface DataRow {
   viatico:number;
@@ -34,8 +48,9 @@ interface DataRow {
   salida:Date; //date
   regreso:Date; //date
   estatus:string;
+  oficina: number;
+  ejercicio: number;
 }
-
 
 
   const columns: TableColumn<DataRow>[] = [
@@ -65,19 +80,25 @@ interface DataRow {
       grow: 3
     },
     {
-      name: 'Fomarto',
+      name: 'Formato',
       cell: (row: any) => <UncontrolledDropdown size="sm" direction="down" >
         <DropdownToggle caret >
         Formatos
       </DropdownToggle>
       <DropdownMenu container={'body'}>
-        <DropdownItem onClick={abrirComision}>Formato Comisión</DropdownItem>
-        <DropdownItem onClick={abrirRecibo}>Recibo Viatico</DropdownItem>
-        <DropdownItem >Informe</DropdownItem>
+        <DropdownItem onClick={() => abrirComision(row.oficina,row.ejercicio,row.viatico)}>Formato Comisión</DropdownItem>
+        <DropdownItem onClick={() => abrirRecibo(row.oficina,row.ejercicio,row.viatico)}>Recibo Viatico</DropdownItem>
+        <DropdownItem onClick={() => abrirInforme(row.oficina,row.ejercicio,row.viatico)}>Informe</DropdownItem>
       </DropdownMenu>
       </UncontrolledDropdown>
       
     
+    },
+    {
+      name: 'Editar',
+      cell: (row: any) => <Button color="secondary" size="sm">
+        ✎
+      </Button>
     },
     { 
       name: 'Salida',
@@ -93,7 +114,7 @@ interface DataRow {
       name: 'Estatus',
       selector: row => row.estatus,
       sortable: true,
-    },
+    }
   ]
 
   const customStyles = {
@@ -129,13 +150,8 @@ interface DataRow {
   }
 
 export const TableListadoViaticos = ( { ejercicio, empleado }: Props ) => {
-  const { listviaticos, startLoadingViaticosByEmpleado } = useViaticosStore();
+  const { listviaticos } = useViaticosStore();
   
-
-  useEffect(() => {
-    startLoadingViaticosByEmpleado( ejercicio, empleado );
-  }, [])
-    
   return (
     <div className="">
       <DataTable
