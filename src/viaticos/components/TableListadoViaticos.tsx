@@ -1,22 +1,30 @@
 import moment from "moment";
-import React from "react";
 import { useEffect } from "react";
 import DataTable, { TableColumn } from "react-data-table-component";
 import 'styled-components';
 import { useViaticosStore } from "../../hooks/useViaticosStore";
 import 'bootstrap/dist/css/bootstrap.min.css'
 import { Dropdown, DropdownItem, DropdownMenu, DropdownToggle, UncontrolledDropdown } from "reactstrap";
+import '../styles/ListadoViaticos.css';
+import { FormatoComision } from "../pages";
 
-// const[dropdown, setDropdown] = React.useState<boolean>(false); 
 
-//   const abrirCerrarDropdown = () => {
-//     setDropdown((dropdown) => !dropdown);
-//     setDropdown(!dropdown);
+const abrirComision = () => {
+    window.open("recibo-viatico/oficina1/2022/2", '_blank')
+}
 
-// }
+const abrirRecibo = () => {
+  const { formatoComision, startGetFormatoComision} = useViaticosStore();
+  useEffect(() => {
+    startGetFormatoComision( 2 , 2022, 1 );
+  }, [])
+  const link = "recibo-viatico/"+ formatoComision.cdOrigen +"/2022/2";
+  console.log(link);
+  // window.open(link, '_blank');
+}
 
-const alertas= () => {
-  alert('a');
+const abrirInforme = () => {
+    window.open("recibo-viatico/oficina1/2022/2", '_blank')
 }
 
 interface DataRow {
@@ -60,15 +68,14 @@ interface DataRow {
     },
     {
       name: 'Fomarto',
-      cell: (row: any) => <UncontrolledDropdown size="sm">
+      cell: (row: any) => <UncontrolledDropdown size="sm" direction="down" >
         <DropdownToggle caret >
-        Ejemplo
+        Formatos
       </DropdownToggle>
-      <DropdownMenu>
-        <DropdownItem header>Encabezado</DropdownItem>
-        <DropdownItem onClick={alertas}>Accion 1</DropdownItem>
-        <DropdownItem>Accion 2</DropdownItem>
-        <DropdownItem>Accion 3</DropdownItem>
+      <DropdownMenu container={'body'}>
+        <DropdownItem onClick={abrirComision}>Formato Comisión</DropdownItem>
+        <DropdownItem onClick={abrirRecibo}>Recibo Viatico</DropdownItem>
+        <DropdownItem>Informe</DropdownItem>
       </DropdownMenu>
       </UncontrolledDropdown>
       
@@ -142,6 +149,7 @@ export const TableListadoViaticos = ( { ejercicio, empleado }: Props ) => {
           paginationComponentOptions={ paginacionOpciones }
           fixedHeader
           fixedHeaderScrollHeight="600px"
+          className="posicion2"
       />
     </div>
   )

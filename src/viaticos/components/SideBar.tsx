@@ -11,7 +11,7 @@ export const SideBar = () => {
                     <ul className="nav flex-column bg-white mb-0">
 
                       <li className="nav-item">
-                        <NavLink className={ ({ isActive }) => isActive ? 'nav-active nav-link': 'nav-link' } to='/capturar-viatico'>
+                        <NavLink className={ ({ isActive }) => isActive ? 'nav-active nav-link blanco': 'nav-link guinda' } to='/capturar-viatico'>
                           <i className="fa-solid fa-file mr-3"></i>
                            <span className='m-1'>Capturar</span>
                         </NavLink>
@@ -23,14 +23,14 @@ export const SideBar = () => {
                         </NavLink>
                       </li> */}
                       <li className="nav-item">
-                        <NavLink className={ ({ isActive }) => isActive ? 'nav-active nav-link': 'nav-link' } to='/listado-viaticos'>
+                        <NavLink className={ ({ isActive }) => isActive ? 'nav-active nav-link blanco': 'nav-link guinda' } to='/listado-viaticos'>
                           <i className="fa-regular fa-folder-open"></i>
                             <span className='m-1'>Listado</span>
                         </NavLink>
                       </li>
                         <hr/>
                         <li className="nav-item">
-                            <NavLink className={ ({ isActive }) => isActive ? 'nav-active nav-link': 'nav-link' } to='/cerrar-sesion'>
+                            <NavLink className={ ({ isActive }) => isActive ? 'nav-active nav-link blanco': 'nav-link guinda' } to='/cerrar-sesion'>
                                 <i className="fa-solid fa-right-from-bracket"></i>
                                 <span className='m-1'>Cerrar Sesion</span>
                             </NavLink>

@@ -3,6 +3,7 @@ import { ViaticosLayout } from "../layout/ViaticosLayout"
 import { Viaticos } from '../../interfaces/interfaces';
 import { TableListadoViaticos } from "../components";
 import { useLocalData } from "../../hooks";
+import "../styles/ListadoViaticos.css"
 
 export const ListadoViaticos = () => {
 
