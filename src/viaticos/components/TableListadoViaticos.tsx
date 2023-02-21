@@ -9,16 +9,14 @@ import '../styles/ListadoViaticos.css';
 import { FormatoComision } from "../pages";
 
 
+
 const abrirComision = () => {
     window.open("recibo-viatico/oficina1/2022/2", '_blank')
 }
 
 const abrirRecibo = () => {
-  const { formatoComision, startGetFormatoComision} = useViaticosStore();
-  useEffect(() => {
-    startGetFormatoComision( 2 , 2022, 1 );
-  }, [])
-  const link = "recibo-viatico/"+ formatoComision.cdOrigen +"/2022/2";
+  
+  const link = "recibo-viatico/"+  +"/2022/2";
   console.log(link);
   // window.open(link, '_blank');
 }
@@ -75,7 +73,7 @@ interface DataRow {
       <DropdownMenu container={'body'}>
         <DropdownItem onClick={abrirComision}>Formato Comisión</DropdownItem>
         <DropdownItem onClick={abrirRecibo}>Recibo Viatico</DropdownItem>
-        <DropdownItem>Informe</DropdownItem>
+        <DropdownItem >Informe</DropdownItem>
       </DropdownMenu>
       </UncontrolledDropdown>
       
