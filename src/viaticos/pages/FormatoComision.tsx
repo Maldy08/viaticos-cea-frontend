@@ -23,12 +23,14 @@ export const FormatoComision = ()  => {
 
   useEffect(() => {
     startGetFormatoComision( parseInt(oficina!) , parseInt(ejercicio!), parseInt(noviat!)  );
+
   }, [])
   
 
   if( !isLoading ){
     fechaViatico = new Date( formatoComision.fecha );
     fechaSalida = new Date( formatoComision.fechaSal );
+   // alert(noviat);
   }
 
   return (

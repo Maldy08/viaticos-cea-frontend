@@ -6,9 +6,26 @@ import { useViaticosStore } from "../../hooks/useViaticosStore";
 import 'bootstrap/dist/css/bootstrap.min.css'
 import { Dropdown, DropdownItem, DropdownMenu, DropdownToggle, Row, UncontrolledDropdown } from "reactstrap";
 import '../styles/ListadoViaticos.css';
-import { FormatoComision } from "../pages";
 import { Button } from 'reactstrap';
+import { useUiStore } from "../../hooks";
 
+
+interface Props {
+  ejercicio:number;
+  empleado:number;
+}
+
+
+export const TableListadoViaticos = ( { ejercicio, empleado }: Props ) => {
+
+  
+ const { listviaticos, startLoadingViaticosByEmpleado } = useViaticosStore();
+ const { modificarViatico } = useUiStore();
+  
+
+ useEffect(() => {
+   startLoadingViaticosByEmpleado( ejercicio, empleado );
+ }, [])
 
 
 const abrirComision = (oficina: number, ejercicio: number, noViatico: number) => {
@@ -26,18 +43,6 @@ const abrirInforme = (oficina: number, ejercicio: number, noViatico: number) => 
   window.open(link, '_blank');
 }
 
-// const botonEditarDisponible = (estatus: string) => {
-//   if (estatus == '1'){
-//     <Button color="secondary" size="sm">
-//         ✎
-//       </Button>
-//   }
-//   else {
-//     <Button color="secondary" size="sm" dis>
-//         ✎
-//       </Button>
-//   }
-// }
 
 interface DataRow {
   viatico:number;
@@ -50,6 +55,7 @@ interface DataRow {
   estatus:string;
   oficina: number;
   ejercicio: number;
+  editar:boolean;
 }
 
 
@@ -92,11 +98,11 @@ interface DataRow {
       </DropdownMenu>
       </UncontrolledDropdown>
       
-    
     },
+
     {
       name: 'Editar',
-      cell: (row: any) => <Button color="secondary" size="sm">
+      cell: (row: any) => <Button color="secondary" size="sm" onClick={ () => modificarViatico() }>
         ✎
       </Button>
     },
@@ -144,13 +150,7 @@ interface DataRow {
     selectAllRowsItemText: 'Todos'
   }
   
-   interface Props {
-      ejercicio:number;
-      empleado:number;
-  }
 
-export const TableListadoViaticos = ( { ejercicio, empleado }: Props ) => {
-  const { listviaticos } = useViaticosStore();
   
   return (
     <div className="">
