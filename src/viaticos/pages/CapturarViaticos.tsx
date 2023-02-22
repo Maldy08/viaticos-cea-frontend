@@ -392,7 +392,7 @@ export const CapturarViaticos = () => {
                             <div className="form-floating">
                             
                                 <Field
-                                  className="form-control" 
+                                  className="form-control text-uppercase" 
                                   placeholder="Titulo de la Comision" 
                                   style={{ fontSize: '14px'}}
                                   name="motivo"
@@ -410,7 +410,7 @@ export const CapturarViaticos = () => {
                           <div className="col mt-3">
                             <div className="form-floating">
                                 <Field 
-                                    className="form-control" 
+                                    className="form-control text-uppercase" 
                                     placeholder="Actividades" 
                                     name="inforact"
                                     as="textarea"
