@@ -14,3 +14,14 @@
     color: red;
     margin-top: 0.25rem;
   }
+
+.guinda{
+    color:#651930;
+    border-color: #651930;
+}
+
+.guinda:hover{
+    background-color: #651930;
+    color: #f7f7f7 !important;
+    border-color: #f7f7f7 !important;
+}

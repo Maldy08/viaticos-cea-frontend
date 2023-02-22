@@ -86,11 +86,6 @@ export const CapturarViaticos = () => {
     return importeViatico;
   }
 
-    // const [tituloComision, setTituloComision] = useState("");
-    // const limpiar = () => {
-    //   setTituloComision="";
-    // }
-
   return (
     <ViaticosLayout>
       <div className="capturar-viaticos">
@@ -110,7 +105,7 @@ export const CapturarViaticos = () => {
             <div className="col-md-4">
               <button
               type="button"
-              className="btn btn-outline-primary btn-sm"
+              className="btn btn-outline-primary btn-sm guinda"
               onClick={ onClickCatalogoEmpleados }
               title="Buscar Empleados">
                 Buscar en Catalogo
@@ -383,7 +378,7 @@ export const CapturarViaticos = () => {
                                 <button
                                   type="button"
                                   title="Ver Catalogo de Ciudades"
-                                  className="btn btn-outline-primary btn-sm"
+                                  className="btn btn-outline-primary btn-sm guinda"
                                   >
                                     Ver Catalogo
                                 </button> 
@@ -457,8 +452,8 @@ export const CapturarViaticos = () => {
                               
                     </div> {/* */}
                     <div className="container mb-5">
-                        <button type="submit" className="btn btn-outline-primary m-2">Guardar</button>
-                        <button className="btn btn-outline-primary" type="reset">Limpiar</button>
+                        <button type="submit" className="btn btn-outline-primary m-2 guinda">Guardar</button>
+                        <button className="btn btn-outline-primary guinda" type="reset">Limpiar</button>
                     </div>
                     {/* <Link to={`/formato-comision/${1}/${2022}/${2}` } target="_blank">asfjifj</Link> */}
                 </Form>
