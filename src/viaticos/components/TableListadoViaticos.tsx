@@ -150,7 +150,12 @@ interface DataRow {
   }
 
 export const TableListadoViaticos = ( { ejercicio, empleado }: Props ) => {
-  const { listviaticos } = useViaticosStore();
+  const { listviaticos, startLoadingViaticosByEmpleado } = useViaticosStore();
+  
+
+  useEffect(() => {
+    startLoadingViaticosByEmpleado( ejercicio, empleado );
+  }, [])
   
   return (
     <div className="">
