@@ -22,7 +22,7 @@ export const FormatoComision = ()  => {
   let fechaSalida = new Date();
 
   useEffect(() => {
-    startGetFormatoComision( 1, 2022, 2 );
+    startGetFormatoComision( parseInt(oficina!) , parseInt(ejercicio!), parseInt(noviat!)  );
   }, [])
   
 

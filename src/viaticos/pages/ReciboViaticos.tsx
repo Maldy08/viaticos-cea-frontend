@@ -18,7 +18,7 @@ export const ReciboViaticos = () => {
     const { oficina, ejercicio, noviat } = useParams();
 
     useEffect(() => {
-        startGetFormatoComision( 2 , 2022, 1 );
+        startGetFormatoComision(  parseInt(oficina!) , parseInt(ejercicio!), parseInt(noviat!) );
       }, [])
 
     if( !isLoading ){

@@ -18,7 +18,7 @@ export const InformeActividades = () => {
     const { oficina, ejercicio, noviat } = useParams();
 
     useEffect(() => {
-        startGetFormatoComision( 2 , 2022, 1 );
+        startGetFormatoComision(parseInt(oficina!) , parseInt(ejercicio!), parseInt(noviat!)  );
       }, [])
 
     if( !isLoading ){
@@ -43,17 +43,17 @@ export const InformeActividades = () => {
                             <div className="d-flex flex-column text-center">
                                 <span><strong>COMISION ESTATAL DEL AGUA DE BAJA CALIFORNIA</strong></span>
                                 <span>OFICINA CEA { formatoComision.cdOrigen }</span>
-                                <span>INFORME DE ACTIVIDADES</span>
+                                <span className="informe"><b>INFORME DE ACTIVIDADES</b></span>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div className="container mt-4 d-flex justify-content-end">
-                    <div className="col-2">
+                    <div className="col-3 text-start">
                         <div className="p-2 gris">FECHA DEL INFORME: </div>
                         <div className="p-2 gris">NO. DE OFICIO</div>
                     </div>
-                    <div className="col-2">
+                    <div className="col-3 text-end">
                         <div className="p-2"> {`${fechaViatico.getDate().toString()} DE ${ getMes( fechaViatico )} DE ${ formatoComision.ejercicio }`}</div>
                         <div className="p-2"><b>{`V${formatoComision.oficina}-${ formatoComision.noViat }/${ formatoComision.ejercicio }`}</b></div>
                     </div>

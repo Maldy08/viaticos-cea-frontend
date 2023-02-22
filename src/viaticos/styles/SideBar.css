@@ -20,13 +20,25 @@
   }
 
   .nav-active{
-    color: white;
+    color: white; 
     background-color: #651930;
     transition: all .3s ease-out;
   }
 
+  .blanco{
+    color: #f7f7f7 !important;
+  }
+
+  .guinda{
+    color:#651930 !important
+  }
+
+  .nav-link{
+    color: #651930;
+  }
+
   .nav-link:hover{
-    color: white;
+    color: white !important;
     background-color: #651930;
     transition: all .3s ease-out;
   }
