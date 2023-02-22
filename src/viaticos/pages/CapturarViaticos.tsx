@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { useParams } from "react-router-dom";
 import DatePicker  from "react-datepicker";
 import { Link } from "react-router-dom";
 import {  ErrorMessage, Field, Form, Formik } from "formik";
@@ -28,8 +29,17 @@ export const CapturarViaticos = () => {
   const importeViaticoDentroEstadoNivel2 = 260;
   const importeViaticoFueraEstadoNivel2 = 450;
 
+  const {formatoComision, startGetFormatoComision} = useViaticosStore();
+  const { oficina, ejercicio, noviat } = useParams();
+  console.log('Oficina:' + oficina);
+  console.log('Ejercicio:' + ejercicio);
+  console.log('Noviat:' + noviat);
 
+    useEffect(() => {
+        startGetFormatoComision(  parseInt(oficina!) , parseInt(ejercicio!), parseInt(noviat!) );
+      }, [])
   
+      console.log('Nombre:' + formatoComision.nombre);
 
   useEffect(() => {
      startLoadingOficinas();

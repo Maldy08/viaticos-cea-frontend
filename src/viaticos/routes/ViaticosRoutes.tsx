@@ -13,6 +13,7 @@ export const ViaticosRoutes = () => {
     <Routes>
         <Route path="/" element={ <ViaticosPage /> } />
         <Route path="/capturar-viatico" element={ <CapturarViaticos/>} />
+        <Route path="/capturar-viatico/:oficina/:ejercicio/:noviat" element={ <CapturarViaticos/>} />
         <Route path="/deptos" element={ <Departamentos/>}/>
         <Route path="/listado-viaticos" element={ <ListadoViaticos/> } />
         <Route path="/cerrar-sesion" element={ <CerrarSesion/>} />

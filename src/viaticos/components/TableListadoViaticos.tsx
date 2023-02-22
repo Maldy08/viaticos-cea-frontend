@@ -20,7 +20,7 @@ export const TableListadoViaticos = ( { ejercicio, empleado }: Props ) => {
 
   
  const { listviaticos, startLoadingViaticosByEmpleado } = useViaticosStore();
- const { modificarViatico } = useUiStore();
+ //const { modificarViatico } = useUiStore();
   
 
  useEffect(() => {
@@ -41,6 +41,11 @@ const abrirRecibo = (oficina: number, ejercicio: number, noViatico: number) => {
 const abrirInforme = (oficina: number, ejercicio: number, noViatico: number) => {
   const link = "informe-actividades/"+ oficina +"/" + ejercicio +"/" + noViatico;
   window.open(link, '_blank');
+}
+
+const modificarViatico = (oficina: number, ejercicio: number, noViatico: number) => {
+  const link = "capturar-viatico/"+ oficina +"/" + ejercicio +"/" + noViatico;
+  window.open(link, '_self');
 }
 
 
@@ -102,7 +107,7 @@ interface DataRow {
 
     {
       name: 'Editar',
-      cell: (row: any) => <Button color="secondary" size="sm" onClick={ () => modificarViatico() }>
+      cell: (row: any) => <Button color="secondary" size="sm" onClick={ () => modificarViatico(row.oficina,row.ejercicio,row.viatico) }>
         ✎
       </Button>
     },
