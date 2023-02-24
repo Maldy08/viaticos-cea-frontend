@@ -1,11 +1,11 @@
 import { useDispatch, useSelector } from "react-redux"
 import { RootState } from "../store/store"
-import { onCloseEmpleadosModal, onModificarViatico, onOpenEmpleadosModal, onSelectEmpleado } from "../store/ui/uiSlice";
+import { onCloseEmpleadosModal, onModificarViatico, onOpenEmpleadosModal, onSelectEmpleado, onSelectModificarViatico } from "../store/ui/uiSlice";
 
 
 export const useUiStore = () => {
 
-    const { isEmpleadosModalOpen, empleadoModalSelected } = useSelector( ( state: RootState ) => state.ui );
+    const { isEmpleadosModalOpen, empleadoModalSelected, isModificarViatico, ViaticoModificar } = useSelector( ( state: RootState ) => state.ui );
     const dispatch = useDispatch();
 
     const openEmpleadosModal = () => {
@@ -21,7 +21,11 @@ export const useUiStore = () => {
     }
 
     const modificarViatico = () => {
-        dispatch( onModificarViatico() );
+        dispatch( onModificarViatico());
+    }
+
+    const setModificarViatico = (oficina:number, ejercicio:number, noViat:number) => {
+        dispatch(onSelectModificarViatico({ oficina, ejercicio, noViat}));
     }
 
     return {
@@ -31,6 +35,9 @@ export const useUiStore = () => {
         closeEmpleadosModal,
         selectEmpleadoModal,
         modificarViatico,
+        setModificarViatico,
+        isModificarViatico,
+        ViaticoModificar
 
     }
 }

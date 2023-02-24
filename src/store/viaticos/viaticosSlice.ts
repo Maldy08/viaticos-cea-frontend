@@ -36,9 +36,13 @@ export const viaticosSlice = createSlice({
         onGetFormatoComision: ( state, { payload }) => {
             state.isLoading = false;
             state.formatoComision = payload;
+        },
+        onGetViaticoEjercicioOficinaNoviat: (state, { payload }) => {
+            state.isLoading = false;
+            state.viatico = payload;
         }
     }
     
 });
 
-export const { onListViaticosByEmpleado, onGetConsecutivo ,onError, onAddNewViatico, onGetFormatoComision } = viaticosSlice.actions;
+export const { onListViaticosByEmpleado, onGetConsecutivo ,onError, onAddNewViatico, onGetFormatoComision, onGetViaticoEjercicioOficinaNoviat } = viaticosSlice.actions;

@@ -6,6 +6,11 @@ export const uiSlice = createSlice({
         isEmpleadosModalOpen: false,
         empleadoModalSelected:0,
         isModificarViatico:false,
+        ViaticoModificar:{
+            oficina:0,
+            ejercicio:0,
+            noViat:0
+        }
     },
     reducers: {
         onOpenEmpleadosModal: ( state ) => {
@@ -19,7 +24,12 @@ export const uiSlice = createSlice({
         },
         onModificarViatico: ( state ) => {
             state.isModificarViatico = state.isModificarViatico? state.isModificarViatico = false : state.isModificarViatico = true;
+            //state.modificarViatico = payload;
         },
+        onSelectModificarViatico:( state , {payload}) => {
+            state.ViaticoModificar =  payload;
+        }
+        
     }
 });
 
@@ -28,4 +38,6 @@ export const {
     onCloseEmpleadosModal, 
     onSelectEmpleado,
     onModificarViatico, 
+    onSelectModificarViatico,
+    
 } = uiSlice.actions;

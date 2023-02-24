@@ -17,12 +17,13 @@ import '../styles/CapturarViaticos.css';
 export const CapturarViaticos = () => {
 
   let fueraDelEstado: boolean;
+  let viaticoToMod = { } as Viaticos
   let { noEmpleado, nombreCompleto, deptoDescripcion, descripcionPuesto } = useLocalData();
   const { isLoading ,oficinas, startLoadingOficinas } = useOficinasStore();
   const { isLoading: isLoadingCiudades, startLoadingCiudades, ciudades } = useCiudadesStore();
   const { empleado, startLoadingEmpleadoById } = useEmpleadosStore();
-  const { openEmpleadosModal, empleadoModalSelected } = useUiStore();
-  const { startGetConsecutivo, isLoading: isLoadingViatico, startAddNewViatico } = useViaticosStore();
+  const { openEmpleadosModal, empleadoModalSelected, isModificarViatico, ViaticoModificar } = useUiStore();
+  const { startGetConsecutivo, isLoading: isLoadingViatico, startAddNewViatico, startGetViaticoByEjercicioOficinaNoviat, viatico } = useViaticosStore();
   const { startAddNewPartidas } = usePartidasStore();
 
   const importeViaticoDentroEstadoNivel1 = 230;
@@ -30,19 +31,24 @@ export const CapturarViaticos = () => {
   const importeViaticoDentroEstadoNivel2 = 260;
   const importeViaticoFueraEstadoNivel2 = 450;
 
-  const {formatoComision, startGetFormatoComision} = useViaticosStore();
-  const { oficina, ejercicio, noviat } = useParams();
-  console.log('Oficina:' + oficina);
-  console.log('Ejercicio:' + ejercicio);
-  console.log('Noviat:' + noviat);
+  // const { oficina, ejercicio, noviat } = useParams();
+  // console.log('Oficina:' + oficina);
+  // console.log('Ejercicio:' + ejercicio);
+  // console.log('Noviat:' + noviat);
 
-    useEffect(() => {
-        startGetFormatoComision(  parseInt(oficina!) , parseInt(ejercicio!), parseInt(noviat!) );
-      }, [])
-  
-      if (!isLoading){
-        console.log('Nombre:' + formatoComision.nombre);
+    // useEffect(() => {
+    //     startGetFormatoComision(  parseInt(oficina!) , parseInt(ejercicio!), parseInt(noviat!) );
+    //   }, [])
+
+    const getData = () => {
+      if(isModificarViatico){
+        useEffect(() => {
+          startGetViaticoByEjercicioOficinaNoviat(ViaticoModificar.oficina,ViaticoModificar.ejercicio,ViaticoModificar.noViat);
+        }, [])
+        
       }
+    }
+    
   useEffect(() => {
      startLoadingOficinas();
   }, [])
@@ -56,9 +62,13 @@ export const CapturarViaticos = () => {
 }, [])
 
 
+ 
+
  const onClickCatalogoEmpleados = () => {
     openEmpleadosModal();
  }
+
+
 
  if( empleadoModalSelected !== 0 ) {
     noEmpleado = empleado.empleado;
@@ -66,6 +76,8 @@ export const CapturarViaticos = () => {
     deptoDescripcion = empleado.descripcionDepto;
     descripcionPuesto = empleado.descripcionPuesto;
  }
+
+
 
   const handleChangeDestino = ( event: React.ChangeEvent<HTMLSelectElement> ): void => {
 
@@ -107,6 +119,7 @@ export const CapturarViaticos = () => {
               type="button"
               className="btn btn-outline-primary btn-sm guinda"
               onClick={ onClickCatalogoEmpleados }
+              disabled = {isModificarViatico}
               title="Buscar Empleados">
                 Buscar en Catalogo
               </button>
@@ -117,7 +130,9 @@ export const CapturarViaticos = () => {
         <hr />
         {/* //TODO: Envolver en un Form */}
         <Formik
+            
               initialValues={{
+                
                   idoficina:empleado.oficina,
                   ejercicio:2023,
                   fecha: new Date(),

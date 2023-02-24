@@ -8,6 +8,7 @@ import { Dropdown, DropdownItem, DropdownMenu, DropdownToggle, Row, Uncontrolled
 import '../styles/ListadoViaticos.css';
 import { Button } from 'reactstrap';
 import { useUiStore } from "../../hooks";
+import { Navigate, useNavigate } from "react-router-dom";
 
 
 interface Props {
@@ -20,7 +21,8 @@ export const TableListadoViaticos = ( { ejercicio, empleado }: Props ) => {
 
   
  const { listviaticos, startLoadingViaticosByEmpleado } = useViaticosStore();
- //const { modificarViatico } = useUiStore();
+ const { modificarViatico, setModificarViatico } = useUiStore();
+ const navigate = useNavigate();
   
 
  useEffect(() => {
@@ -43,9 +45,22 @@ const abrirInforme = (oficina: number, ejercicio: number, noViatico: number) => 
   window.open(link, '_blank');
 }
 
-const modificarViatico = (oficina: number, ejercicio: number, noViatico: number) => {
+const onModificarViatico = (oficina: number, ejercicio: number, noViatico: number) => {
   const link = "capturar-viatico/"+ oficina +"/" + ejercicio +"/" + noViatico;
-  window.open(link, '_self');
+  modificarViatico();
+  setModificarViatico( oficina, ejercicio, noViatico );
+
+  navigate(
+   { pathname: "/capturar-viatico"},
+   {replace: true}
+    
+    
+
+  
+  );
+  
+  //<Navigate to="/capturar-viatico" replace={true}/>
+  //window.open(link, '_self');
 }
 
 
@@ -107,7 +122,7 @@ interface DataRow {
 
     {
       name: 'Editar',
-      cell: (row: any) => <Button color="secondary" size="sm" onClick={ () => modificarViatico(row.oficina,row.ejercicio,row.viatico) }>
+      cell: (row: any) => <Button color="secondary" size="sm" onClick={ () => onModificarViatico(row.oficina,row.ejercicio,row.viatico) }>
         ✎
       </Button>
     },

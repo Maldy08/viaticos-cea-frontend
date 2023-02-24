@@ -2,7 +2,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { viaticosApi } from "../api";
 import { Viaticos } from "../interfaces/interfaces";
 import { RootState } from "../store/store"
-import { onAddNewViatico, onGetConsecutivo, onGetFormatoComision, onListViaticosByEmpleado } from "../store/viaticos/viaticosSlice";
+import { onAddNewViatico, onGetConsecutivo, onGetFormatoComision, onGetViaticoEjercicioOficinaNoviat, onListViaticosByEmpleado } from "../store/viaticos/viaticosSlice";
 
 
 export const useViaticosStore = () => {
@@ -58,11 +58,23 @@ export const useViaticosStore = () => {
 
     }
 
+    
     const startGetFormatoComision = async ( oficina:number, ejercicio:number, noviat:number ) => {
-
         try {
             const { data } = await viaticosApi.get(`/Viaticos/formato-comision/${ oficina }/${ ejercicio }/${ noviat }`);
             dispatch( onGetFormatoComision( data ) );
+            
+        } catch (error) {
+            console.log( error );
+            throw new Error("Error");
+        }
+    }
+
+    const startGetViaticoByEjercicioOficinaNoviat = async ( oficina:number, ejercicio:number, noviat: number) => {
+        try {
+            const { data } = await viaticosApi.get(`/Viaticos/${ ejercicio }/${ oficina }/${ noviat }`);
+            console.log(data);
+            dispatch( onGetViaticoEjercicioOficinaNoviat( data ));
             
         } catch (error) {
             console.log( error );
@@ -81,6 +93,7 @@ export const useViaticosStore = () => {
         startGetConsecutivo,
         startAddNewViatico,
         startGetFormatoComision,
+        startGetViaticoByEjercicioOficinaNoviat
     }
 
 
