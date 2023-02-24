@@ -38,6 +38,7 @@ interface Props {
 export const CapturarViaticos = () => {
 //idoficina,ejercicio,fecha,estatus,noViat,fechasal,fechareg,dias,origenid,destinoid,motivo,inforact
   let fueraDelEstado: boolean;
+  let isModificarViatico = false;
  
   let { noEmpleado, nombreCompleto, deptoDescripcion, descripcionPuesto, oficina } = useLocalData();
   const { isLoading ,oficinas, startLoadingOficinas } = useOficinasStore();
@@ -82,6 +83,7 @@ let initialValues = {} as Props;
       initialValues.destinoid = viatico.destinoId;
       initialValues.motivo = viatico.motivo;
       initialValues.inforact =viatico.inforAct;
+      isModificarViatico = true;
   }
   else{
       initialValues.idoficina = empleado.oficina;
@@ -512,7 +514,7 @@ let initialValues = {} as Props;
                     </div> {/* */}
                     <div className="container mb-5">
                         <button type="submit" className="btn btn-outline-primary m-2 guinda">Guardar</button>
-                        <button className="btn btn-outline-primary guinda" type="reset">Limpiar</button>
+                        <button disabled={isModificarViatico} className="btn btn-outline-primary guinda" type="reset">Limpiar</button>
                     </div>
                     {/* <Link to={`/formato-comision/${1}/${2022}/${2}` } target="_blank">asfjifj</Link> */}
                 </Form>
