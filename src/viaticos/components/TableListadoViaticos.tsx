@@ -20,7 +20,7 @@ interface Props {
 export const TableListadoViaticos = ( { ejercicio, empleado }: Props ) => {
 
   
- const { listviaticos, startLoadingViaticosByEmpleado } = useViaticosStore();
+ const { isLoading,listviaticos, startLoadingViaticosByEmpleado , startGetViaticoByEjercicioOficinaNoviat} = useViaticosStore();
  const { modificarViatico, setModificarViatico } = useUiStore();
  const navigate = useNavigate();
   
@@ -49,12 +49,10 @@ const onModificarViatico = (oficina: number, ejercicio: number, noViatico: numbe
   const link = "capturar-viatico/"+ oficina +"/" + ejercicio +"/" + noViatico;
   modificarViatico();
   setModificarViatico( oficina, ejercicio, noViatico );
+  startGetViaticoByEjercicioOficinaNoviat(oficina,ejercicio,noViatico);
+  
   navigate("/capturar-viatico", {
-    state:{
-      idoficina: oficina,
-      ejercicio: ejercicio,
-      noViat:noViatico,
-    }
+
   })
   //<Navigate to="/capturar-viatico" replace={true}/>
   //window.open(link, '_self');

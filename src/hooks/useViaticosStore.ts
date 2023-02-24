@@ -73,7 +73,7 @@ export const useViaticosStore = () => {
     const startGetViaticoByEjercicioOficinaNoviat = async ( oficina:number, ejercicio:number, noviat: number) => {
         try {
             const { data } = await viaticosApi.get(`/Viaticos/${ ejercicio }/${ oficina }/${ noviat }`);
-            console.log(data);
+           //console.log(data);
             dispatch( onGetViaticoEjercicioOficinaNoviat( data ));
             
         } catch (error) {

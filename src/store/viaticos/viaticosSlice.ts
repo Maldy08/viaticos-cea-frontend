@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import { FormatoComisionReporte, ListViaticos, Viaticos, ViaticosConsecutivo } from '../../interfaces/interfaces';
 
 const listViaticos = { } as ListViaticos[]
-const viatico = { } as Viaticos
+const viatico = {} as Viaticos 
 const consecutivo = {} as ViaticosConsecutivo
 const formatoComision = {} as FormatoComisionReporte;
 
