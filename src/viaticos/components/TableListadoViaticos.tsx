@@ -49,16 +49,13 @@ const onModificarViatico = (oficina: number, ejercicio: number, noViatico: numbe
   const link = "capturar-viatico/"+ oficina +"/" + ejercicio +"/" + noViatico;
   modificarViatico();
   setModificarViatico( oficina, ejercicio, noViatico );
-
-  navigate(
-   { pathname: "/capturar-viatico"},
-   {replace: true}
-    
-    
-
-  
-  );
-  
+  navigate("/capturar-viatico", {
+    state:{
+      idoficina: oficina,
+      ejercicio: ejercicio,
+      noViat:noViatico,
+    }
+  })
   //<Navigate to="/capturar-viatico" replace={true}/>
   //window.open(link, '_self');
 }

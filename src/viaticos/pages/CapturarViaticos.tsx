@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import { useState } from 'react';
 import DatePicker  from "react-datepicker";
 import { Link } from "react-router-dom";
@@ -13,41 +13,78 @@ import { getDays } from '../../helpers';
 import "react-datepicker/dist/react-datepicker.css";
 import '../styles/CapturarViaticos.css';
 
+interface Props {
+  idoficina:number
+  ejercicio:number;
+  fecha: Date;
+  estatus:number;
+  noViat:number;
+  fechasal: Date;
+  fechareg: Date;
+  dias:number;
+  origenid:number;
+  destinoid:number;
+  motivo:string;
+  inforact:string;
+}
 
 export const CapturarViaticos = () => {
-
+//idoficina,ejercicio,fecha,estatus,noViat,fechasal,fechareg,dias,origenid,destinoid,motivo,inforact
   let fueraDelEstado: boolean;
-  let viaticoToMod = { } as Viaticos
+  let initialValues = {} as Props;
   let { noEmpleado, nombreCompleto, deptoDescripcion, descripcionPuesto } = useLocalData();
   const { isLoading ,oficinas, startLoadingOficinas } = useOficinasStore();
   const { isLoading: isLoadingCiudades, startLoadingCiudades, ciudades } = useCiudadesStore();
   const { empleado, startLoadingEmpleadoById } = useEmpleadosStore();
   const { openEmpleadosModal, empleadoModalSelected, isModificarViatico, ViaticoModificar } = useUiStore();
   const { startGetConsecutivo, isLoading: isLoadingViatico, startAddNewViatico, startGetViaticoByEjercicioOficinaNoviat, viatico } = useViaticosStore();
-  const { startAddNewPartidas } = usePartidasStore();
 
   const importeViaticoDentroEstadoNivel1 = 230;
   const importeViaticoFueraEstadoNivel1 = 430;
   const importeViaticoDentroEstadoNivel2 = 260;
   const importeViaticoFueraEstadoNivel2 = 450;
 
-  // const { oficina, ejercicio, noviat } = useParams();
-  // console.log('Oficina:' + oficina);
-  // console.log('Ejercicio:' + ejercicio);
-  // console.log('Noviat:' + noviat);
+    if( isModificarViatico ){
 
-    // useEffect(() => {
-    //     startGetFormatoComision(  parseInt(oficina!) , parseInt(ejercicio!), parseInt(noviat!) );
-    //   }, [])
 
-    const getData = () => {
-      if(isModificarViatico){
-        useEffect(() => {
-          startGetViaticoByEjercicioOficinaNoviat(ViaticoModificar.oficina,ViaticoModificar.ejercicio,ViaticoModificar.noViat);
-        }, [])
-        
-      }
+      useEffect(() => {
+        startGetViaticoByEjercicioOficinaNoviat(ViaticoModificar.oficina,ViaticoModificar.ejercicio,ViaticoModificar.noViat);
+        if(isLoading!) {
+          const location = useLocation();
+          initialValues.idoficina = location.state.idoficina;
+          initialValues.ejercicio = location.state.ejercicio;
+          initialValues.fecha = viatico.fecha
+          initialValues.estatus = viatico.estatus;
+          initialValues.noViat = location.state.noViat;
+          initialValues.fechasal = viatico.fechaSal;
+          initialValues.fechareg = viatico.fechaReg;
+          initialValues.dias = viatico.dias;
+          initialValues.origenid = viatico.origenId;
+          initialValues.destinoid = viatico.destinoId;
+          initialValues.motivo = viatico.motivo;
+          initialValues.inforact = viatico.inforAct;
+        }
+      }, [])
+      
+    }else{
+      initialValues.idoficina = empleado.oficina;
+      initialValues.ejercicio = 0;
+      initialValues.fecha = new Date();
+      initialValues.estatus = 0;
+      initialValues.noViat = 0;
+      initialValues.fechasal = new Date();
+      initialValues.fechareg = new Date();
+      initialValues.dias = 1;
+      initialValues.origenid = empleado.municipio;
+      initialValues.destinoid = 0;
+      initialValues.motivo = "";
+      initialValues.inforact = "";
     }
+
+
+
+    console.log({initialValues});
+
     
   useEffect(() => {
      startLoadingOficinas();
@@ -61,14 +98,9 @@ export const CapturarViaticos = () => {
   startLoadingEmpleadoById( noEmpleado );
 }, [])
 
-
- 
-
  const onClickCatalogoEmpleados = () => {
     openEmpleadosModal();
  }
-
-
 
  if( empleadoModalSelected !== 0 ) {
     noEmpleado = empleado.empleado;
@@ -76,7 +108,6 @@ export const CapturarViaticos = () => {
     deptoDescripcion = empleado.descripcionDepto;
     descripcionPuesto = empleado.descripcionPuesto;
  }
-
 
 
   const handleChangeDestino = ( event: React.ChangeEvent<HTMLSelectElement> ): void => {
@@ -130,22 +161,23 @@ export const CapturarViaticos = () => {
         <hr />
         {/* //TODO: Envolver en un Form */}
         <Formik
+
+            initialValues={initialValues}
             
-              initialValues={{
-                
-                  idoficina:empleado.oficina,
-                  ejercicio:2023,
-                  fecha: new Date(),
-                  estatus:1,
-                  noViat:0,
-                  fechasal: new Date(),
-                  fechareg: new Date(),
-                  dias:1,
-                  origenid:empleado.municipio,
-                  destinoid:0,
-                  motivo:"",
-                  inforact:"",
-              }}
+              // initialValues={{
+              //     idoficina:empleado.oficina,
+              //     ejercicio:2023,
+              //     fecha: new Date(),
+              //     estatus:1,
+              //     noViat:0,
+              //     fechasal: new Date(),
+              //     fechareg: new Date(),
+              //     dias:1,
+              //     origenid:empleado.municipio,
+              //     destinoid:0,
+              //     motivo:"",
+              //     inforact:"",
+              // }}
               
               validationSchema={
                   Yup.object({
