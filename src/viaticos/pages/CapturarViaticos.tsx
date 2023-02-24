@@ -1,17 +1,24 @@
 import { useEffect } from "react";
 import { useLocation, useParams } from "react-router-dom";
-import { useState } from 'react';
+
 import DatePicker  from "react-datepicker";
-import { Link } from "react-router-dom";
+
 import {  ErrorMessage, Field, Form, Formik } from "formik";
 import * as Yup from 'yup';
-import { useCiudadesStore, useEmpleadosStore, useLocalData, useOficinasStore, usePartidasStore, useUiStore, useViaticosStore } from "../../hooks";
+import { useCiudadesStore, 
+         useEmpleadosStore, 
+         useLocalData, 
+         useOficinasStore, 
+         useUiStore, 
+         useViaticosStore } from "../../hooks";
+
 import { Viaticos, ViaticosPart } from "../../interfaces/interfaces";
 import { ViaticosLayout } from "../layout/ViaticosLayout"
 
 import { getDays } from '../../helpers';
 import "react-datepicker/dist/react-datepicker.css";
 import '../styles/CapturarViaticos.css';
+import { onModificarViatico } from "../../store/ui/uiSlice";
 
 interface Props {
   idoficina:number
@@ -32,11 +39,11 @@ export const CapturarViaticos = () => {
 //idoficina,ejercicio,fecha,estatus,noViat,fechasal,fechareg,dias,origenid,destinoid,motivo,inforact
   let fueraDelEstado: boolean;
  
-  let { noEmpleado, nombreCompleto, deptoDescripcion, descripcionPuesto } = useLocalData();
+  let { noEmpleado, nombreCompleto, deptoDescripcion, descripcionPuesto, oficina } = useLocalData();
   const { isLoading ,oficinas, startLoadingOficinas } = useOficinasStore();
   const { isLoading: isLoadingCiudades, startLoadingCiudades, ciudades } = useCiudadesStore();
   const { empleado, startLoadingEmpleadoById } = useEmpleadosStore();
-  const { openEmpleadosModal, empleadoModalSelected, isModificarViatico, ViaticoModificar } = useUiStore();
+  // const { openEmpleadosModal, empleadoModalSelected, isModificarViatico, ViaticoModificar } = useUiStore();
   const { startGetConsecutivo, isLoading: isLoadingViatico, startAddNewViatico, startGetViaticoByEjercicioOficinaNoviat, viatico } = useViaticosStore();
 
   const importeViaticoDentroEstadoNivel1 = 230;
@@ -60,48 +67,65 @@ export const CapturarViaticos = () => {
 let initialValues = {} as Props;
 
 
-  initialValues.idoficina = empleado.oficina;
-  initialValues.ejercicio = 0;
-  initialValues.fecha = new Date();
-  initialValues.estatus = 0;
-  initialValues.noViat = 0;
-  initialValues.fechasal = new Date();
-  initialValues.fechareg = new Date();
-  initialValues.dias = 1;
-  initialValues.origenid = empleado.municipio;
-  initialValues.destinoid = 0;
-  initialValues.motivo = "";
-  initialValues.inforact = "";
 
-  if( isModificarViatico ){
-    if(!isLoadingViatico){
-      let fechaViatico = new Date();
-      let fechaSalida = new Date();
-      let fechaRegreso = new Date();
 
-      fechaViatico = new Date( viatico.fecha );
-      fechaSalida = new Date( viatico.fechaSal );
-      fechaRegreso = new Date( viatico.fechaReg );
-      
+  if(Object.keys(viatico).length !== 0) {
+      initialValues.idoficina = viatico.oficina;
       initialValues.ejercicio = viatico.ejercicio;
-      initialValues.fecha = new Date();
+      initialValues.fecha = new Date(viatico.fecha);
       initialValues.estatus = viatico.estatus;
       initialValues.noViat = viatico.noViat;
-      initialValues.fechasal = new Date();
-      initialValues.fechareg = new Date();
+      initialValues.fechasal = new Date(viatico.fechaSal);
+      initialValues.fechareg = new Date(viatico.fechaReg);
       initialValues.dias = viatico.dias;
       initialValues.origenid = empleado.municipio;
       initialValues.destinoid = viatico.destinoId;
       initialValues.motivo = viatico.motivo;
       initialValues.inforact =viatico.inforAct;
-    }
-    
-    
   }
+  else{
+      initialValues.idoficina = empleado.oficina;
+      initialValues.ejercicio = 0;
+      initialValues.fecha = new Date();
+      initialValues.estatus = 0;
+      initialValues.noViat = 0;
+      initialValues.fechasal = new Date();
+      initialValues.fechareg = new Date();
+      initialValues.dias = 1;
+      initialValues.origenid = empleado.municipio;
+      initialValues.destinoid = 0;
+      initialValues.motivo = "";
+      initialValues.inforact = "";
+  }
+  // if( isModificarViatico ){
+  //   if(!isLoadingViatico){
+  //     let fechaViatico = new Date();
+  //     let fechaSalida = new Date();
+  //     let fechaRegreso = new Date();
+
+  //     fechaViatico = new Date( viatico.fecha );
+  //     fechaSalida = new Date( viatico.fechaSal );
+  //     fechaRegreso = new Date( viatico.fechaReg );
+      
+  //     initialValues.ejercicio = viatico.ejercicio;
+  //     initialValues.fecha = new Date();
+  //     initialValues.estatus = viatico.estatus;
+  //     initialValues.noViat = viatico.noViat;
+  //     initialValues.fechasal = new Date();
+  //     initialValues.fechareg = new Date();
+  //     initialValues.dias = viatico.dias;
+  //     initialValues.origenid = empleado.municipio;
+  //     initialValues.destinoid = viatico.destinoId;
+  //     initialValues.motivo = viatico.motivo;
+  //     initialValues.inforact =viatico.inforAct;
+  //   }
+    
+    
+  // }
   
 
  const onClickCatalogoEmpleados = () => {
-    openEmpleadosModal();
+   // openEmpleadosModal();
  }
 
 //  if( empleadoModalSelected !== 0 ) {
@@ -146,7 +170,7 @@ let initialValues = {} as Props;
                 <span className="d-block">{ descripcionPuesto }</span>
             </div>
           </div>
-          <div className="row mt-2">
+          {/* <div className="row mt-2">
             <div className="col-md-4">
               <button
               type="button"
@@ -157,7 +181,7 @@ let initialValues = {} as Props;
                 Buscar en Catalogo
               </button>
             </div>
-          </div>
+          </div> */}
         </div>
         {/* <select name="" id="" onChange={}></select> */}
         <hr />
@@ -166,20 +190,6 @@ let initialValues = {} as Props;
 
              initialValues={initialValues}
             
-              // initialValues={{
-              //     idoficina:empleado.oficina,
-              //     ejercicio:2023,
-              //     fecha: new Date(),
-              //     estatus:1,
-              //     noViat:0,
-              //     fechasal: new Date(),
-              //     fechareg: new Date(),
-              //     dias:1,
-              //     origenid:empleado.municipio,
-              //     destinoid:0,
-              //     motivo:"",
-              //     inforact:"",
-              // }}
               
               validationSchema={
                   Yup.object({
