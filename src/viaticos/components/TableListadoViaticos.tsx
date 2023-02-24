@@ -103,7 +103,7 @@ interface DataRow {
     {
       name: 'Formato',
       cell: (row: any) => <UncontrolledDropdown size="sm" direction="down" >
-        <DropdownToggle caret >
+        <DropdownToggle caret  className="guinda">
         Formatos
       </DropdownToggle>
       <DropdownMenu container={'body'}>
@@ -117,7 +117,7 @@ interface DataRow {
 
     {
       name: 'Editar',
-      cell: (row: any) => <Button color="secondary" size="sm" onClick={ () => onModificarViatico(row.oficina,row.ejercicio,row.viatico) }>
+      cell: (row: any) => <Button className="guinda" color="secondary" size="sm" onClick={ () => onModificarViatico(row.oficina,row.ejercicio,row.viatico) }>
         ✎
       </Button>
     },
