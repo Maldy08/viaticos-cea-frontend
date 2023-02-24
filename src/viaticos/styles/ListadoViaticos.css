@@ -10,18 +10,18 @@
 
 .guinda{
     color:#651930;
-    background-color: #f7f7f7 ;
+    background-color: #ffff ;
     border-color: #651930;
 }
 
 .guinda:hover{
     background-color: #651930;
-    color: #f7f7f7 !important;
-    border-color: #f7f7f7 !important;
+    color: #ffff !important;
+    border-color: #ffff !important;
 }
 
 .guinda:active{
     background-color: #531326 !important;
-    color: #f7f7f7 ;
-    border-color: #f7f7f7;
+    color: #ffff ;
+    border-color: #ffff;
 }
