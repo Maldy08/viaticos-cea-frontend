@@ -19,6 +19,7 @@ import { getDays } from '../../helpers';
 import "react-datepicker/dist/react-datepicker.css";
 import '../styles/CapturarViaticos.css';
 import { onModificarViatico } from "../../store/ui/uiSlice";
+import { Loading } from "../../ui";
 
 interface Props {
   idoficina:number
@@ -67,9 +68,6 @@ export const CapturarViaticos = () => {
 
 let initialValues = {} as Props;
 
-
-
-
   if(Object.keys(viatico).length !== 0) {
       initialValues.idoficina = viatico.oficina;
       initialValues.ejercicio = viatico.ejercicio;
@@ -87,7 +85,7 @@ let initialValues = {} as Props;
   }
   else{
       initialValues.idoficina = empleado.oficina;
-      initialValues.ejercicio = 0;
+      initialValues.ejercicio = 2023;
       initialValues.fecha = new Date();
       initialValues.estatus = 0;
       initialValues.noViat = 0;
@@ -209,14 +207,12 @@ let initialValues = {} as Props;
               }
               
               
-              onSubmit={ async ( values, { setSubmitting } ) => {
-
+              onSubmit={ async ( values, { setSubmitting,setFieldValue} ) => {
+                  setSubmitting(true);
                   const consecutivo = await startGetConsecutivo( values.ejercicio, values.idoficina );
                   const { noEmpleado:empCrea } = useLocalData()
-                  setSubmitting(false);
-                  
-                  const newViatico = {
 
+                  const newViatico = {
                       oficina:values.idoficina,
                       ejercicio: values.ejercicio,
                       noViat:consecutivo + 1,
@@ -243,7 +239,6 @@ let initialValues = {} as Props;
                   } as Viaticos;
 
                   const newPartida = {
-
                     partida:37501,
                     ejercicio: 2023,
                     importe: importePorDias( values.dias ),
@@ -252,18 +247,27 @@ let initialValues = {} as Props;
 
                   } as ViaticosPart;
                     
-                  console.log( newViatico );
-                  console.log( newPartida );
-                  setSubmitting(true);
-                  //resetForm()
-                  //setFieldValue('noViat', newViatico.noViat);
-                  //)
+                  //console.log( newViatico );
+                  //console.log( newPartida );
+                  
+                  
+                  setFieldValue('noViat', newViatico.noViat);
+                  setFieldValue('fecha',new Date());
+                  setFieldValue('estatus',1);
+                  setFieldValue('fechasal', new Date(newViatico.fechaSal));
+                  setFieldValue('fechareg', new Date(newViatico.fechaReg));
+                  setFieldValue('dias', newViatico.dias);
+                  setFieldValue('origenid',newViatico.origenId);
+                  setFieldValue('destinoid',newViatico.destinoId);
+                  setFieldValue('motivo',newViatico.motivo);
+                  setFieldValue('inforact', newViatico.inforAct);
                   
                   //values.noviat = newViatico.noViat;
                   //alert('Viatico creado exitosamente!!');
                   //await startAddNewViatico( newViatico );
                   // await startAddNewPartidas( newPartida );
-
+                  setSubmitting(false);
+                  //alert(`Viatico generado con el numero: ${newViatico.noViat}`);
               }}
               
               enableReinitialize={ true }
@@ -272,252 +276,254 @@ let initialValues = {} as Props;
             {
               ({ values, setFieldValue, isSubmitting }) => (
                 
+                isSubmitting ? <Loading/>
+                :
                 <Form>
-                    <div className="container">
-                        <div className="row gx-4">
-                          <div className="col">
-                            <div className="form-floating">
-                              <Field 
-                                  name="idoficina" 
-                                  as="select" 
-                                  className="form-select text-uppercase"
-                              >
-                                {
-                                  !isLoading && oficinas.map( ({ idOfi, nombre }) => (
-                                    <option key={ idOfi } value={ idOfi }>{ nombre }</option>
-                                  ))
-                                }
-                              </Field>
-                              <label htmlFor="idoficina">Oficina</label>
-                            </div>
-                            
+                <div className="container">
+                    <div className="row gx-4">
+                      <div className="col">
+                        <div className="form-floating">
+                          <Field 
+                              name="idoficina" 
+                              as="select" 
+                              className="form-select text-uppercase"
+                          >
+                            {
+                              !isLoading && oficinas.map( ({ idOfi, nombre }) => (
+                                <option key={ idOfi } value={ idOfi }>{ nombre }</option>
+                              ))
+                            }
+                          </Field>
+                          <label htmlFor="idoficina">Oficina</label>
                         </div>
-                          <div className="col-md-2">
-                            <div className="form-floating">
-                              <Field disabled name="ejercicio" type="text" className="form-control"/>
-                              <label htmlFor="ejercicio">Ejercicio</label>
-                            </div>
-                          </div>
-
-                          <div className="col">
-                            <div className="form-floating">
-                              <div className="p-0">
-                              <label className="fecha">Fecha</label>
-                                <DatePicker 
-                                  name="fecha"
-                                  title="fecha"
-                                  className="form-control"
-                                  selected={ values.fecha } 
-                                  onChange={
-                                    ( date:any ) => setFieldValue('fecha', date)
-                                  }
-                                />
-
-                              </div>
-                            </div>
-                          </div>
-
-                          <div className="col-md-2">
-                            <div className="form-floating">
-                              <span className="form-control">{ noEmpleado }</span>
-                              <label htmlFor="empleado2">Empleado</label>
-                            </div>
-                          </div>
-
-                          <div className="col-md-2">
-                            <div className="form-floating">
-                              <Field name="noViat" type="text" className="form-control" disabled />
-                              <label htmlFor="noViat">No. Viatico</label>
-                            </div>
-                          </div>
-
-                        </div>
-
-                        <div className="row gx-4 mt-3">
-                          
-                          <div className="col">
-                            <div className="form-floating">
-                              <div className="p-0">
-                                <label htmlFor="fechasal">Fecha de Salida</label>
-                                <DatePicker
-                                    name="fechasal"
-                                    className="form-control"
-                                    selected={ values.fechasal }
-                                    dateFormat="dd/MM/yyyy"
-                                    onChange={
-                                      ( date:any ) => 
-                                        { 
-                                          setFieldValue('fechasal', date ); 
-                                          setFieldValue('fechareg',date ); 
-                                          setFieldValue('dias', getDays( date, date ))
-                                        }
-                                      }
-                                />
-                              </div>
-                            </div>
-                          </div>
-
-                          <div className="col">
-                            <div className="form-floating">
-                              <div className="p-0">
-                                <label htmlFor="fechareg">Fecha de Regreso</label>
-                                <DatePicker
-                                    name="fechareg"
-                                    className="form-control"
-                                    minDate={ values.fechasal }
-                                    selected={ values.fechareg }
-                                    dateFormat="dd/MM/yyyy"
-                                    onChange={
-                                      ( date:any ) =>
-                                        { 
-                                        setFieldValue('fechareg', date );
-                                        setFieldValue('dias', getDays( values.fechasal, date ) );
-                                        importePorDias( getDays( values.fechasal, date ) );
-                                        
-                                      }
-                                    }
-                                />
-                              </div>
-                            </div>
-                          </div>
-
-                          <div className="col-md-1">
-                            <div className="form-floating">
-                              <Field 
-                                  name="dias" 
-                                  className="form-control" 
-                                  type="number" 
-                                  min="1" 
-                                  disabled
-                              />
-                              <label htmlFor="dias">Dias</label>
-                            </div>
-                          </div>
-
-                          <div className="col">
-                            <div className="form-floating">
-                              <Field 
-                                  title="origenid" 
-                                  name="origenid" 
-                                  as="select" 
-                                  className="form-control text-uppercase"
-                              >
-                                <option value="1">Mexicali</option>
-                                <option value="2">Tijuana</option>
-                              </Field>
-                              <label htmlFor="origenid">Ciudad de Origen</label>
-                            </div>
-                          </div>
-
-                          
-                          <div className="col">
-                            <div className="form-floating">
-                              <Field 
-                                name="destinoid" 
-                                as="select" 
-                                className="form-control text-uppercase"
-                                onChange={ ( event:any ) => {
-                                    setFieldValue('destinoid', event.target.value );
-                                    handleChangeDestino( event )
-                                } }
-                              >
-                                <option value="0">Seleccionar...</option>
-                              {
-                                  !isLoadingCiudades && ciudades.map(({ idCiudad, ciudad }) => (
-                                    <option key={ idCiudad } value={ idCiudad }>{ ciudad }</option>
-                                  ))
-                              }
-                              </Field>
-                              <label htmlFor="destinoid">Ciudad de Destino</label>
-                              
-                            </div>
-                            <ErrorMessage name="destinoid" component="span" className="error"/>
-                          </div>
-
-                          <div className="col">
-                            <div className="p-3">
-                                <button
-                                  type="button"
-                                  title="Ver Catalogo de Ciudades"
-                                  className="btn btn-outline-primary btn-sm guinda"
-                                  >
-                                    Ver Catalogo
-                                </button> 
-                            </div>
-                          </div>
-
-                        </div>
-
-                        <div className="row d-block mt-3">
-                          <div className="col"> 
-                            <div className="form-floating">
-                            
-                                <Field
-                                  className="form-control text-uppercase" 
-                                  placeholder="Titulo de la Comision" 
-                                  style={{ fontSize: '14px'}}
-                                  name="motivo"
-                                  as="textarea"
-                                  
-                                  />
-                            
-                                <label htmlFor="motivo">Titulo de la Comision</label>
-                                
-                              
-                            </div>
-                            <ErrorMessage name="motivo" component="span" className="error"/>
-                          </div>
-
-                          <div className="col mt-3">
-                            <div className="form-floating">
-                                <Field 
-                                    className="form-control text-uppercase" 
-                                    placeholder="Actividades" 
-                                    name="inforact"
-                                    as="textarea"
-                                    style={{ height: '100px', fontSize: '14px'}}
-                                  />
-                                <label htmlFor="inforact">Actividades</label>
-                            </div>                       
-                          </div>
-                          <ErrorMessage name="inforact" component="span" className="error"/>
-                        </div>
-
-                        <div className="row gx-4 mt-3">
-                          <div className="col">
-                            <table className="table table-bordered table-sm">
-                              <thead className="text-center">
-                                <tr>
-                                  <th>PARTIDA</th>
-                                  <th>DESCRIPCION</th>
-                                  <th>IMPORTE</th>
-                                  <th>OFI</th>
-                                  <th>ANO</th>
-                                  <th>VIAT</th>
-                                </tr>
-                              </thead>
-                              <tbody className="text-center">
-                                <tr>
-                                  <td>37501</td>
-                                  <td>VIATICOS EN EL PAIS</td>
-                                  <td>{ importePorDias( values.dias ) }</td>
-                                  <td>{ values.idoficina }</td>
-                                  <td>{ values.ejercicio }</td>
-                                  <td>{ values.noViat }</td>
-                                  
-                                </tr>
-                              </tbody>
-                            </table>
-                          </div>
-                        </div>
-                              
-                    </div> {/* */}
-                    <div className="container mb-5">
-                        <button type="submit" className="btn btn-outline-primary m-2 guinda">Guardar</button>
-                        <button disabled={isModificarViatico} className="btn btn-outline-primary guinda" type="reset">Limpiar</button>
+                        
                     </div>
-                    {/* <Link to={`/formato-comision/${1}/${2022}/${2}` } target="_blank">asfjifj</Link> */}
-                </Form>
+                      <div className="col-md-2">
+                        <div className="form-floating">
+                          <Field disabled name="ejercicio" type="text" className="form-control"/>
+                          <label htmlFor="ejercicio">Ejercicio</label>
+                        </div>
+                      </div>
+
+                      <div className="col">
+                        <div className="form-floating">
+                          <div className="p-0">
+                          <label className="fecha">Fecha</label>
+                            <DatePicker 
+                              name="fecha"
+                              title="fecha"
+                              className="form-control"
+                              selected={ values.fecha } 
+                              onChange={
+                                ( date:any ) => setFieldValue('fecha', date)
+                              }
+                            />
+
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="col-md-2">
+                        <div className="form-floating">
+                          <span className="form-control">{ noEmpleado }</span>
+                          <label htmlFor="empleado2">Empleado</label>
+                        </div>
+                      </div>
+
+                      <div className="col-md-2">
+                        <div className="form-floating">
+                          <Field name="noViat" type="text" className="form-control" disabled />
+                          <label htmlFor="noViat">No. Viatico</label>
+                        </div>
+                      </div>
+
+                    </div>
+
+                    <div className="row gx-4 mt-3">
+                      
+                      <div className="col">
+                        <div className="form-floating">
+                          <div className="p-0">
+                            <label htmlFor="fechasal">Fecha de Salida</label>
+                            <DatePicker
+                                name="fechasal"
+                                className="form-control"
+                                selected={ values.fechasal }
+                                dateFormat="dd/MM/yyyy"
+                                onChange={
+                                  ( date:any ) => 
+                                    { 
+                                      setFieldValue('fechasal', date ); 
+                                      setFieldValue('fechareg',date ); 
+                                      setFieldValue('dias', getDays( date, date ))
+                                    }
+                                  }
+                            />
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="col">
+                        <div className="form-floating">
+                          <div className="p-0">
+                            <label htmlFor="fechareg">Fecha de Regreso</label>
+                            <DatePicker
+                                name="fechareg"
+                                className="form-control"
+                                minDate={ values.fechasal }
+                                selected={ values.fechareg }
+                                dateFormat="dd/MM/yyyy"
+                                onChange={
+                                  ( date:any ) =>
+                                    { 
+                                    setFieldValue('fechareg', date );
+                                    setFieldValue('dias', getDays( values.fechasal, date ) );
+                                    importePorDias( getDays( values.fechasal, date ) );
+                                    
+                                  }
+                                }
+                            />
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="col-md-1">
+                        <div className="form-floating">
+                          <Field 
+                              name="dias" 
+                              className="form-control" 
+                              type="number" 
+                              min="1" 
+                              disabled
+                          />
+                          <label htmlFor="dias">Dias</label>
+                        </div>
+                      </div>
+
+                      <div className="col">
+                        <div className="form-floating">
+                          <Field 
+                              title="origenid" 
+                              name="origenid" 
+                              as="select" 
+                              className="form-control text-uppercase"
+                          >
+                            <option value="1">Mexicali</option>
+                            <option value="2">Tijuana</option>
+                          </Field>
+                          <label htmlFor="origenid">Ciudad de Origen</label>
+                        </div>
+                      </div>
+
+                      
+                      <div className="col">
+                        <div className="form-floating">
+                          <Field 
+                            name="destinoid" 
+                            as="select" 
+                            className="form-control text-uppercase"
+                            onChange={ ( event:any ) => {
+                                setFieldValue('destinoid', event.target.value );
+                                handleChangeDestino( event )
+                            } }
+                          >
+                            <option value="0">Seleccionar...</option>
+                          {
+                              !isLoadingCiudades && ciudades.map(({ idCiudad, ciudad }) => (
+                                <option key={ idCiudad } value={ idCiudad }>{ ciudad }</option>
+                              ))
+                          }
+                          </Field>
+                          <label htmlFor="destinoid">Ciudad de Destino</label>
+                          
+                        </div>
+                        <ErrorMessage name="destinoid" component="span" className="error"/>
+                      </div>
+
+                      <div className="col">
+                        <div className="p-3">
+                            <button
+                              type="button"
+                              title="Ver Catalogo de Ciudades"
+                              className="btn btn-outline-primary btn-sm guinda"
+                              >
+                                Ver Catalogo
+                            </button> 
+                        </div>
+                      </div>
+
+                    </div>
+
+                    <div className="row d-block mt-3">
+                      <div className="col"> 
+                        <div className="form-floating">
+                        
+                            <Field
+                              className="form-control text-uppercase" 
+                              placeholder="Titulo de la Comision" 
+                              style={{ fontSize: '14px'}}
+                              name="motivo"
+                              as="textarea"
+                              
+                              />
+                        
+                            <label htmlFor="motivo">Titulo de la Comision</label>
+                            
+                          
+                        </div>
+                        <ErrorMessage name="motivo" component="span" className="error"/>
+                      </div>
+
+                      <div className="col mt-3">
+                        <div className="form-floating">
+                            <Field 
+                                className="form-control text-uppercase" 
+                                placeholder="Actividades" 
+                                name="inforact"
+                                as="textarea"
+                                style={{ height: '100px', fontSize: '14px'}}
+                              />
+                            <label htmlFor="inforact">Actividades</label>
+                        </div>                       
+                      </div>
+                      <ErrorMessage name="inforact" component="span" className="error"/>
+                    </div>
+
+                    <div className="row gx-4 mt-3">
+                      <div className="col">
+                        <table className="table table-bordered table-sm">
+                          <thead className="text-center">
+                            <tr>
+                              <th>PARTIDA</th>
+                              <th>DESCRIPCION</th>
+                              <th>IMPORTE</th>
+                              <th>OFI</th>
+                              <th>ANO</th>
+                              <th>VIAT</th>
+                            </tr>
+                          </thead>
+                          <tbody className="text-center">
+                            <tr>
+                              <td>37501</td>
+                              <td>VIATICOS EN EL PAIS</td>
+                              <td>{ importePorDias( values.dias ) }</td>
+                              <td>{ values.idoficina }</td>
+                              <td>{ values.ejercicio }</td>
+                              <td>{ values.noViat }</td>
+                              
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                          
+                </div> {/* */}
+                <div className="container mb-5">
+                    <button type="submit" disabled={isSubmitting} className="btn btn-outline-primary m-2 guinda">{ isSubmitting? 'Procesando' : 'Guardar'}</button>
+                    <button disabled={isModificarViatico} className="btn btn-outline-primary guinda" type="reset">Limpiar</button>
+                </div>
+                {/* <Link to={`/formato-comision/${1}/${2022}/${2}` } target="_blank">asfjifj</Link> */}
+            </Form>
                 
               )
             }
