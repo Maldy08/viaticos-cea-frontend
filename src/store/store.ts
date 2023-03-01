@@ -1,4 +1,4 @@
-import { configureStore } from "@reduxjs/toolkit";
+import { configureStore, getDefaultMiddleware } from "@reduxjs/toolkit";
 import { authSlice } from "./auth/authSlice";
 import { deptosSlice } from "./deptos/deptosSlice";
 import { viaticosSlice } from "./viaticos/viaticosSlice";
@@ -21,6 +21,9 @@ import { partidasSlice } from "./partidas/partidasSlice";
         estados: estadosSlice.reducer,
         partidas: partidasSlice.reducer,
     },
+    middleware: (getDefaultMiddleware) => getDefaultMiddleware({
+        serializableCheck: false
+    }),
 });
 
 export type RootState = ReturnType<typeof store.getState>

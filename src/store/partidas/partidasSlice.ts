@@ -14,6 +14,7 @@ export const partidasSlice = createSlice({
         onAddNew:( state, { payload } ) => {
             state.isLoading = false;
             state.partidas = payload;
+           // console.log(payload);
            
         },
     }

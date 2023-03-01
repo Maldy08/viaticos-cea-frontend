@@ -8,7 +8,7 @@ import "../styles/ListadoViaticos.css"
 export const ListadoViaticos = () => {
 
  // const  data  = JSON.parse( localStorage.getItem('data' ) || '{ }');
-  const ejercicio = 2022
+  const ejercicio = 2023;
   //const empleado = 86
   const { noEmpleado } = useLocalData();
   // data.userData.noEmpleado;

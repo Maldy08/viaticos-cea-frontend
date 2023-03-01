@@ -10,12 +10,13 @@ export const usePartidasStore = () => {
     const { isLoading, partidas } = useSelector( ( state: RootState ) => state.partidas );
     const dispatch = useDispatch();
 
-    const startAddNewPartidas = async( partidas: ViaticosPart ) => {
+    const startAddNewPartidas = async( partidas: ViaticosPart )  => {
 
         try {
 
             const { data } = await viaticosApi.post(`/ViaticosPart`, partidas );
-            dispatch( onAddNew( data ) );
+            dispatch( onAddNew( { ...data } ) );
+            
 
         } catch ( error:any ) {
             

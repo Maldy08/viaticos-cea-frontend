@@ -79,7 +79,9 @@ interface DataRow {
       name: 'No. Viático',
       selector: row => row.viatico,
       sortable: true,
+      
     },
+    
     { 
       name: 'Fecha',
       selector: row => moment(row.fecha).format('DD/MM/YYYY'),
@@ -114,13 +116,15 @@ interface DataRow {
       </UncontrolledDropdown>
       
     },
-
+    
     {
+
       name: 'Editar',
-      cell: (row: any) => <Button className="guinda" color="secondary" size="sm" onClick={ () => onModificarViatico(row.oficina,row.ejercicio,row.viatico) }>
+      cell: (row: any) => <Button className="guinda" color="secondary" disabled={row.estatus > 1}  size="sm" onClick={ () => onModificarViatico(row.oficina,row.ejercicio,row.viatico) }>
         ✎
       </Button>
     },
+
     { 
       name: 'Salida',
       selector: row => moment( row.salida ).format('DD/MM/YYYY'),
@@ -144,6 +148,7 @@ interface DataRow {
             minHeight: '50px', // override the row height
         },
     },
+    
     headCells: {
         style: {
             paddingLeft: '8px', // override the cell padding for head cells
@@ -164,6 +169,8 @@ interface DataRow {
     selectAllRowsItem: true,
     selectAllRowsItemText: 'Todos'
   }
+
+
   
 
   

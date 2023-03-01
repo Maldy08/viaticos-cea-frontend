@@ -9,6 +9,7 @@ import { useCiudadesStore,
          useEmpleadosStore, 
          useLocalData, 
          useOficinasStore, 
+         usePartidasStore, 
          useUiStore, 
          useViaticosStore } from "../../hooks";
 
@@ -19,9 +20,9 @@ import { getDays } from '../../helpers';
 import "react-datepicker/dist/react-datepicker.css";
 import '../styles/CapturarViaticos.css';
 import { onModificarViatico } from "../../store/ui/uiSlice";
-import { Loading } from "../../ui";
 
 interface Props {
+  empleado:number;
   idoficina:number
   ejercicio:number;
   fecha: Date;
@@ -46,6 +47,7 @@ export const CapturarViaticos = () => {
   const { isLoading: isLoadingCiudades, startLoadingCiudades, ciudades } = useCiudadesStore();
   const { empleado, startLoadingEmpleadoById } = useEmpleadosStore();
   // const { openEmpleadosModal, empleadoModalSelected, isModificarViatico, ViaticoModificar } = useUiStore();
+  const { startAddNewPartidas } = usePartidasStore();
   const { startGetConsecutivo, isLoading: isLoadingViatico, startAddNewViatico, startGetViaticoByEjercicioOficinaNoviat, viatico } = useViaticosStore();
 
   const importeViaticoDentroEstadoNivel1 = 230;
@@ -69,6 +71,7 @@ export const CapturarViaticos = () => {
 let initialValues = {} as Props;
 
   if(Object.keys(viatico).length !== 0) {
+    
       initialValues.idoficina = viatico.oficina;
       initialValues.ejercicio = viatico.ejercicio;
       initialValues.fecha = new Date(viatico.fecha);
@@ -97,33 +100,8 @@ let initialValues = {} as Props;
       initialValues.motivo = "";
       initialValues.inforact = "";
   }
-  // if( isModificarViatico ){
-  //   if(!isLoadingViatico){
-  //     let fechaViatico = new Date();
-  //     let fechaSalida = new Date();
-  //     let fechaRegreso = new Date();
 
-  //     fechaViatico = new Date( viatico.fecha );
-  //     fechaSalida = new Date( viatico.fechaSal );
-  //     fechaRegreso = new Date( viatico.fechaReg );
-      
-  //     initialValues.ejercicio = viatico.ejercicio;
-  //     initialValues.fecha = new Date();
-  //     initialValues.estatus = viatico.estatus;
-  //     initialValues.noViat = viatico.noViat;
-  //     initialValues.fechasal = new Date();
-  //     initialValues.fechareg = new Date();
-  //     initialValues.dias = viatico.dias;
-  //     initialValues.origenid = empleado.municipio;
-  //     initialValues.destinoid = viatico.destinoId;
-  //     initialValues.motivo = viatico.motivo;
-  //     initialValues.inforact =viatico.inforAct;
-  //   }
-    
-    
-  // }
   
-
  const onClickCatalogoEmpleados = () => {
    // openEmpleadosModal();
  }
@@ -207,8 +185,11 @@ let initialValues = {} as Props;
               }
               
               
-              onSubmit={ async ( values, { setSubmitting,setFieldValue} ) => {
-                  setSubmitting(true);
+              onSubmit={ async ( values, { setSubmitting,setFieldValue, setStatus, } ) => {
+                 
+                 // await new Promise( resolve => setTimeout(resolve, 3000));
+            
+
                   const consecutivo = await startGetConsecutivo( values.ejercicio, values.idoficina );
                   const { noEmpleado:empCrea } = useLocalData()
 
@@ -216,26 +197,26 @@ let initialValues = {} as Props;
                       oficina:values.idoficina,
                       ejercicio: values.ejercicio,
                       noViat:consecutivo + 1,
-                      fecha: values.fecha,
+                      fecha: new Date(values.fecha),
                       noEmp: empleado.empleado,
                       origenId: values.origenid,
                       destinoId: values.destinoid,
                       motivo: values.motivo,
-                      fechaSal: values.fechasal,
-                      fechaReg: values.fechareg,
+                      fechaSal: new Date(values.fechasal),
+                      fechaReg: new Date(values.fechareg),
                       dias: values.dias,
-                      inforFecha: values.fechareg,
+                      inforFecha: new Date(values.fechareg),
                       inforAct: values.inforact,
-                      nota:'',
+                      nota:'nada',
                       estatus:1,
                       pol:0,
                       polMes:0,
                       caja:0,
+                      fechaMod: new Date(values.fecha),
                       cajaVale:0,
                       cajaRepo:0,
                       noEmpCrea:empCrea,
-                      inforResult:'LAS ACTIVIDADES QUE SE ASIGNARON EN LA COMISION FUERON REALIZADAS SATISFACTORIAMENTE'
-
+                      inforResul:'LAS ACTIVIDADES QUE SE ASIGNARON EN LA COMISION FUERON REALIZADAS SATISFACTORIAMENTE'
                   } as Viaticos;
 
                   const newPartida = {
@@ -249,35 +230,45 @@ let initialValues = {} as Props;
                     
                   //console.log( newViatico );
                   //console.log( newPartida );
+                  setSubmitting(true);
+                    await startAddNewViatico( newViatico ).then( () => {
+                        startAddNewPartidas( newPartida ).then( () => {
+                          setFieldValue('noViat', newViatico.noViat);
+                          setFieldValue('fecha',new Date(newViatico.fecha));
+                          setFieldValue('estatus',1);
+                          setFieldValue('fechasal', new Date(newViatico.fechaSal));
+                          setFieldValue('fechareg', new Date(newViatico.fechaReg));
+                          setFieldValue('dias', newViatico.dias);
+                          setFieldValue('origenid',newViatico.origenId);
+                          setFieldValue('destinoid',newViatico.destinoId);
+                          setFieldValue('motivo',newViatico.motivo);
+                          setFieldValue('inforact', newViatico.inforAct);
+                          
+                          //values.noviat = newViatico.noViat;
+                          //alert('Viatico creado exitosamente!!');
+        
+                         
+                          alert(`Viatico generado con el numero: ${newViatico.noViat}`);
+                          setStatus('submitted');
+                          setSubmitting(false);
+                        })
+                    }).catch((error) => {
+                      alert(error);
+                    }).finally(() => setSubmitting(false));
+               
+
+                  //console.log({viaticoProcesado});
+                  //console.log({partidaProcesada});
                   
-                  
-                  setFieldValue('noViat', newViatico.noViat);
-                  setFieldValue('fecha',new Date());
-                  setFieldValue('estatus',1);
-                  setFieldValue('fechasal', new Date(newViatico.fechaSal));
-                  setFieldValue('fechareg', new Date(newViatico.fechaReg));
-                  setFieldValue('dias', newViatico.dias);
-                  setFieldValue('origenid',newViatico.origenId);
-                  setFieldValue('destinoid',newViatico.destinoId);
-                  setFieldValue('motivo',newViatico.motivo);
-                  setFieldValue('inforact', newViatico.inforAct);
-                  
-                  //values.noviat = newViatico.noViat;
-                  //alert('Viatico creado exitosamente!!');
-                  //await startAddNewViatico( newViatico );
-                  // await startAddNewPartidas( newPartida );
-                  setSubmitting(false);
-                  //alert(`Viatico generado con el numero: ${newViatico.noViat}`);
+
               }}
               
               enableReinitialize={ true }
               
           >
             {
-              ({ values, setFieldValue, isSubmitting }) => (
+              ({ values, setFieldValue, isSubmitting, status }) => (
                 
-                isSubmitting ? <Loading/>
-                :
                 <Form>
                 <div className="container">
                     <div className="row gx-4">
@@ -286,6 +277,7 @@ let initialValues = {} as Props;
                           <Field 
                               name="idoficina" 
                               as="select" 
+                              disabled={isSubmitting}
                               className="form-select text-uppercase"
                           >
                             {
@@ -313,6 +305,8 @@ let initialValues = {} as Props;
                               name="fecha"
                               title="fecha"
                               className="form-control"
+                              dateFormat="dd/MM/yyyy"
+                              disabled={isSubmitting}
                               selected={ values.fecha } 
                               onChange={
                                 ( date:any ) => setFieldValue('fecha', date)
@@ -340,7 +334,6 @@ let initialValues = {} as Props;
                     </div>
 
                     <div className="row gx-4 mt-3">
-                      
                       <div className="col">
                         <div className="form-floating">
                           <div className="p-0">
@@ -350,6 +343,7 @@ let initialValues = {} as Props;
                                 className="form-control"
                                 selected={ values.fechasal }
                                 dateFormat="dd/MM/yyyy"
+                                disabled={isSubmitting}
                                 onChange={
                                   ( date:any ) => 
                                     { 
@@ -372,6 +366,7 @@ let initialValues = {} as Props;
                                 className="form-control"
                                 minDate={ values.fechasal }
                                 selected={ values.fechareg }
+                                disabled={isSubmitting}
                                 dateFormat="dd/MM/yyyy"
                                 onChange={
                                   ( date:any ) =>
@@ -406,6 +401,7 @@ let initialValues = {} as Props;
                               title="origenid" 
                               name="origenid" 
                               as="select" 
+                              disabled={isSubmitting}
                               className="form-control text-uppercase"
                           >
                             <option value="1">Mexicali</option>
@@ -421,6 +417,7 @@ let initialValues = {} as Props;
                           <Field 
                             name="destinoid" 
                             as="select" 
+                            disabled={isSubmitting}
                             className="form-control text-uppercase"
                             onChange={ ( event:any ) => {
                                 setFieldValue('destinoid', event.target.value );
@@ -462,6 +459,7 @@ let initialValues = {} as Props;
                               className="form-control text-uppercase" 
                               placeholder="Titulo de la Comision" 
                               style={{ fontSize: '14px'}}
+                              disabled={isSubmitting}
                               name="motivo"
                               as="textarea"
                               
@@ -479,6 +477,7 @@ let initialValues = {} as Props;
                             <Field 
                                 className="form-control text-uppercase" 
                                 placeholder="Actividades" 
+                                disabled={isSubmitting}
                                 name="inforact"
                                 as="textarea"
                                 style={{ height: '100px', fontSize: '14px'}}
@@ -519,8 +518,13 @@ let initialValues = {} as Props;
                           
                 </div> {/* */}
                 <div className="container mb-5">
-                    <button type="submit" disabled={isSubmitting} className="btn btn-outline-primary m-2 guinda">{ isSubmitting? 'Procesando' : 'Guardar'}</button>
+                    <button type="submit" disabled={isSubmitting} className="btn btn-outline-primary m-2 guinda">
+                      { isSubmitting? 'Procesando' : isModificarViatico? 'Modificar' : 'Guardar'}
+                    </button>
                     <button disabled={isModificarViatico} className="btn btn-outline-primary guinda" type="reset">Limpiar</button>
+                    {
+                      status === 'submitted' ? <p>Procesado</p>: <p></p>
+                    }
                 </div>
                 {/* <Link to={`/formato-comision/${1}/${2022}/${2}` } target="_blank">asfjifj</Link> */}
             </Form>

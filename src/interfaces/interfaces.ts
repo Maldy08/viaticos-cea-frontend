@@ -54,7 +54,7 @@ export interface Viaticos {
   cajaVale:number;
   cajaRepo:number;
   noEmpCrea:number;
-  inforResult:string;
+  inforResul:string;
 
 }
 

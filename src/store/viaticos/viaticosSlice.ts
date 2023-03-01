@@ -31,6 +31,9 @@ export const viaticosSlice = createSlice({
         onAddNewViatico: ( state, { payload }) => {
             state.isLoading = false;
             state.viatico = payload;
+
+            //console.log(payload);
+            //state.viatico = payload;
             
         },
         onGetFormatoComision: ( state, { payload }) => {
