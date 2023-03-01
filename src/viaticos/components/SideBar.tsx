@@ -13,7 +13,7 @@ export const SideBar = () => {
                       <li className="nav-item">
                         <NavLink className={ ({ isActive }) => isActive ? 'nav-active nav-link blanco': 'nav-link guinda' } to='/capturar-viatico'>
                           <i className="fa-solid fa-file mr-3"></i>
-                           <span className='m-1'>Capturar</span>
+                            <span className='m-1'>Capturar</span>
                         </NavLink>
                       </li>
 {/*                       <li className="nav-item">
