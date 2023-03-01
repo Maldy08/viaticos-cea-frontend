@@ -231,9 +231,9 @@ let initialValues = {} as Props;
                   //console.log( newViatico );
                   //console.log( newPartida );
                   setSubmitting(true);
+
                   if(isModificarViatico) {
-                    
-                  
+
                     const updateViatico = {
                       oficina:values.idoficina,
                       ejercicio: values.ejercicio,
@@ -268,8 +268,7 @@ let initialValues = {} as Props;
                   }
                  
                   else {
-                    console.log('agregar');
-                    return;
+
                     await startAddNewViatico( newViatico ).then( () => {
                         startAddNewPartidas( newPartida ).then( () => {
                           setFieldValue('noViat', newViatico.noViat);
@@ -285,7 +284,6 @@ let initialValues = {} as Props;
                           
                           //values.noviat = newViatico.noViat;
                           //alert('Viatico creado exitosamente!!');
-        
                          
                           alert(`Viatico generado con el numero: ${newViatico.noViat}`);
                           setStatus('submitted');
@@ -298,8 +296,6 @@ let initialValues = {} as Props;
                   }
                   //console.log({viaticoProcesado});
                   //console.log({partidaProcesada});
-                  
-
               }}
               
               enableReinitialize={ true }
