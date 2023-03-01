@@ -48,7 +48,7 @@ export const CapturarViaticos = () => {
   const { empleado, startLoadingEmpleadoById } = useEmpleadosStore();
   // const { openEmpleadosModal, empleadoModalSelected, isModificarViatico, ViaticoModificar } = useUiStore();
   const { startAddNewPartidas } = usePartidasStore();
-  const { startGetConsecutivo, isLoading: isLoadingViatico, startAddNewViatico, startGetViaticoByEjercicioOficinaNoviat, viatico } = useViaticosStore();
+  const { startGetConsecutivo, isLoading: isLoadingViatico, startAddNewViatico, startGetViaticoByEjercicioOficinaNoviat, viatico, startUpdateViatico } = useViaticosStore();
 
   const importeViaticoDentroEstadoNivel1 = 230;
   const importeViaticoFueraEstadoNivel1 = 430;
@@ -231,6 +231,45 @@ let initialValues = {} as Props;
                   //console.log( newViatico );
                   //console.log( newPartida );
                   setSubmitting(true);
+                  if(isModificarViatico) {
+                    
+                  
+                    const updateViatico = {
+                      oficina:values.idoficina,
+                      ejercicio: values.ejercicio,
+                      noViat:values.noViat,
+                      fecha: new Date(values.fecha),
+                      origenId: values.origenid,
+                      destinoId: values.destinoid,
+                      motivo: values.motivo,
+                      fechaSal: new Date(values.fechasal),
+                      fechaReg: new Date(values.fechareg),
+                      dias: values.dias,
+                      inforFecha: new Date(values.fechareg),
+                      inforAct: values.inforact,
+                      fechaMod: new Date(values.fecha),
+                      inforResul:'LAS ACTIVIDADES QUE SE ASIGNARON EN LA COMISION FUERON REALIZADAS SATISFACTORIAMENTE'
+                  } as Viaticos;
+
+
+                    await startUpdateViatico( updateViatico ).then( () => {
+                    
+                      alert('Viatico actualizado correctamente!');
+
+                      setStatus('submitted');
+                      setSubmitting(false);
+                      return ;
+
+                    }).catch( (error) => {
+                      alert( error );
+                    }).finally( () => setSubmitting( false ));
+
+                    
+                  }
+                 
+                  else {
+                    console.log('agregar');
+                    return;
                     await startAddNewViatico( newViatico ).then( () => {
                         startAddNewPartidas( newPartida ).then( () => {
                           setFieldValue('noViat', newViatico.noViat);
@@ -256,7 +295,7 @@ let initialValues = {} as Props;
                       alert(error);
                     }).finally(() => setSubmitting(false));
                
-
+                  }
                   //console.log({viaticoProcesado});
                   //console.log({partidaProcesada});
                   

@@ -2,7 +2,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { viaticosApi } from "../api";
 import { Viaticos } from "../interfaces/interfaces";
 import { RootState } from "../store/store"
-import { onAddNewViatico, onGetConsecutivo, onGetFormatoComision, onGetViaticoEjercicioOficinaNoviat, onListViaticosByEmpleado } from "../store/viaticos/viaticosSlice";
+import { onAddNewViatico, onGetConsecutivo, onGetFormatoComision, onGetViaticoEjercicioOficinaNoviat, onListViaticosByEmpleado, onUpdateViatico } from "../store/viaticos/viaticosSlice";
 
 
 export const useViaticosStore = () => {
@@ -84,6 +84,20 @@ export const useViaticosStore = () => {
         }
     }
 
+    const startUpdateViatico = async (viatico: Viaticos ) => {
+
+        try {
+            const { data } = await viaticosApi.put(`/Viaticos`,viatico);
+            dispatch( onUpdateViatico( { ...data}));
+
+        } catch (error) {
+            console.log(error);
+            throw new Error("Error");
+            
+        }
+
+    }
+
     return {
         isLoading,
         consecutivo,
@@ -95,7 +109,8 @@ export const useViaticosStore = () => {
         startGetConsecutivo,
         startAddNewViatico,
         startGetFormatoComision,
-        startGetViaticoByEjercicioOficinaNoviat
+        startGetViaticoByEjercicioOficinaNoviat,
+        startUpdateViatico
     }
 
 

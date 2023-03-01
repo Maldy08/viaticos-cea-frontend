@@ -43,9 +43,23 @@ export const viaticosSlice = createSlice({
         onGetViaticoEjercicioOficinaNoviat: (state, { payload }) => {
             state.isLoading = false;
             state.viatico = payload;
-        }
+        },
+
+        onUpdateViatico: (state, { payload }) => {
+            state.isLoading = false;
+            state.viatico = payload;
+        },
     }
     
 });
 
-export const { onListViaticosByEmpleado, onGetConsecutivo ,onError, onAddNewViatico, onGetFormatoComision, onGetViaticoEjercicioOficinaNoviat } = viaticosSlice.actions;
+export const { 
+    onListViaticosByEmpleado, 
+    onGetConsecutivo,
+    onError, 
+    onAddNewViatico, 
+    onGetFormatoComision, 
+    onGetViaticoEjercicioOficinaNoviat,
+    onUpdateViatico,
+    
+} = viaticosSlice.actions;
