@@ -26,6 +26,12 @@
     border-color: #f7f7f7 !important;
 }
 
+.guinda:disabled{
+    color:#9c294b;
+    background-color: #f7f7f7;
+    border-color: #9c294b;
+}
+
 .guinda:active{
     background-color: #531326 !important;
     color: #f7f7f7 ;

@@ -49,7 +49,6 @@ export const useViaticosStore = () => {
 
             const { data: viatico } = await viaticosApi.post<Viaticos>(`/Viaticos`, data );
             dispatch( onAddNewViatico( { ...viatico } ) )
-          
             //console.log({viatico});
             
         } catch (error) {

@@ -71,7 +71,7 @@ export const CapturarViaticos = () => {
 let initialValues = {} as Props;
 
   if(Object.keys(viatico).length !== 0) {
-    
+    console.log("Dentro del if de Object.keys(viatico).length");
       initialValues.idoficina = viatico.oficina;
       initialValues.ejercicio = viatico.ejercicio;
       initialValues.fecha = new Date(viatico.fecha);
@@ -101,10 +101,10 @@ let initialValues = {} as Props;
       initialValues.inforact = "";
   }
 
-  
  const onClickCatalogoEmpleados = () => {
    // openEmpleadosModal();
  }
+
 
 //  if( empleadoModalSelected !== 0 ) {
 //     noEmpleado = empleado.empleado;
@@ -185,13 +185,13 @@ let initialValues = {} as Props;
               }
               
               
-              onSubmit={ async ( values, { setSubmitting,setFieldValue, setStatus, } ) => {
-                 
+              onSubmit={ async ( values, { setSubmitting,setFieldValue, setStatus, resetForm } ) => {
                  // await new Promise( resolve => setTimeout(resolve, 3000));
             
-
                   const consecutivo = await startGetConsecutivo( values.ejercicio, values.idoficina );
                   const { noEmpleado:empCrea } = useLocalData()
+
+                  
 
                   const newViatico = {
                       oficina:values.idoficina,
@@ -201,12 +201,12 @@ let initialValues = {} as Props;
                       noEmp: empleado.empleado,
                       origenId: values.origenid,
                       destinoId: values.destinoid,
-                      motivo: values.motivo,
+                      motivo: values.motivo.toUpperCase(),
                       fechaSal: new Date(values.fechasal),
                       fechaReg: new Date(values.fechareg),
                       dias: values.dias,
                       inforFecha: new Date(values.fechareg),
-                      inforAct: values.inforact,
+                      inforAct: values.inforact.toUpperCase(),
                       nota:'nada',
                       estatus:1,
                       pol:0,
@@ -228,12 +228,8 @@ let initialValues = {} as Props;
 
                   } as ViaticosPart;
                     
-                  //console.log( newViatico );
-                  //console.log( newPartida );
                   setSubmitting(true);
-
                   if(isModificarViatico) {
-
                     const updateViatico = {
                       oficina:values.idoficina,
                       ejercicio: values.ejercicio,
@@ -251,7 +247,6 @@ let initialValues = {} as Props;
                       inforResul:'LAS ACTIVIDADES QUE SE ASIGNARON EN LA COMISION FUERON REALIZADAS SATISFACTORIAMENTE'
                   } as Viaticos;
 
-
                     await startUpdateViatico( updateViatico ).then( () => {
                     
                       alert('Viatico actualizado correctamente!');
@@ -268,9 +263,11 @@ let initialValues = {} as Props;
                   }
                  
                   else {
-
                     await startAddNewViatico( newViatico ).then( () => {
+                      
                         startAddNewPartidas( newPartida ).then( () => {
+                          
+                        
                           setFieldValue('noViat', newViatico.noViat);
                           setFieldValue('fecha',new Date(newViatico.fecha));
                           setFieldValue('estatus',1);
@@ -282,20 +279,24 @@ let initialValues = {} as Props;
                           setFieldValue('motivo',newViatico.motivo);
                           setFieldValue('inforact', newViatico.inforAct);
                           
-                          //values.noviat = newViatico.noViat;
-                          //alert('Viatico creado exitosamente!!');
-                         
                           alert(`Viatico generado con el numero: ${newViatico.noViat}`);
+                          
+
+                          window.open( "formato-comision/"+ newViatico.oficina + "/" + newViatico.ejercicio + "/" + newViatico.noViat ,  '_blank');
+                          window.open( "recibo-viatico/"+ newViatico.oficina + "/" + newViatico.ejercicio + "/" + newViatico.noViat ,  '_blank');
+                          window.open( "informe-actividades/"+ newViatico.oficina + "/" + newViatico.ejercicio + "/" + newViatico.noViat ,  '_blank');
+                          resetForm();
+                          
                           setStatus('submitted');
-                          setSubmitting(false);
+                          
+                          //setSubmitting(false);
+              
                         })
                     }).catch((error) => {
                       alert(error);
-                    }).finally(() => setSubmitting(false));
-               
+                    }).finally(() => {
+                      setSubmitting(false)});
                   }
-                  //console.log({viaticoProcesado});
-                  //console.log({partidaProcesada});
               }}
               
               enableReinitialize={ true }
@@ -553,7 +554,7 @@ let initialValues = {} as Props;
                           
                 </div> {/* */}
                 <div className="container mb-5">
-                    <button type="submit" disabled={isSubmitting} className="btn btn-outline-primary m-2 guinda">
+                    <button type="submit" disabled={isSubmitting} className="btn btn-outline-primary m-2 guinda" >
                       { isSubmitting? 'Procesando' : isModificarViatico? 'Modificar' : 'Guardar'}
                     </button>
                     <button disabled={isModificarViatico} className="btn btn-outline-primary guinda" type="reset">Limpiar</button>

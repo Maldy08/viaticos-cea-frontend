@@ -30,7 +30,7 @@ export const viaticosSlice = createSlice({
         },
         onAddNewViatico: ( state, { payload }) => {
             state.isLoading = false;
-            state.viatico = payload;
+            state.viatico = viatico;
 
             //console.log(payload);
             //state.viatico = payload;
