@@ -166,7 +166,7 @@ let initialValues = {} as Props;
         {/* //TODO: Envolver en un Form */}
         <Formik
 
-             initialValues={initialValues}
+            initialValues={initialValues}
             
               
               validationSchema={
@@ -288,9 +288,6 @@ let initialValues = {} as Props;
                           resetForm();
                           
                           setStatus('submitted');
-                          
-                          //setSubmitting(false);
-              
                         })
                     }).catch((error) => {
                       alert(error);
