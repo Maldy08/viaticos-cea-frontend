@@ -294,6 +294,12 @@ let initialValues = {} as Props;
                           setFieldValue('inforact', "");
                           setStatus('submitted');
                           setSubmitting(false);
+                          
+                          window.open( "formato-comision/"+ newViatico.oficina + "/" + newViatico.ejercicio + "/" + newViatico.noViat ,  '_blank');
+                          window.open( "recibo-viatico/"+ newViatico.oficina + "/" + newViatico.ejercicio + "/" + newViatico.noViat ,  '_blank');
+                          window.open( "informe-actividades/"+ newViatico.oficina + "/" + newViatico.ejercicio + "/" + newViatico.noViat ,  '_blank');
+                          //resetForm();
+                          
                           return;
 
                     }).catch((error) => {
