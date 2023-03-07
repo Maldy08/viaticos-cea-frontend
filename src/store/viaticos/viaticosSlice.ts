@@ -30,7 +30,7 @@ export const viaticosSlice = createSlice({
         },
         onAddNewViatico: ( state, { payload }) => {
             state.isLoading = false;
-            state.viatico = payload;
+            state.viatico = viatico;
 
             //console.log(payload);
             //state.viatico = payload;
@@ -47,7 +47,13 @@ export const viaticosSlice = createSlice({
 
         onUpdateViatico: (state, { payload }) => {
             state.isLoading = false;
-            state.viatico = payload;
+            state.viatico = viatico;
+        },
+        onResetData: (state) => {
+            state.listviaticos = [];
+            state.formatoComision = formatoComision;
+            state.viatico = viatico;
+            state.consecutivo = consecutivo;
         },
     }
     
@@ -61,5 +67,6 @@ export const {
     onGetFormatoComision, 
     onGetViaticoEjercicioOficinaNoviat,
     onUpdateViatico,
+    onResetData,
     
 } = viaticosSlice.actions;

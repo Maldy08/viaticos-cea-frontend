@@ -137,7 +137,7 @@ interface DataRow {
     },
     { 
       name: 'Estatus',
-      selector: row => row.estatus,
+      selector: row => row.estatus == '1' ? 'Creado' : row.estatus == '2'? 'Pagado de C.C' : row.estatus == '3'? 'Registrado en Cont.' : row.estatus == '4'? 'Pagado en Cont.' : '',
       sortable: true,
     }
   ]

@@ -1,12 +1,15 @@
 import { useEffect } from "react";
-import { useAuthStore } from "../../hooks";
+import { useAuthStore, useViaticosStore } from "../../hooks";
 
 
 export const CerrarSesion = () => {
     const { startLogOut, status } = useAuthStore();
+    const { startResetData } = useViaticosStore();
     useEffect( ()  => {
        setTimeout( () => {
+           startResetData();
            startLogOut();
+           
        },2000);
     }, []);
     return (

@@ -185,7 +185,7 @@ let initialValues = {} as Props;
               }
               
               
-              onSubmit={ async ( values, { setSubmitting,setFieldValue, setStatus, } ) => {
+              onSubmit={ async ( values, { setSubmitting,setFieldValue, setStatus, resetForm } ) => {
                  
                  // await new Promise( resolve => setTimeout(resolve, 3000));
             
@@ -255,7 +255,16 @@ let initialValues = {} as Props;
                     await startUpdateViatico( updateViatico ).then( () => {
                     
                       alert('Viatico actualizado correctamente!');
-
+                      setFieldValue('noViat', 0);
+                      setFieldValue('fecha',new Date());
+                      setFieldValue('estatus',0);
+                      setFieldValue('fechasal', new Date());
+                      setFieldValue('fechareg', new Date());
+                      setFieldValue('dias', 1);
+                      setFieldValue('origenid',empleado.municipio);
+                      setFieldValue('destinoid',0);
+                      setFieldValue('motivo',"");
+                      setFieldValue('inforact', "");
                       setStatus('submitted');
                       setSubmitting(false);
                       return ;
@@ -270,25 +279,23 @@ let initialValues = {} as Props;
                   else {
 
                     await startAddNewViatico( newViatico ).then( () => {
-                        startAddNewPartidas( newPartida ).then( () => {
-                          setFieldValue('noViat', newViatico.noViat);
-                          setFieldValue('fecha',new Date(newViatico.fecha));
-                          setFieldValue('estatus',1);
-                          setFieldValue('fechasal', new Date(newViatico.fechaSal));
-                          setFieldValue('fechareg', new Date(newViatico.fechaReg));
-                          setFieldValue('dias', newViatico.dias);
-                          setFieldValue('origenid',newViatico.origenId);
-                          setFieldValue('destinoid',newViatico.destinoId);
-                          setFieldValue('motivo',newViatico.motivo);
-                          setFieldValue('inforact', newViatico.inforAct);
-                          
-                          //values.noviat = newViatico.noViat;
-                          //alert('Viatico creado exitosamente!!');
-                         
+                        
+                      startAddNewPartidas( newPartida );
                           alert(`Viatico generado con el numero: ${newViatico.noViat}`);
+                          setFieldValue('noViat', 0);
+                          setFieldValue('fecha',new Date());
+                          setFieldValue('estatus',0);
+                          setFieldValue('fechasal', new Date());
+                          setFieldValue('fechareg', new Date());
+                          setFieldValue('dias', 1);
+                          setFieldValue('origenid',empleado.municipio);
+                          setFieldValue('destinoid',0);
+                          setFieldValue('motivo',"");
+                          setFieldValue('inforact', "");
                           setStatus('submitted');
                           setSubmitting(false);
-                        })
+                          return;
+
                     }).catch((error) => {
                       alert(error);
                     }).finally(() => setSubmitting(false));
@@ -312,7 +319,7 @@ let initialValues = {} as Props;
                           <Field 
                               name="idoficina" 
                               as="select" 
-                              disabled={isSubmitting}
+                              disabled={true}
                               className="form-select text-uppercase"
                           >
                             {
