@@ -32,17 +32,17 @@ export const TableListadoViaticos = ( { ejercicio, empleado }: Props ) => {
 
 const abrirComision = (oficina: number, ejercicio: number, noViatico: number) => {
     const link = "formato-comision/"+ oficina +"/" + ejercicio +"/" + noViatico;
-  window.open(link, '_blank');
+  window.open(link, '_blank', 'location=yes,height=570,width=520,scrollbars=yes,status=yes');
 }
 
 const abrirRecibo = (oficina: number, ejercicio: number, noViatico: number) => {
   const link = "recibo-viatico/"+ oficina +"/" + ejercicio +"/" + noViatico;
-  window.open(link, '_blank');
+  window.open(link, '_blank', 'location=yes,height=570,width=520,scrollbars=yes,status=yes');
 }
 
 const abrirInforme = (oficina: number, ejercicio: number, noViatico: number) => {
   const link = "informe-actividades/"+ oficina +"/" + ejercicio +"/" + noViatico;
-  window.open(link, '_blank');
+  window.open(link, '_blank', 'location=yes,height=570,width=520,scrollbars=yes,status=yes');
 }
 
 const onModificarViatico = (oficina: number, ejercicio: number, noViatico: number) => {
