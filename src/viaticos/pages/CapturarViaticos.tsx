@@ -295,9 +295,9 @@ let initialValues = {} as Props;
                           setStatus('submitted');
                           setSubmitting(false);
                           
-                          window.open( "formato-comision/"+ newViatico.oficina + "/" + newViatico.ejercicio + "/" + newViatico.noViat ,  '_blank');
-                          window.open( "recibo-viatico/"+ newViatico.oficina + "/" + newViatico.ejercicio + "/" + newViatico.noViat ,  '_blank');
-                          window.open( "informe-actividades/"+ newViatico.oficina + "/" + newViatico.ejercicio + "/" + newViatico.noViat ,  '_blank');
+                          window.open( "formato-comision/"+ newViatico.oficina + "/" + newViatico.ejercicio + "/" + newViatico.noViat ,  '_blank', 'location=yes,height=570,width=520,scrollbars=yes,status=yes');
+                          window.open( "recibo-viatico/"+ newViatico.oficina + "/" + newViatico.ejercicio + "/" + newViatico.noViat ,  '_blank', 'location=yes,height=570,width=520,scrollbars=yes,status=yes');
+                          window.open( "informe-actividades/"+ newViatico.oficina + "/" + newViatico.ejercicio + "/" + newViatico.noViat ,  '_blank', 'location=yes,height=570,width=520,scrollbars=yes,status=yes');
                           //resetForm();
                           
                           return;
