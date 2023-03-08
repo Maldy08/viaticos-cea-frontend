@@ -16,7 +16,8 @@ import { useCiudadesStore,
 import { Viaticos, ViaticosPart } from "../../interfaces/interfaces";
 import { ViaticosLayout } from "../layout/ViaticosLayout"
 
-import { getDays } from '../../helpers';
+import { getDays, importePorDias } from '../../helpers';
+
 import "react-datepicker/dist/react-datepicker.css";
 import '../styles/CapturarViaticos.css';
 import { onModificarViatico } from "../../store/ui/uiSlice";
@@ -121,17 +122,7 @@ let initialValues = {} as Props;
   
   }
 
-  const importePorDias = ( dias:number ): number => {
-
-    let importeViatico: number;
-    if( fueraDelEstado ) {
-       importeViatico = empleado.nivel < 17 ? importeViaticoFueraEstadoNivel1 * dias : importeViaticoFueraEstadoNivel2 * dias;
-    } else {
-       importeViatico = empleado.nivel < 17 ? importeViaticoDentroEstadoNivel1 * dias : importeViaticoDentroEstadoNivel2 * dias;
-    }
-
-    return importeViatico;
-  }
+  // importePorDias(dias,empleado.nivel,fueraDelEstado);
 
   return (
     <ViaticosLayout>
@@ -222,7 +213,7 @@ let initialValues = {} as Props;
                   const newPartida = {
                     partida:37501,
                     ejercicio: 2023,
-                    importe: importePorDias( values.dias ),
+                    importe: importePorDias( values.dias,empleado.nivel,fueraDelEstado ),
                     noviat: consecutivo + 1,
                     oficina: values.idoficina
 
@@ -421,7 +412,7 @@ let initialValues = {} as Props;
                                     { 
                                     setFieldValue('fechareg', date );
                                     setFieldValue('dias', getDays( values.fechasal, date ) );
-                                    importePorDias( getDays( values.fechasal, date ) );
+                                    importePorDias( (getDays( values.fechasal, date )),empleado.nivel,fueraDelEstado );
                                     
                                   }
                                 }
@@ -553,7 +544,7 @@ let initialValues = {} as Props;
                             <tr>
                               <td>37501</td>
                               <td>VIATICOS EN EL PAIS</td>
-                              <td>{ importePorDias( values.dias ) }</td>
+                              <td>{ importePorDias( values.dias,empleado.nivel,fueraDelEstado ) }</td>
                               <td>{ values.idoficina }</td>
                               <td>{ values.ejercicio }</td>
                               <td>{ values.noViat }</td>
