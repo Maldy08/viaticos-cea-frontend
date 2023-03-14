@@ -192,12 +192,12 @@ let initialValues = {} as Props;
                       noEmp: empleado.empleado,
                       origenId: values.origenid,
                       destinoId: values.destinoid,
-                      motivo: values.motivo,
+                      motivo: values.motivo.toUpperCase(),
                       fechaSal: new Date(values.fechasal),
                       fechaReg: new Date(values.fechareg),
                       dias: values.dias,
                       inforFecha: new Date(values.fechareg),
-                      inforAct: values.inforact,
+                      inforAct: values.inforact.toUpperCase(),
                       nota:'nada',
                       estatus:1,
                       pol:0,
@@ -207,7 +207,7 @@ let initialValues = {} as Props;
                       cajaVale:0,
                       cajaRepo:0,
                       noEmpCrea:empCrea,
-                      inforResul:'LAS ACTIVIDADES QUE SE ASIGNARON EN LA COMISION FUERON REALIZADAS SATISFACTORIAMENTE'
+                      inforResul:'*LAS ACTIVIDADES QUE SE ASIGNARON EN LA COMISION FUERON REALIZADAS SATISFACTORIAMENTE'
                   } as Viaticos;
 
                   const newPartida = {
