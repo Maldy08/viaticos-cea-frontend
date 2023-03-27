@@ -42,7 +42,7 @@ export const CapturarViaticos = () => {
 //idoficina,ejercicio,fecha,estatus,noViat,fechasal,fechareg,dias,origenid,destinoid,motivo,inforact
   let fueraDelEstado: boolean;
   let isModificarViatico = false;
- 
+  
   let { noEmpleado, nombreCompleto, deptoDescripcion, descripcionPuesto, oficina } = useLocalData();
   const { isLoading ,oficinas, startLoadingOficinas } = useOficinasStore();
   const { isLoading: isLoadingCiudades, startLoadingCiudades, ciudades } = useCiudadesStore();
@@ -50,12 +50,6 @@ export const CapturarViaticos = () => {
   // const { openEmpleadosModal, empleadoModalSelected, isModificarViatico, ViaticoModificar } = useUiStore();
   const { startAddNewPartidas } = usePartidasStore();
   const { startGetConsecutivo, isLoading: isLoadingViatico, startAddNewViatico, startGetViaticoByEjercicioOficinaNoviat, viatico, startUpdateViatico } = useViaticosStore();
-
-  const importeViaticoDentroEstadoNivel1 = 230;
-  const importeViaticoFueraEstadoNivel1 = 430;
-  const importeViaticoDentroEstadoNivel2 = 260;
-  const importeViaticoFueraEstadoNivel2 = 450;
-
     
   useEffect(() => {
      startLoadingOficinas();
@@ -122,7 +116,6 @@ let initialValues = {} as Props;
   
   }
 
-  // importePorDias(dias,empleado.nivel,fueraDelEstado);
 
   return (
     <ViaticosLayout>

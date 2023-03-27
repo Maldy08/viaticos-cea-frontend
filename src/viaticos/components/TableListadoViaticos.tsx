@@ -9,6 +9,19 @@ import '../styles/ListadoViaticos.css';
 import { Button } from 'reactstrap';
 import { useUiStore } from "../../hooks";
 import { Navigate, useNavigate } from "react-router-dom";
+import { ReciboViaticos } from "../pages";
+// import Pruebapdf from "./Pruebapdf"
+import { PDFDownloadLink, Document, Page, Text, View } from '@react-pdf/renderer';
+
+const Pruebapdf = () => (
+        <Document>
+            <Page size="A4">
+              <View>
+                <Text> Lorem ipsum dolor sit amet consectetur adipisicing elit. Libero recusandae laudantium placeat, perspiciatis ipsa ex alias dicta accusantium atque expedita rerum aut vel. Quasi, cum delectus. Voluptate repellendus quae laboriosam. </Text>
+              </View>
+            </Page>
+        </Document>
+);
 
 
 interface Props {
@@ -31,8 +44,11 @@ export const TableListadoViaticos = ( { ejercicio, empleado }: Props ) => {
 
 
 const abrirComision = (oficina: number, ejercicio: number, noViatico: number) => {
-    const link = "formato-comision/"+ oficina +"/" + ejercicio +"/" + noViatico;
-  window.open(link, '_blank', 'location=yes,height=570,width=520,scrollbars=yes,status=yes');
+  <PDFDownloadLink document={<Pruebapdf/>} fileName="somename.pdf">
+      {({ blob, url, loading, error }) =>
+        loading ? 'Loading document...' : 'Download now!'
+      }
+    </PDFDownloadLink>
 }
 
 const abrirRecibo = (oficina: number, ejercicio: number, noViatico: number) => {
@@ -109,7 +125,10 @@ interface DataRow {
         Formatos
       </DropdownToggle>
       <DropdownMenu container={'body'}>
-        <DropdownItem onClick={() => abrirComision(row.oficina,row.ejercicio,row.viatico)}>Formato Comisión</DropdownItem>
+        <PDFDownloadLink document={<Pruebapdf/>} fileName="somename.pdf">
+          <DropdownItem>Formato Comisión</DropdownItem>
+        </PDFDownloadLink>
+        {/* <DropdownItem onClick={() => abrirComision(row.oficina,row.ejercicio,row.viatico)}>Formato Comisión</DropdownItem> */}
         <DropdownItem onClick={() => abrirRecibo(row.oficina,row.ejercicio,row.viatico)}>Recibo Viatico</DropdownItem>
         <DropdownItem onClick={() => abrirInforme(row.oficina,row.ejercicio,row.viatico)}>Informe</DropdownItem>
       </DropdownMenu>
