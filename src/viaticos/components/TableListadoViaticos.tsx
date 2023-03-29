@@ -12,6 +12,7 @@ import { Navigate, useNavigate } from "react-router-dom";
 import { ReciboViaticos } from "../pages";
 // import Pruebapdf from "./Pruebapdf"
 import { PDFDownloadLink, Document, Page, Text, View } from '@react-pdf/renderer';
+import { number } from "yup/lib/locale";
 
 const Pruebapdf = () => (
         <Document>
@@ -43,22 +44,33 @@ export const TableListadoViaticos = ( { ejercicio, empleado }: Props ) => {
  }, [])
 
 
+ const abrirCompleto = (oficina: number, ejercicio: number, noViatico: number) => {
+  const element = document.createElement("a");
+  console.log("http://localhost:5250/api-viaticos/Pdf/TresFormatos?ejercicio="+ejercicio+"&oficina=" + oficina + "&noviat=" + noViatico);
+  element.href = "http://localhost:5250/api-viaticos/Pdf/TresFormatos?ejercicio="+ejercicio+"&oficina=" + oficina + "&noviat=" + noViatico;
+  element.download = "a.pdf";
+  element.click();
+}
+
 const abrirComision = (oficina: number, ejercicio: number, noViatico: number) => {
-  <PDFDownloadLink document={<Pruebapdf/>} fileName="somename.pdf">
-      {({ blob, url, loading, error }) =>
-        loading ? 'Loading document...' : 'Download now!'
-      }
-    </PDFDownloadLink>
+  const element = document.createElement("a");
+  element.href = "http://localhost:5250/api-viaticos/Pdf/FormatoComision?ejercicio="+ejercicio+"&oficina=" + oficina + "&noviat=" + noViatico;
+  element.download = "a.pdf";
+  element.click();
 }
 
 const abrirRecibo = (oficina: number, ejercicio: number, noViatico: number) => {
-  const link = "recibo-viatico/"+ oficina +"/" + ejercicio +"/" + noViatico;
-  window.open(link, '_blank', 'location=yes,height=570,width=520,scrollbars=yes,status=yes');
+  const element = document.createElement("a");
+  element.href = "http://localhost:5250/api-viaticos/Pdf/ReciboViatico?ejercicio="+ejercicio+"&oficina=" + oficina + "&noviat=" + noViatico;
+  element.download = "a.pdf";
+  element.click();
 }
 
 const abrirInforme = (oficina: number, ejercicio: number, noViatico: number) => {
-  const link = "informe-actividades/"+ oficina +"/" + ejercicio +"/" + noViatico;
-  window.open(link, '_blank', 'location=yes,height=570,width=520,scrollbars=yes,status=yes');
+  const element = document.createElement("a");
+  element.href = "http://localhost:5250/api-viaticos/Pdf/InformeActividades?ejercicio="+ejercicio+"&oficina=" + oficina + "&noviat=" + noViatico;
+  element.download = "a.pdf";
+  element.click();
 }
 
 const onModificarViatico = (oficina: number, ejercicio: number, noViatico: number) => {
@@ -125,10 +137,8 @@ interface DataRow {
         Formatos
       </DropdownToggle>
       <DropdownMenu container={'body'}>
-        <PDFDownloadLink document={<Pruebapdf/>} fileName="somename.pdf">
-          <DropdownItem>Formato Comisión</DropdownItem>
-        </PDFDownloadLink>
-        {/* <DropdownItem onClick={() => abrirComision(row.oficina,row.ejercicio,row.viatico)}>Formato Comisión</DropdownItem> */}
+        <DropdownItem onClick={() => abrirCompleto(row.oficina,row.ejercicio,row.viatico)}>Formato Completo</DropdownItem>
+        <DropdownItem onClick={() => abrirComision(row.oficina,row.ejercicio,row.viatico)}>Formato Comisión</DropdownItem>
         <DropdownItem onClick={() => abrirRecibo(row.oficina,row.ejercicio,row.viatico)}>Recibo Viatico</DropdownItem>
         <DropdownItem onClick={() => abrirInforme(row.oficina,row.ejercicio,row.viatico)}>Informe</DropdownItem>
       </DropdownMenu>
