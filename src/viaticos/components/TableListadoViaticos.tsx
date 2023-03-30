@@ -4,25 +4,12 @@ import DataTable, { TableColumn } from "react-data-table-component";
 import 'styled-components';
 import { useViaticosStore } from "../../hooks/useViaticosStore";
 import 'bootstrap/dist/css/bootstrap.min.css'
-import { Dropdown, DropdownItem, DropdownMenu, DropdownToggle, Row, UncontrolledDropdown } from "reactstrap";
+import { DropdownItem, DropdownMenu, DropdownToggle, Row, UncontrolledDropdown } from "reactstrap";
 import '../styles/ListadoViaticos.css';
 import { Button } from 'reactstrap';
 import { useUiStore } from "../../hooks";
-import { Navigate, useNavigate } from "react-router-dom";
-import { ReciboViaticos } from "../pages";
-// import Pruebapdf from "./Pruebapdf"
-import { PDFDownloadLink, Document, Page, Text, View } from '@react-pdf/renderer';
-import { number } from "yup/lib/locale";
-
-const Pruebapdf = () => (
-        <Document>
-            <Page size="A4">
-              <View>
-                <Text> Lorem ipsum dolor sit amet consectetur adipisicing elit. Libero recusandae laudantium placeat, perspiciatis ipsa ex alias dicta accusantium atque expedita rerum aut vel. Quasi, cum delectus. Voluptate repellendus quae laboriosam. </Text>
-              </View>
-            </Page>
-        </Document>
-);
+import { useNavigate } from "react-router-dom";
+import { viaticosApiUrl } from "../../api/viaticosApi";
 
 
 interface Props {
@@ -30,14 +17,10 @@ interface Props {
   empleado:number;
 }
 
-
 export const TableListadoViaticos = ( { ejercicio, empleado }: Props ) => {
-
-  
  const { isLoading,listviaticos, startLoadingViaticosByEmpleado , startGetViaticoByEjercicioOficinaNoviat} = useViaticosStore();
  const { modificarViatico, setModificarViatico } = useUiStore();
  const navigate = useNavigate();
-  
 
  useEffect(() => {
    startLoadingViaticosByEmpleado( ejercicio, empleado );
@@ -46,29 +29,29 @@ export const TableListadoViaticos = ( { ejercicio, empleado }: Props ) => {
 
  const abrirCompleto = (oficina: number, ejercicio: number, noViatico: number) => {
   const element = document.createElement("a");
-  console.log("http://localhost:5250/api-viaticos/Pdf/TresFormatos?ejercicio="+ejercicio+"&oficina=" + oficina + "&noviat=" + noViatico);
-  element.href = "http://localhost:5250/api-viaticos/Pdf/TresFormatos?ejercicio="+ejercicio+"&oficina=" + oficina + "&noviat=" + noViatico;
+  
+  element.href = `${ viaticosApiUrl }/Pdf/TresFormatos?ejercicio=${ ejercicio }&oficina=${ oficina }&noviat=${ noViatico }`;
   element.download = "a.pdf";
   element.click();
 }
 
 const abrirComision = (oficina: number, ejercicio: number, noViatico: number) => {
   const element = document.createElement("a");
-  element.href = "http://localhost:5250/api-viaticos/Pdf/FormatoComision?ejercicio="+ejercicio+"&oficina=" + oficina + "&noviat=" + noViatico;
+  element.href = `${viaticosApiUrl}/Pdf/FormatoComision?ejercicio=${ ejercicio }&oficina=${ oficina }&noviat=${ noViatico }`;
   element.download = "a.pdf";
   element.click();
 }
 
 const abrirRecibo = (oficina: number, ejercicio: number, noViatico: number) => {
   const element = document.createElement("a");
-  element.href = "http://localhost:5250/api-viaticos/Pdf/ReciboViatico?ejercicio="+ejercicio+"&oficina=" + oficina + "&noviat=" + noViatico;
+  element.href = `${ viaticosApiUrl }/Pdf/ReciboViatico?ejercicio=${ ejercicio }&oficina=${ oficina }&noviat=${ noViatico }`;
   element.download = "a.pdf";
   element.click();
 }
 
 const abrirInforme = (oficina: number, ejercicio: number, noViatico: number) => {
   const element = document.createElement("a");
-  element.href = "http://localhost:5250/api-viaticos/Pdf/InformeActividades?ejercicio="+ejercicio+"&oficina=" + oficina + "&noviat=" + noViatico;
+  element.href = `${ viaticosApiUrl }/Pdf/InformeActividades?ejercicio=${ ejercicio }&oficina=${ oficina }&noviat=${ noViatico }`;
   element.download = "a.pdf";
   element.click();
 }
@@ -198,9 +181,6 @@ interface DataRow {
     selectAllRowsItem: true,
     selectAllRowsItemText: 'Todos'
   }
-
-
-  
 
   
   return (
