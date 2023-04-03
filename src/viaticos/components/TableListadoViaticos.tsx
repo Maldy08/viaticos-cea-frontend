@@ -26,35 +26,42 @@ export const TableListadoViaticos = ( { ejercicio, empleado }: Props ) => {
    startLoadingViaticosByEmpleado( ejercicio, empleado );
  }, [])
 
-
- const abrirCompleto = (oficina: number, ejercicio: number, noViatico: number) => {
+ 
+const abrirFormato = (formato:string, oficina: number, ejercicio: number, noViatico: number) => {
   const element = document.createElement("a");
+  element.href = `${viaticosApiUrl}/Pdf/${formato}?ejercicio=${ ejercicio }&oficina=${ oficina }&noviat=${ noViatico }`;
+  element.download = "a.pdf";
+  element.click();
+}
+
+//  const abrirCompleto = (oficina: number, ejercicio: number, noViatico: number) => {
+//   const element = document.createElement("a");
   
-  element.href = `${ viaticosApiUrl }/Pdf/TresFormatos?ejercicio=${ ejercicio }&oficina=${ oficina }&noviat=${ noViatico }`;
-  element.download = "a.pdf";
-  element.click();
-}
+//   element.href = `${ viaticosApiUrl }/Pdf/TresFormatos?ejercicio=${ ejercicio }&oficina=${ oficina }&noviat=${ noViatico }`;
+//   element.download = "a.pdf";
+//   element.click();
+// }
 
-const abrirComision = (oficina: number, ejercicio: number, noViatico: number) => {
-  const element = document.createElement("a");
-  element.href = `${viaticosApiUrl}/Pdf/FormatoComision?ejercicio=${ ejercicio }&oficina=${ oficina }&noviat=${ noViatico }`;
-  element.download = "a.pdf";
-  element.click();
-}
+// const abrirComision = (oficina: number, ejercicio: number, noViatico: number) => {
+//   const element = document.createElement("a");
+//   element.href = `${viaticosApiUrl}/Pdf/FormatoComision?ejercicio=${ ejercicio }&oficina=${ oficina }&noviat=${ noViatico }`;
+//   element.download = "a.pdf";
+//   element.click();
+// }
 
-const abrirRecibo = (oficina: number, ejercicio: number, noViatico: number) => {
-  const element = document.createElement("a");
-  element.href = `${ viaticosApiUrl }/Pdf/ReciboViatico?ejercicio=${ ejercicio }&oficina=${ oficina }&noviat=${ noViatico }`;
-  element.download = "a.pdf";
-  element.click();
-}
+// const abrirRecibo = (oficina: number, ejercicio: number, noViatico: number) => {
+//   const element = document.createElement("a");
+//   element.href = `${ viaticosApiUrl }/Pdf/ReciboViatico?ejercicio=${ ejercicio }&oficina=${ oficina }&noviat=${ noViatico }`;
+//   element.download = "a.pdf";
+//   element.click();
+// }
 
-const abrirInforme = (oficina: number, ejercicio: number, noViatico: number) => {
-  const element = document.createElement("a");
-  element.href = `${ viaticosApiUrl }/Pdf/InformeActividades?ejercicio=${ ejercicio }&oficina=${ oficina }&noviat=${ noViatico }`;
-  element.download = "a.pdf";
-  element.click();
-}
+// const abrirInforme = (oficina: number, ejercicio: number, noViatico: number) => {
+//   const element = document.createElement("a");
+//   element.href = `${ viaticosApiUrl }/Pdf/InformeActividades?ejercicio=${ ejercicio }&oficina=${ oficina }&noviat=${ noViatico }`;
+//   element.download = "a.pdf";
+//   element.click();
+// }
 
 const onModificarViatico = (oficina: number, ejercicio: number, noViatico: number) => {
   const link = "capturar-viatico/"+ oficina +"/" + ejercicio +"/" + noViatico;
@@ -120,10 +127,10 @@ interface DataRow {
         Formatos
       </DropdownToggle>
       <DropdownMenu container={'body'}>
-        <DropdownItem onClick={() => abrirCompleto(row.oficina,row.ejercicio,row.viatico)}>Formato Completo</DropdownItem>
-        <DropdownItem onClick={() => abrirComision(row.oficina,row.ejercicio,row.viatico)}>Formato Comisión</DropdownItem>
-        <DropdownItem onClick={() => abrirRecibo(row.oficina,row.ejercicio,row.viatico)}>Recibo Viatico</DropdownItem>
-        <DropdownItem onClick={() => abrirInforme(row.oficina,row.ejercicio,row.viatico)}>Informe</DropdownItem>
+        <DropdownItem onClick={() => abrirFormato("TresFormatos",row.oficina,row.ejercicio,row.viatico)}>Formato Completo</DropdownItem>
+        <DropdownItem onClick={() => abrirFormato("FormatoComision",row.oficina,row.ejercicio,row.viatico)}>Formato Comisión</DropdownItem>
+        <DropdownItem onClick={() => abrirFormato("ReciboViatico",row.oficina,row.ejercicio,row.viatico)}>Recibo Viatico</DropdownItem>
+        <DropdownItem onClick={() => abrirFormato("InformeActividades",row.oficina,row.ejercicio,row.viatico)}>Informe</DropdownItem>
       </DropdownMenu>
       </UncontrolledDropdown>
       

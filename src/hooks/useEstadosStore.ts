@@ -1,6 +1,6 @@
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../store/store';
-import viaticosApi from '../api/viaticosApi';
+import { viaticosApi } from '../api/viaticosApi';
 import { onGetEstadoById, onGetEstados } from '../store/estados/estadosSlice';
 
 

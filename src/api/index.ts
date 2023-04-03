@@ -1,1 +1,1 @@
-export { default as viaticosApi} from './viaticosApi';
+export { viaticosApi} from './viaticosApi';

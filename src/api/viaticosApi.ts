@@ -4,10 +4,10 @@ import axios from 'axios';
      //baseURL: 'http://localhost:5250/api-viaticos',
     // baseURL: 'http://172.31.74.243:7281/api-viaticos',
     //baseURL:'http://200.56.97.7:7281/api-viaticos',
-    baseURL: 'http://localhost:5250/api-viaticos'
+    baseURL: 'http://200.56.97.5:7281/api-viaticos'
 });
 
-const viaticosApiUrl = 'http://localhost:5250/api-viaticos';
+const viaticosApiUrl = 'http://200.56.97.5:7281/api-viaticos';
 
 
 export {
