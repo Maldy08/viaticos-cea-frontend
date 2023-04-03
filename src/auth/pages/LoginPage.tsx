@@ -64,7 +64,7 @@ export const LoginPage = () => {
                                     <div className="d-grid gap-2">
                                         <button 
                                             type="submit" 
-                                            className="btnSubmit"
+                                            className="btnSubmit text-uppercase"
                                             disabled={ disabled }
                                          >Iniciar Sesión
                                          </button>

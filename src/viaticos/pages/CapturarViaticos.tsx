@@ -21,6 +21,7 @@ import { getDays, importePorDias } from '../../helpers';
 import "react-datepicker/dist/react-datepicker.css";
 import '../styles/CapturarViaticos.css';
 import { onModificarViatico } from "../../store/ui/uiSlice";
+import { viaticosApiUrl } from "../../api/viaticosApi";
 
 interface Props {
   empleado:number;
@@ -114,6 +115,13 @@ let initialValues = {} as Props;
     const value = Number( event.target.value );
     value > 6 ? fueraDelEstado = true : fueraDelEstado = false;
   
+  }
+  
+  const abrirFormato = (oficina: number, ejercicio: number, noViatico: number) => {
+    const element = document.createElement("a");
+    element.href = `${viaticosApiUrl}/Pdf/TresFormatos?ejercicio=${ ejercicio }&oficina=${ oficina }&noviat=${ noViatico }`;
+    element.download = "a.pdf";
+    element.click();
   }
 
 
@@ -279,9 +287,7 @@ let initialValues = {} as Props;
                           setStatus('submitted');
                           setSubmitting(false);
                           
-                          window.open( "formato-comision/"+ newViatico.oficina + "/" + newViatico.ejercicio + "/" + newViatico.noViat ,  '_blank', 'location=yes,height=570,width=520,scrollbars=yes,status=yes');
-                          window.open( "recibo-viatico/"+ newViatico.oficina + "/" + newViatico.ejercicio + "/" + newViatico.noViat ,  '_blank', 'location=yes,height=570,width=520,scrollbars=yes,status=yes');
-                          window.open( "informe-actividades/"+ newViatico.oficina + "/" + newViatico.ejercicio + "/" + newViatico.noViat ,  '_blank', 'location=yes,height=570,width=520,scrollbars=yes,status=yes');
+                          abrirFormato(newViatico.oficina, newViatico.ejercicio, newViatico.noViat);
                           //resetForm();
                           
                           return;
@@ -490,7 +496,7 @@ let initialValues = {} as Props;
                             <Field
                               className="form-control text-uppercase" 
                               placeholder="Titulo de la Comision" 
-                              style={{ fontSize: '14px'}}
+                              style={{ fontSize: '14px', resize: 'none'}}
                               disabled={isSubmitting}
                               name="motivo"
                               as="textarea"
@@ -512,7 +518,7 @@ let initialValues = {} as Props;
                                 disabled={isSubmitting}
                                 name="inforact"
                                 as="textarea"
-                                style={{ height: '100px', fontSize: '14px'}}
+                                style={{ height: '100px', fontSize: '14px', resize: 'none'}}
                               />
                             <label htmlFor="inforact">Actividades</label>
                         </div>                       
@@ -551,7 +557,7 @@ let initialValues = {} as Props;
                 </div> {/* */}
                 <div className="container mb-5">
                     <button type="submit" disabled={isSubmitting} className="btn btn-outline-primary m-2 guinda">
-                      { isSubmitting? 'Procesando' : isModificarViatico? 'Modificar' : 'Guardar'}
+                      { isSubmitting? 'Procesando' : isModificarViatico? 'Modificar' : 'Crear Viatico'}
                     </button>
                     <button disabled={isModificarViatico} className="btn btn-outline-primary guinda" type="reset">Limpiar</button>
                     {

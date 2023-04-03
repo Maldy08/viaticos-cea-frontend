@@ -1,3 +1,7 @@
+*{
+    text-transform: uppercase;
+}
+
 .login-container{
     margin-top: 10%;
 }

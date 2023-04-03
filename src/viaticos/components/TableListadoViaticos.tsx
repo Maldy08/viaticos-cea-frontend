@@ -34,35 +34,6 @@ const abrirFormato = (formato:string, oficina: number, ejercicio: number, noViat
   element.click();
 }
 
-//  const abrirCompleto = (oficina: number, ejercicio: number, noViatico: number) => {
-//   const element = document.createElement("a");
-  
-//   element.href = `${ viaticosApiUrl }/Pdf/TresFormatos?ejercicio=${ ejercicio }&oficina=${ oficina }&noviat=${ noViatico }`;
-//   element.download = "a.pdf";
-//   element.click();
-// }
-
-// const abrirComision = (oficina: number, ejercicio: number, noViatico: number) => {
-//   const element = document.createElement("a");
-//   element.href = `${viaticosApiUrl}/Pdf/FormatoComision?ejercicio=${ ejercicio }&oficina=${ oficina }&noviat=${ noViatico }`;
-//   element.download = "a.pdf";
-//   element.click();
-// }
-
-// const abrirRecibo = (oficina: number, ejercicio: number, noViatico: number) => {
-//   const element = document.createElement("a");
-//   element.href = `${ viaticosApiUrl }/Pdf/ReciboViatico?ejercicio=${ ejercicio }&oficina=${ oficina }&noviat=${ noViatico }`;
-//   element.download = "a.pdf";
-//   element.click();
-// }
-
-// const abrirInforme = (oficina: number, ejercicio: number, noViatico: number) => {
-//   const element = document.createElement("a");
-//   element.href = `${ viaticosApiUrl }/Pdf/InformeActividades?ejercicio=${ ejercicio }&oficina=${ oficina }&noviat=${ noViatico }`;
-//   element.download = "a.pdf";
-//   element.click();
-// }
-
 const onModificarViatico = (oficina: number, ejercicio: number, noViatico: number) => {
   const link = "capturar-viatico/"+ oficina +"/" + ejercicio +"/" + noViatico;
   modificarViatico();
