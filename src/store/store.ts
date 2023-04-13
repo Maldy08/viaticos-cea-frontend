@@ -8,6 +8,7 @@ import { ciudadesSlice } from "./ciudades/ciudadesSlice";
 import { uiSlice } from "./ui/uiSlice";
 import { estadosSlice } from './estados/estadosSlice';
 import { partidasSlice } from "./partidas/partidasSlice";
+import { paisesSlice } from "./paises/paisesSlice";
 
  const store = configureStore({
     reducer:{
@@ -20,6 +21,7 @@ import { partidasSlice } from "./partidas/partidasSlice";
         ui: uiSlice.reducer,
         estados: estadosSlice.reducer,
         partidas: partidasSlice.reducer,
+        paises: paisesSlice.reducer,
     },
     middleware: (getDefaultMiddleware) => getDefaultMiddleware({
         serializableCheck: false
