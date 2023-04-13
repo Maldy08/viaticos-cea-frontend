@@ -112,6 +112,7 @@ let initialValues = {} as Props;
   const handleChangeDestino = ( event: React.ChangeEvent<HTMLSelectElement> ): void => {
 
     const value = Number( event.target.value );
+    console.log(value);
     value > 6 ? fueraDelEstado = true : fueraDelEstado = false;
   
   }
