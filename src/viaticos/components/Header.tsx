@@ -3,7 +3,7 @@ import '../styles/Header.css';
 
 export const Header = () => {
   return (
-    <div className="navbar">
+    <div className="navbar headercea">
       <div className="navbar-left">
         <img src={ logo } alt="logo" />
       </div>

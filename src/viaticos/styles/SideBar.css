@@ -1,32 +1,32 @@
 .vertical-nav {
-    min-width: 17rem;
+
     width: 17rem;
     height: 100vh;
-    position: fixed;
-    top: 1;
+    position: fixed !important;
+    /* top: 0; */
     left: 0;
     box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.1);
     transition: all 0.4s;
     background-color: #ffff;
-    
+    display: block !important;
   }
-  
+
   .page-content {
     width: calc(100% - 17rem);
     margin-left: 17rem;
     transition: all 0.4s;
-    
-    
+    overflow: scroll;
+    height: calc(100vh - 80px);
   }
 
-  .nav-active{
-    color: white; 
+  .show {
+    background-color: white;
+  }
+
+  .activo{
+    color: white !important; 
     background-color: #651930;
     transition: all .3s ease-out;
-  }
-
-  .blanco{
-    color: #fff !important;
   }
 
   .guinda{
@@ -35,12 +35,17 @@
 
   .nav-link{
     color: #651930;
+    width: 15rem;
   }
 
   .nav-link:hover{
     color: white !important;
     background-color: #651930;
     transition: all .3s ease-out;
+  }
+
+  .navbar-toggler {
+    background-color: blue;
   }
   
   /* for toggle behavior */
@@ -53,11 +58,32 @@
     width: 100%;
     margin: 0;
   }
+
   
-  @media (max-width: 768px) {
-    #sidebar {
+  
+  @media (max-width: 990px) {
+    /* #sidebar {
       margin-left: -17rem;
+    } */
+    .vertical-nav {
+      min-width: 0rem;
+      max-width: 17rem;
+      height: 0;
+      box-shadow: 0px 0px 0px rgba(0, 0, 0, 0.1);
+      transition: all 0.4s;
+      z-index: 2;
+      position: relative !important;
+      
     }
+
+    .vertical-nav a{
+      padding: .5rem;
+    }
+    
+    .nav-link{ 
+      padding: 1rem;
+    }
+
     #sidebar.active {
       margin-left: 0;
     }
@@ -68,5 +94,13 @@
     #content.active {
       margin-left: 17rem;
       width: calc(100% - 17rem);
+    }
+    .page-content {
+      width: calc(100%);
+      margin-left: 0rem;
+      margin-top: 0rem;
+    }
+    .nav-item {
+      padding: 0rem 0rem;
     }
   }

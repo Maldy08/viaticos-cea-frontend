@@ -27,7 +27,7 @@ export const LoginPage = () => {
                         }}
 
                         onSubmit={ async ( { login, password } ) =>{
-                           await startLogin( login, password );
+                           await startLogin( login.toLowerCase(), password );
                         }}
 
                         validationSchema={

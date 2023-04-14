@@ -128,9 +128,9 @@ let initialValues = {} as Props;
   return (
     <ViaticosLayout>
       <div className="capturar-viaticos">
-        <div className="header">
+        <div className="header container">
           <div className="row">
-            <div className="col-md-2">
+            <div className="col-3">
               <label htmlFor="empleado" className="form-label mb-2">EMPLEADO</label>
               <span className="form-control">{ noEmpleado }</span>
             </div>
@@ -154,7 +154,8 @@ let initialValues = {} as Props;
           </div> */}
         </div>
         {/* <select name="" id="" onChange={}></select> */}
-        <hr />
+        <div className="container"> <hr /></div>
+        
         {/* //TODO: Envolver en un Form */}
         <Formik
 
@@ -328,7 +329,7 @@ let initialValues = {} as Props;
                         </div>
                         
                     </div>
-                      <div className="col-md-2">
+                      <div className="col-2 col-md-4">
                         <div className="form-floating">
                           <Field disabled name="ejercicio" type="text" className="form-control"/>
                           <label htmlFor="ejercicio">Ejercicio</label>
@@ -535,7 +536,7 @@ let initialValues = {} as Props;
                               <th>DESCRIPCION</th>
                               <th>IMPORTE</th>
                               <th>OFI</th>
-                              <th>ANO</th>
+                              <th>AÑO</th>
                               <th>VIAT</th>
                             </tr>
                           </thead>
