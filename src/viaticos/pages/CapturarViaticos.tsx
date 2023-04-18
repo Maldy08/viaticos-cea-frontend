@@ -1,26 +1,23 @@
 import { useEffect } from "react";
-import { useLocation, useParams } from "react-router-dom";
-
 import DatePicker  from "react-datepicker";
 
 import {  ErrorMessage, Field, Form, Formik } from "formik";
 import * as Yup from 'yup';
 import { useCiudadesStore, 
          useEmpleadosStore, 
+         useEstadosStore, 
          useLocalData, 
          useOficinasStore, 
+         usePaisesStore, 
          usePartidasStore, 
-         useUiStore, 
          useViaticosStore } from "../../hooks";
 
 import { Viaticos, ViaticosPart } from "../../interfaces/interfaces";
 import { ViaticosLayout } from "../layout/ViaticosLayout"
-
 import { getDays, importePorDias } from '../../helpers';
 
 import "react-datepicker/dist/react-datepicker.css";
 import '../styles/CapturarViaticos.css';
-import { onModificarViatico } from "../../store/ui/uiSlice";
 
 interface Props {
   empleado:number;
@@ -41,15 +38,23 @@ interface Props {
 export const CapturarViaticos = () => {
 //idoficina,ejercicio,fecha,estatus,noViat,fechasal,fechareg,dias,origenid,destinoid,motivo,inforact
   let fueraDelEstado: boolean;
+  let fueraDelPais: boolean;
+  let partida =  37501;
+  let descripcionPartida = "VIATICOS EN EL PAIS";
+
   let isModificarViatico = false;
   
   let { noEmpleado, nombreCompleto, deptoDescripcion, descripcionPuesto, oficina } = useLocalData();
   const { isLoading ,oficinas, startLoadingOficinas } = useOficinasStore();
   const { isLoading: isLoadingCiudades, startLoadingCiudades, ciudades } = useCiudadesStore();
   const { empleado, startLoadingEmpleadoById } = useEmpleadosStore();
-  // const { openEmpleadosModal, empleadoModalSelected, isModificarViatico, ViaticoModificar } = useUiStore();
   const { startAddNewPartidas } = usePartidasStore();
-  const { startGetConsecutivo, isLoading: isLoadingViatico, startAddNewViatico, startGetViaticoByEjercicioOficinaNoviat, viatico, startUpdateViatico } = useViaticosStore();
+
+  const {isLoading: isLoadingPaises,paises, startLoadingPaises } = usePaisesStore();
+  const { isLoading:isLoadingEstados, estados, startLoadingEstados } = useEstadosStore();
+
+  
+  const { startGetConsecutivo, isLoading: isLoadingViatico, startAddNewViatico, viatico, startUpdateViatico } = useViaticosStore();
     
   useEffect(() => {
      startLoadingOficinas();
@@ -59,9 +64,17 @@ export const CapturarViaticos = () => {
     startLoadingCiudades();
  }, [])
 
- useEffect(() => {
-  startLoadingEmpleadoById( noEmpleado );
-}, [])
+  useEffect(() => {
+    startLoadingPaises();
+  }, [])
+
+  useEffect(() => {
+    startLoadingEstados();
+  }, [])
+
+  useEffect(() => {
+    startLoadingEmpleadoById( noEmpleado );
+  }, [])
 
 let initialValues = {} as Props;
 
@@ -96,25 +109,20 @@ let initialValues = {} as Props;
       initialValues.inforact = "";
   }
 
-  
- const onClickCatalogoEmpleados = () => {
-   // openEmpleadosModal();
- }
-
-//  if( empleadoModalSelected !== 0 ) {
-//     noEmpleado = empleado.empleado;
-//     nombreCompleto = empleado.nombreCompleto;
-//     deptoDescripcion = empleado.descripcionDepto;
-//     descripcionPuesto = empleado.descripcionPuesto;
-//  }
 
 
   const handleChangeDestino = ( event: React.ChangeEvent<HTMLSelectElement> ): void => {
 
     const value = Number( event.target.value );
-    console.log(value);
     value > 6 ? fueraDelEstado = true : fueraDelEstado = false;
-  
+    const ciudad = ciudades.filter((ciudad) => ciudad.idCiudad == value ); 
+    const estado = estados.filter((estado) => estado.idEstado == ciudad[0].idEstado);
+    const idpais = paises.filter((pais) =>  pais.idPais == estado[0].idPais);
+    idpais[0].idPais > 1 ? fueraDelPais = true : fueraDelPais = false;
+    fueraDelPais ? partida = 37502 : partida = 37501;
+    partida == 37502 ? descripcionPartida = "VIATICOS FUERA DEL PAIS" : descripcionPartida = "VIATICOS EN EL PAIS";
+
+
   }
 
 
@@ -205,7 +213,7 @@ let initialValues = {} as Props;
                   } as Viaticos;
 
                   const newPartida = {
-                    partida:37501,
+                    partida:partida,
                     ejercicio: 2023,
                     importe: importePorDias( values.dias,empleado.nivel,fueraDelEstado ),
                     noviat: consecutivo + 1,
@@ -339,7 +347,7 @@ let initialValues = {} as Props;
                               title="fecha"
                               className="form-control"
                               dateFormat="dd/MM/yyyy"
-                              disabled={isSubmitting}
+                              disabled={ isSubmitting }
                               selected={ values.fecha } 
                               onChange={
                                 ( date:any ) => setFieldValue('fecha', date)
@@ -376,7 +384,7 @@ let initialValues = {} as Props;
                                 className="form-control"
                                 selected={ values.fechasal }
                                 dateFormat="dd/MM/yyyy"
-                                disabled={isSubmitting}
+                                disabled={ isSubmitting }
                                 onChange={
                                   ( date:any ) => 
                                     { 
@@ -399,7 +407,7 @@ let initialValues = {} as Props;
                                 className="form-control"
                                 minDate={ values.fechasal }
                                 selected={ values.fechareg }
-                                disabled={isSubmitting}
+                                disabled={ isSubmitting }
                                 dateFormat="dd/MM/yyyy"
                                 onChange={
                                   ( date:any ) =>
@@ -434,7 +442,7 @@ let initialValues = {} as Props;
                               title="origenid" 
                               name="origenid" 
                               as="select" 
-                              disabled={isSubmitting}
+                              disabled={ isSubmitting }
                               className="form-control text-uppercase"
                           >
                             <option value="1">Mexicali</option>
@@ -450,7 +458,7 @@ let initialValues = {} as Props;
                           <Field 
                             name="destinoid" 
                             as="select" 
-                            disabled={isSubmitting}
+                            disabled={ isSubmitting }
                             className="form-control text-uppercase"
                             onChange={ ( event:any ) => {
                                 setFieldValue('destinoid', event.target.value );
@@ -492,7 +500,7 @@ let initialValues = {} as Props;
                               className="form-control text-uppercase" 
                               placeholder="Titulo de la Comision" 
                               style={{ fontSize: '14px'}}
-                              disabled={isSubmitting}
+                              disabled={ isSubmitting }
                               name="motivo"
                               as="textarea"
                               
@@ -510,7 +518,7 @@ let initialValues = {} as Props;
                             <Field 
                                 className="form-control text-uppercase" 
                                 placeholder="Actividades" 
-                                disabled={isSubmitting}
+                                disabled={ isSubmitting }
                                 name="inforact"
                                 as="textarea"
                                 style={{ height: '100px', fontSize: '14px'}}
@@ -536,9 +544,9 @@ let initialValues = {} as Props;
                           </thead>
                           <tbody className="text-center">
                             <tr>
-                              <td>37501</td>
-                              <td>VIATICOS EN EL PAIS</td>
-                              <td>{ importePorDias( values.dias,empleado.nivel,fueraDelEstado ) }</td>
+                              <td>{ partida }</td>
+                              <td>{ descripcionPartida }</td>
+                              <td>{ importePorDias( values.dias, empleado.nivel, fueraDelEstado ) }</td>
                               <td>{ values.idoficina }</td>
                               <td>{ values.ejercicio }</td>
                               <td>{ values.noViat }</td>
@@ -551,10 +559,10 @@ let initialValues = {} as Props;
                           
                 </div> {/* */}
                 <div className="container mb-5">
-                    <button type="submit" disabled={isSubmitting} className="btn btn-outline-primary m-2 guinda">
+                    <button type="submit" disabled={ isSubmitting } className="btn btn-outline-primary m-2 guinda">
                       { isSubmitting? 'Procesando' : isModificarViatico? 'Modificar' : 'Guardar'}
                     </button>
-                    <button disabled={isModificarViatico} className="btn btn-outline-primary guinda" type="reset">Limpiar</button>
+                    <button disabled={ isModificarViatico } className="btn btn-outline-primary guinda" type="reset">Limpiar</button>
                     {
                       status === 'submitted' ? <p>Procesado</p>: <p></p>
                     }
