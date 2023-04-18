@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from "react-redux"
 import { viaticosApi } from "../api"
 import { Ciudades } from "../interfaces/interfaces"
-import { onListCiudades } from "../store/ciudades/ciudadesSlice"
+import { onGetCiudadById, onListCiudades } from "../store/ciudades/ciudadesSlice"
 import { RootState } from "../store/store"
 
 
@@ -11,7 +11,7 @@ export const useCiudadesStore = () => {
         data: Ciudades[]
     }
 
-    const { isLoading, ciudades } = useSelector( ( state: RootState ) => state.ciudades );
+    const { isLoading, ciudades, ciudad } = useSelector( ( state: RootState ) => state.ciudades );
     const dispatch = useDispatch();
 
     const startLoadingCiudades = async() => {
@@ -24,9 +24,22 @@ export const useCiudadesStore = () => {
         }
     }
 
+    const startLoadingCiudadById = async( id:number ) => {
+        try {
+            const { data } = await viaticosApi.get(`/Ciudades/ByIdestado/${ id }`);
+            console.log(data);
+            dispatch( onGetCiudadById( data ));
+            
+        } catch (error) {
+            console.log({error});
+        }
+    }
+
     return {
         isLoading,
         ciudades,
-        startLoadingCiudades
+        ciudad,
+        startLoadingCiudades,
+        startLoadingCiudadById
     }
 }
