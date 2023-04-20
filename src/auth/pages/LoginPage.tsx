@@ -76,13 +76,13 @@ export const LoginPage = () => {
                 </div>
             </div>
 
-            <div className="row d-flex justify-content-center">
+            {/* <div className="row d-flex justify-content-center">
                 <div className="col-md-6">
                     <div className="error-message mt-5">
                         <p className="text-center">{ status }</p>
                     </div> 
                 </div>
-            </div>
+            </div> */}
         </div>
     </AuthLayout>
     
