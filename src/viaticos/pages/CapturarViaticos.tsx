@@ -478,7 +478,7 @@ let initialValues = {} as Props;
                         <ErrorMessage name="destinoid" component="span" className="error"/>
                       </div>
 
-                      <div className="col">
+                      {/* <div className="col">
                         <div className="p-3">
                             <button
                               type="button"
@@ -488,7 +488,7 @@ let initialValues = {} as Props;
                                 Ver Catalogo
                             </button> 
                         </div>
-                      </div>
+                      </div> */}
 
                     </div>
 
