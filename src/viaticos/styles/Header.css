@@ -18,6 +18,25 @@
     margin-left: 20px;
 }
 
+.guinda-header{
+    color:#651930;
+}
+
+.guinda-header-buton{
+    color:#651930;
+    transition:  all .3s ease-out;
+}
+
+.guinda-header-buton:hover{
+    color:#f7f7f7;
+    background-color: #651930;
+}
+
+button { 
+    border: 0;
+    background-color: #f7f7f7;
+}
+
 /* .navbar-left .titulo{
     text-transform: uppercase;
     font-weight: 600;

@@ -14,6 +14,7 @@ interface Props {
   ejercicio?:number;
   noviat?:number;
 }
+
 export const FormatoComision = ()  => {
 
   const { startGetFormatoComision, formatoComision, isLoading } = useViaticosStore();
