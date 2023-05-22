@@ -20,8 +20,7 @@ export const Header = () => {
     <div className="navbar headercea">
       <div className="navbar-left d-flex justify-content-between mx-1">
         <img src={ logo } alt="logo" />
-        {(nombreUsuario == null)?
-          <p></p> : 
+        {(nombreUsuario != null) && 
           <div className='d-flex flex-row gap-2 align-items-center guinda-header'>
             <p> <span>Usuario:</span> <br /> <b> {nombreUsuario} </b></p>
               <NavLink className='guinda-header-buton' to='/cerrar-sesion'>

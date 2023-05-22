@@ -37,6 +37,7 @@ interface Props {
 
 export const CapturarViaticos = () => {
 //idoficina,ejercicio,fecha,estatus,noViat,fechasal,fechareg,dias,origenid,destinoid,motivo,inforact
+
   let fueraDelEstado: boolean;
   let fueraDelPais: boolean;
   let partida =  37501;
@@ -124,7 +125,7 @@ let initialValues = {} as Props;
 
 
   }
-
+    
 
   return (
     <ViaticosLayout>
@@ -186,13 +187,14 @@ let initialValues = {} as Props;
                   const consecutivo = await startGetConsecutivo( values.ejercicio, values.idoficina );
                   const { noEmpleado:empCrea } = useLocalData()
 
+                  
                   const newViatico = {
                       oficina:values.idoficina,
                       ejercicio: values.ejercicio,
                       noViat:consecutivo + 1,
                       fecha: new Date(values.fecha),
                       noEmp: empleado.empleado,
-                      origenId: values.origenid,
+                      origenId: values.origenid, 
                       destinoId: values.destinoid,
                       motivo: values.motivo,
                       fechaSal: new Date(values.fechasal),
@@ -200,6 +202,7 @@ let initialValues = {} as Props;
                       dias: values.dias,
                       inforFecha: new Date(values.fechareg),
                       inforAct: values.inforact,
+                      
                       nota:'nada',
                       estatus:1,
                       pol:0,
@@ -209,7 +212,7 @@ let initialValues = {} as Props;
                       cajaVale:0,
                       cajaRepo:0,
                       noEmpCrea:empCrea,
-                      inforResul:'LAS ACTIVIDADES QUE SE ASIGNARON EN LA COMISION FUERON REALIZADAS SATISFACTORIAMENTE'
+                      inforResul:'LAS ACTIVIDADES QUE SE ASIGNARON EN LA COMISION FUERON REALIZADAS SATISFACTORIAMENTE',
                   } as Viaticos;
 
                   const newPartida = {
@@ -291,17 +294,13 @@ let initialValues = {} as Props;
                           window.open( "formato-comision/"+ newViatico.oficina + "/" + newViatico.ejercicio + "/" + newViatico.noViat ,  '_blank', 'location=yes,height=570,width=520,scrollbars=yes,status=yes');
                           window.open( "recibo-viatico/"+ newViatico.oficina + "/" + newViatico.ejercicio + "/" + newViatico.noViat ,  '_blank', 'location=yes,height=570,width=520,scrollbars=yes,status=yes');
                           window.open( "informe-actividades/"+ newViatico.oficina + "/" + newViatico.ejercicio + "/" + newViatico.noViat ,  '_blank', 'location=yes,height=570,width=520,scrollbars=yes,status=yes');
-                          //resetForm();
                           
                           return;
 
                     }).catch((error) => {
                       alert(error);
                     }).finally(() => setSubmitting(false));
-               
                   }
-                  //console.log({viaticoProcesado});
-                  //console.log({partidaProcesada});
               }}
               
               enableReinitialize={ true }
@@ -442,6 +441,7 @@ let initialValues = {} as Props;
                               title="origenid" 
                               name="origenid" 
                               as="select" 
+                              id="origenid"
                               disabled={ isSubmitting }
                               className="form-control text-uppercase"
                           >
@@ -466,9 +466,10 @@ let initialValues = {} as Props;
                             } }
                           >
                             <option value="0">Seleccionar...</option>
-                          {
+                            {
                               !isLoadingCiudades && ciudades.map(({ idCiudad, ciudad }) => (
-                                <option key={ idCiudad } value={ idCiudad }>{ ciudad }</option>
+                                (values.origenid != idCiudad) &&
+                                  <option key={ idCiudad } value={ idCiudad }>{ ciudad }</option>
                               ))
                           }
                           </Field>
