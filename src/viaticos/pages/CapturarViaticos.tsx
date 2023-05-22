@@ -18,6 +18,7 @@ import { getDays, importePorDias } from '../../helpers';
 
 import "react-datepicker/dist/react-datepicker.css";
 import '../styles/CapturarViaticos.css';
+import { viaticosApiUrl } from "../../api/viaticosApi";
 
 interface Props {
   empleado:number;
@@ -126,6 +127,12 @@ let initialValues = {} as Props;
 
   }
     
+  const abrirFormato = (oficina: number, ejercicio: number, noViatico: number) => {
+    const element = document.createElement("a");
+    element.href = `${viaticosApiUrl}/Pdf/TresFormatos?ejercicio=${ ejercicio }&oficina=${ oficina }&noviat=${ noViatico }`;
+    element.download = "a.pdf";
+    element.click();
+  }
 
   return (
     <ViaticosLayout>
@@ -290,10 +297,12 @@ let initialValues = {} as Props;
                           setFieldValue('inforact', "");
                           setStatus('submitted');
                           setSubmitting(false);
+
+                          abrirFormato(newViatico.oficina, newViatico.ejercicio, newViatico.noViat);
                           
-                          window.open( "formato-comision/"+ newViatico.oficina + "/" + newViatico.ejercicio + "/" + newViatico.noViat ,  '_blank', 'location=yes,height=570,width=520,scrollbars=yes,status=yes');
-                          window.open( "recibo-viatico/"+ newViatico.oficina + "/" + newViatico.ejercicio + "/" + newViatico.noViat ,  '_blank', 'location=yes,height=570,width=520,scrollbars=yes,status=yes');
-                          window.open( "informe-actividades/"+ newViatico.oficina + "/" + newViatico.ejercicio + "/" + newViatico.noViat ,  '_blank', 'location=yes,height=570,width=520,scrollbars=yes,status=yes');
+                          // window.open( "formato-comision/"+ newViatico.oficina + "/" + newViatico.ejercicio + "/" + newViatico.noViat ,  '_blank', 'location=yes,height=570,width=520,scrollbars=yes,status=yes');
+                          // window.open( "recibo-viatico/"+ newViatico.oficina + "/" + newViatico.ejercicio + "/" + newViatico.noViat ,  '_blank', 'location=yes,height=570,width=520,scrollbars=yes,status=yes');
+                          // window.open( "informe-actividades/"+ newViatico.oficina + "/" + newViatico.ejercicio + "/" + newViatico.noViat ,  '_blank', 'location=yes,height=570,width=520,scrollbars=yes,status=yes');
                           
                           return;
 

@@ -46,7 +46,7 @@ export const LoginPage = () => {
                                         <Field 
                                             name="login" 
                                             type="text" 
-                                            className="form-control"
+                                            className="form-control text-uppercase"
                                             placeholder="Usuario" 
                                          />
                                          <ErrorMessage name="login" component="span"/>
@@ -55,7 +55,7 @@ export const LoginPage = () => {
                                         <Field 
                                                 name="password" 
                                                 type="password" 
-                                                className="form-control"
+                                                className="form-control text-uppercase"
                                                 placeholder="Password" 
                                             />
                                          <ErrorMessage name="password" component="span"/>
@@ -64,7 +64,7 @@ export const LoginPage = () => {
                                     <div className="d-grid gap-2">
                                         <button 
                                             type="submit" 
-                                            className="btnSubmit"
+                                            className="btnSubmit text-uppercase"
                                             disabled={ disabled }
                                          >Iniciar Sesión
                                          </button>
