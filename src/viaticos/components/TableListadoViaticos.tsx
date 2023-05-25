@@ -97,36 +97,47 @@ interface DataRow {
       name: 'No. Viático',
       selector: row => row.viatico,
       sortable: true,
-      
+      width: '90px',
+      center: true,
     },
     
     { 
       name: 'Fecha',
       selector: row => moment(row.fecha).format('DD/MM/YYYY'),
       sortable: true,
+      width: '10',
+      
     },
     { 
       name: 'Origen',
       selector: row => row.origen,
       sortable: true,
+      
     },
     { 
       name: 'Destino',
       selector: row =>  row.destino,
       sortable: true,
+      compact: true,
+      wrap: true,
+      width: '95px'
     },
     { 
       name: 'Motivo',
       selector: row => row.movito,
-      grow: 3
+      grow: 3,
+      compact: true,
+      wrap: true,
     },
     {
       name: 'Formato',
+      center: true,
+      compact: true,
       cell: (row: any) => <UncontrolledDropdown size="sm" direction="down" >
         <DropdownToggle caret  className="guinda">
         Formatos
       </DropdownToggle>
-      <DropdownMenu container={'body'}>
+      <DropdownMenu container={'body'} style={{fontSize: 15}}>
         <DropdownItem onClick={() => abrirFormato("TresFormatos",row.oficina,row.ejercicio,row.viatico)}>Formato Completo</DropdownItem>
         <DropdownItem onClick={() => abrirFormato("FormatoComision",row.oficina,row.ejercicio,row.viatico)}>Formato Comisión</DropdownItem>
         <DropdownItem onClick={() => abrirFormato("ReciboViatico",row.oficina,row.ejercicio,row.viatico)}>Recibo Viatico</DropdownItem>
@@ -137,27 +148,33 @@ interface DataRow {
     },
     
     {
-
+     
+      center: true,
       name: 'Editar',
       cell: (row: any) => <Button className="guinda" color="secondary" disabled={row.estatus > 1}  size="sm" onClick={ () => onModificarViatico(row.oficina,row.ejercicio,row.viatico) }>
         ✎
       </Button>
+      
     },
 
     { 
       name: 'Salida',
       selector: row => moment( row.salida ).format('DD/MM/YYYY'),
       sortable: true,
+      compact: true,
     },
     { 
       name: 'Regreso',
       selector: row => moment( row.regreso ).format('DD/MM/YYYY'),
       sortable: true,
+      compact: true,
     },
     { 
       name: 'Estatus',
-      selector: row => row.estatus == '1' ? 'Creado' : row.estatus == '2'? 'Pagado de C.C' : row.estatus == '3'? 'Registrado en Cont.' : row.estatus == '4'? 'Pagado en Cont.' : '',
+      selector: row => row.estatus == '1' ? 'Creado' : row.estatus == '2'? 'Pagado de C.C' : row.estatus == '3'? 'Registrado en Cont.' : row.estatus == '4'? 'Pagado en Cont.' : row.estatus == '9'? 'Cancelado' : '',
       sortable: true,
+      
+      wrap: true,
     }
   ]
 
@@ -201,7 +218,7 @@ interface DataRow {
           paginationComponentOptions={ paginacionOpciones }
           fixedHeader
           fixedHeaderScrollHeight="600px"
-          className="posicion2"
+          className="posicion2 "
       />
     </div>
   )
