@@ -28,9 +28,12 @@ export const SideBar = () => {
         <Collapse isOpen={isOpen} navbar>
         
           <Nav className="nav flex-column bg-white" navbar>
-          <NavbarText className='text-gray font-weight-bold px-2 small pb-4'>Menu Principal</NavbarText>
+              <NavLink className='text-gray font-weight-bold px-2 small pb-4 mt-2 menu-principal' to='/'>
+                  <span>Menu Principal</span>
+              </NavLink>
+            
             <NavItem>
-              <NavLink className={ ({ isActive }) => isActive ? 'nav-link activo': 'nav-link guinda' } to='/capturar-viatico'>
+              <NavLink className={ ({ isActive }) => isActive ? 'nav-link activo mt-2': 'nav-link guinda' } to='/capturar-viatico'>
                 <i className="fa-solid fa-file mr-3"></i>
                   <span className='m-1'>Capturar</span>
               </NavLink>

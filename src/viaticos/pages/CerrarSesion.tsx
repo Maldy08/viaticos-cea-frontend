@@ -1,5 +1,8 @@
 import { useEffect } from "react";
 import { useAuthStore, useViaticosStore } from "../../hooks";
+import '../styles/CerrarSesion.css';
+import '../../viaticos/styles/Loading.css'
+import { Loading } from "../../ui";
 
 
 export const CerrarSesion = () => {
@@ -13,14 +16,8 @@ export const CerrarSesion = () => {
        },2000);
     }, []);
     return (
-      <>
-          <div className="container">
-              <div className="row d-flex justify-content-center">
-                  <div className="col-md-6">
-                      <h3>Cerrando Sesión....</h3>
-                  </div>
-              </div>
-          </div>
-      </>
+        <div className="cerrar">
+          <Loading/>
+        </div>
     );
 }

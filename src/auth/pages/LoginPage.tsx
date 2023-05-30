@@ -1,4 +1,3 @@
-
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from 'yup';
 import { useAuthStore } from "../../hooks";
@@ -27,7 +26,8 @@ export const LoginPage = () => {
                         }}
 
                         onSubmit={ async ( { login, password } ) =>{
-                           await startLogin( login.toLowerCase(), password );
+                           await startLogin( login, password );
+                           //await startLogin( login.toUpperCase(), password.toUpperCase() );
                         }}
 
                         validationSchema={

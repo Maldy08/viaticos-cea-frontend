@@ -1,0 +1,7 @@
+.cerrar{
+    display: flex;
+    justify-content: center !important;
+    align-items: center !important;
+    width: 100vw;
+    height: 100vh;
+}

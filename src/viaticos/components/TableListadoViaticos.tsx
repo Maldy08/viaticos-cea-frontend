@@ -133,17 +133,30 @@ interface DataRow {
       name: 'Formato',
       center: true,
       compact: true,
-      cell: (row: any) => <UncontrolledDropdown size="sm" direction="down" >
-        <DropdownToggle caret  className="guinda">
-        Formatos
-      </DropdownToggle>
-      <DropdownMenu container={'body'} style={{fontSize: 15}}>
-        <DropdownItem onClick={() => abrirFormato("TresFormatos",row.oficina,row.ejercicio,row.viatico)}>Formato Completo</DropdownItem>
-        <DropdownItem onClick={() => abrirFormato("FormatoComision",row.oficina,row.ejercicio,row.viatico)}>Formato Comisión</DropdownItem>
-        <DropdownItem onClick={() => abrirFormato("ReciboViatico",row.oficina,row.ejercicio,row.viatico)}>Recibo Viatico</DropdownItem>
-        <DropdownItem onClick={() => abrirFormato("InformeActividades",row.oficina,row.ejercicio,row.viatico)}>Informe</DropdownItem>
-      </DropdownMenu>
-      </UncontrolledDropdown>
+      cell: (row: any) => row.estatus != '9' ? 
+      <UncontrolledDropdown size="sm" direction="down" >
+      <DropdownToggle caret  className="guinda">
+      Formatos
+    </DropdownToggle>
+    <DropdownMenu container={'body'} style={{fontSize: 15}}>
+      <DropdownItem onClick={() => abrirFormato("TresFormatos",row.oficina,row.ejercicio,row.viatico)}>Formato Completo</DropdownItem>
+      <DropdownItem onClick={() => abrirFormato("FormatoComision",row.oficina,row.ejercicio,row.viatico)}>Formato Comisión</DropdownItem>
+      <DropdownItem onClick={() => abrirFormato("ReciboViatico",row.oficina,row.ejercicio,row.viatico)}>Recibo Viatico</DropdownItem>
+      <DropdownItem onClick={() => abrirFormato("InformeActividades",row.oficina,row.ejercicio,row.viatico)}>Informe</DropdownItem>
+    </DropdownMenu>
+    </UncontrolledDropdown>
+    :
+    <UncontrolledDropdown size="sm" direction="down" >
+      <DropdownToggle caret  className="guinda" disabled >
+      Formatos
+    </DropdownToggle>
+    <DropdownMenu container={'body'} style={{fontSize: 15}}>
+      <DropdownItem onClick={() => abrirFormato("TresFormatos",row.oficina,row.ejercicio,row.viatico)}>Formato Completo</DropdownItem>
+      <DropdownItem onClick={() => abrirFormato("FormatoComision",row.oficina,row.ejercicio,row.viatico)}>Formato Comisión</DropdownItem>
+      <DropdownItem onClick={() => abrirFormato("ReciboViatico",row.oficina,row.ejercicio,row.viatico)}>Recibo Viatico</DropdownItem>
+      <DropdownItem onClick={() => abrirFormato("InformeActividades",row.oficina,row.ejercicio,row.viatico)}>Informe</DropdownItem>
+    </DropdownMenu>
+    </UncontrolledDropdown>
       
     },
     
