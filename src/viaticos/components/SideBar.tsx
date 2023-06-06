@@ -46,6 +46,13 @@ export const SideBar = () => {
             </NavItem>
             <hr/>
             <NavItem>
+              <NavLink className={ ({ isActive }) => isActive ? 'nav-link activo': 'nav-link guinda' } to='/cambiar-password'>
+                <i className="fa-solid fa-lock"></i>
+                <span className='m-1'>Cambiar password</span>
+              </NavLink>
+            </NavItem>
+
+            <NavItem>
               <NavLink className={ ({ isActive }) => isActive ? 'nav-link activo': 'nav-link guinda' } to='/cerrar-sesion'>
                 <i className="fa-solid fa-right-from-bracket"></i>
                 <span className='m-1'>Cerrar Sesion</span>

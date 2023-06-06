@@ -34,17 +34,17 @@ export const authSlice = createSlice({
         clearErrorMessage: ( state ) => {
             state.errorMessage = '';
         },
-        onCheckUserById: ( state, { payload }) =>{
+        onCheckUserById: ( state, { payload }) => {
             state.status = 'checking';
             state.user = payload
           
         },
-        onError: ( state, { payload }) =>{
+        onError: ( state, { payload }) => {
             state.errorMessage = payload;
             state.user = { };
         },
         onAuthError: ( state ) => {
-            state.status = 'authentication-error'
+            state.status = 'El usuario y/o password son incorrectos'
         }
     }
 });

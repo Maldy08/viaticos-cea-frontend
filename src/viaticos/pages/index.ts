@@ -7,4 +7,5 @@ export * from './ListadoViaticos';
 export * from './FormatoComision';
 export { ReciboViaticos } from './ReciboViaticos';
 export { CerrarSesion } from  "./CerrarSesion";
+export { CambiarPass } from "./CambiarPass";
 

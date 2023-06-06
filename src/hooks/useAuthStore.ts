@@ -17,6 +17,7 @@ export const useAuthStore = () => {
 
     const startLogin = async ( login: string, pass: string ) => {
         dispatch( onCheking() );
+        
         try {
             const { data } = await viaticosApi.post(`/Auth/login?user=${ login }&password=${ pass }`);
 
