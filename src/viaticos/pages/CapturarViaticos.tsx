@@ -80,7 +80,6 @@ export const CapturarViaticos = () => {
 let initialValues = {} as Props;
 
   if(Object.keys(viatico).length !== 0) {
-    
       initialValues.idoficina = viatico.oficina;
       initialValues.ejercicio = viatico.ejercicio;
       initialValues.fecha = new Date(viatico.fecha);
