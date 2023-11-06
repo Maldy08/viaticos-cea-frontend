@@ -42,6 +42,7 @@ export const useEmpleadosStore = () => {
     const startLoadingEmpleadoById = async( idempleado:number ) => {
         try {
             const { data } = await viaticosApi.get<EmpleadoResponse>(`/VistaEmpleados/byId/${ idempleado }`);
+            console.log({data})
             dispatch(onGetEmpleadoById( data ));
             
         } catch (error) {

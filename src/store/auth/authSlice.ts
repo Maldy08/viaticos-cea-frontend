@@ -7,7 +7,31 @@ interface initialStateProps {
     errorMessage:any;
 }
 
-//const user = {} as User;
+interface UserLogin {
+    ok:boolean,
+    Token:string,
+    Id:string,
+    User:string,
+    UserData:UserData
+    
+
+}
+
+interface UserData {
+    Activo:boolean,
+    Depto:number,
+    NoEmpleado:number,
+    Viaticos:boolean,
+    ViaticosNivel:number,
+    DeptoDescripcion:string,
+    NombreCompleto:string,
+    IdPue:number,
+    DescripcionPuesto:string,
+    Municipio:number,
+    Oficina:number
+}
+
+const user = {} as UserLogin;
 
 //const initialState = { status: 'checking', user: {}, errorMessage : undefined }; 
 
@@ -15,13 +39,13 @@ export const authSlice = createSlice({
     name: 'auth',
     initialState:{
         status:'checking',
-        user:{ },
+        user:user,
         errorMessage:''
     },
     reducers: {
         onCheking: ( state ) => {
             state.status = 'checking';
-            state.user = { };
+            state.user = user ;
         },
         onLogin: ( state, { payload } ) => {
             state.status = 'authenticated';
@@ -29,7 +53,7 @@ export const authSlice = createSlice({
         },
         onLogout: ( state , { payload }) => {
             state.status = 'not-authenticated';
-            state.user = { };
+            state.user = user;
         },
         clearErrorMessage: ( state ) => {
             state.errorMessage = '';
@@ -41,7 +65,7 @@ export const authSlice = createSlice({
         },
         onError: ( state, { payload }) => {
             state.errorMessage = payload;
-            state.user = { };
+            state.user = user;
         },
         onAuthError: ( state ) => {
             state.status = 'El usuario y/o password son incorrectos'
@@ -49,4 +73,13 @@ export const authSlice = createSlice({
     }
 });
 
-export const { onCheking, onLogin, onLogout, clearErrorMessage, onCheckUserById, onError, onAuthError } = authSlice.actions;
+export const { 
+    onCheking, 
+    onLogin, 
+    onLogout, 
+    clearErrorMessage, 
+    onCheckUserById, 
+    onError, 
+    onAuthError,
+
+} = authSlice.actions;

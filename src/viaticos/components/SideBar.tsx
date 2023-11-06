@@ -48,7 +48,7 @@ export const SideBar = () => {
             <NavItem>
               <NavLink className={ ({ isActive }) => isActive ? 'nav-link activo': 'nav-link guinda' } to='/cambiar-password'>
                 <i className="fa-solid fa-lock"></i>
-                <span className='m-1'>Cambiar password</span>
+                <span className='m-1'>Cambiar contraseña</span>
               </NavLink>
             </NavItem>
 

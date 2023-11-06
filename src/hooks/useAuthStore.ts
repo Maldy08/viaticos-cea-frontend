@@ -68,6 +68,18 @@ export const useAuthStore = () => {
         }
     }
 
+    const startUpdatePassword = async ( user : any, newpassword: string ) => {
+
+        try {
+            const { data } = await viaticosApi.put(`/Auth/cambiopass?=user${ user.user }/newPassword=${ newpassword }`);
+            
+        } catch (error) {
+            console.log({ error })
+            
+        }
+
+    }
+
     return {
         //*Propiedades
         errorMessage,
@@ -77,5 +89,6 @@ export const useAuthStore = () => {
         startLogOut,
         checkAuthToken,
         startCheckingUserById,
+        startUpdatePassword,
     }
 }

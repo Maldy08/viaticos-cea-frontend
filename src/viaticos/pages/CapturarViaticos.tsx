@@ -59,23 +59,12 @@ export const CapturarViaticos = () => {
     
   useEffect(() => {
      startLoadingOficinas();
+     startLoadingCiudades();
+     startLoadingPaises();
+     startLoadingEstados();
+     startLoadingEmpleadoById( noEmpleado );
   }, [])
  
-  useEffect(() => {
-    startLoadingCiudades();
- }, [])
-
-  useEffect(() => {
-    startLoadingPaises();
-  }, [])
-
-  useEffect(() => {
-    startLoadingEstados();
-  }, [])
-
-  useEffect(() => {
-    startLoadingEmpleadoById( noEmpleado );
-  }, [])
 
 let initialValues = {} as Props;
 
@@ -112,16 +101,20 @@ let initialValues = {} as Props;
 
 
   const handleChangeDestino = ( event: React.ChangeEvent<HTMLSelectElement> ): void => {
-
     const value = Number( event.target.value );
-    value > 6 ? fueraDelEstado = true : fueraDelEstado = false;
     const ciudad = ciudades.filter((ciudad) => ciudad.idCiudad == value ); 
     const estado = estados.filter((estado) => estado.idEstado == ciudad[0].idEstado);
     const idpais = paises.filter((pais) =>  pais.idPais == estado[0].idPais);
+
+
+     //if id < 6 o estado = 2
+    estado[0].idEstado > 2 ? fueraDelEstado = true : fueraDelEstado = false;
+    if( value <=  6 || estado[0].idEstado == 2) {
+      fueraDelEstado = false;
+    }
     idpais[0].idPais > 1 ? fueraDelPais = true : fueraDelPais = false;
     fueraDelPais ? partida = 37502 : partida = 37501;
     partida == 37502 ? descripcionPartida = "VIATICOS FUERA DEL PAIS" : descripcionPartida = "VIATICOS EN EL PAIS";
-
 
   }
     
@@ -160,8 +153,6 @@ let initialValues = {} as Props;
         <Formik
 
              initialValues={initialValues}
-            
-              
               validationSchema={
                   Yup.object({
                     destinoid: Yup.number()
@@ -177,16 +168,10 @@ let initialValues = {} as Props;
                   })
               }
               
-              
               onSubmit={ async ( values, { setSubmitting,setFieldValue, setStatus, resetForm } ) => {
-                 
                  // await new Promise( resolve => setTimeout(resolve, 3000));
-            
-
                   const consecutivo = await startGetConsecutivo( values.ejercicio, values.idoficina );
                   const { noEmpleado:empCrea } = useLocalData()
-
-                  
                   const newViatico = {
                       oficina:values.idoficina,
                       ejercicio: values.ejercicio,
@@ -195,12 +180,12 @@ let initialValues = {} as Props;
                       noEmp: empleado.empleado,
                       origenId: values.origenid, 
                       destinoId: values.destinoid,
-                      motivo: values.motivo,
+                      motivo: values.motivo.toUpperCase(),
                       fechaSal: new Date(values.fechasal),
                       fechaReg: new Date(values.fechareg),
                       dias: values.dias,
                       inforFecha: new Date(values.fechareg),
-                      inforAct: values.inforact,
+                      inforAct: values.inforact.toUpperCase(),
                       
                       nota:'nada',
                       estatus:1,
@@ -211,7 +196,7 @@ let initialValues = {} as Props;
                       cajaVale:0,
                       cajaRepo:0,
                       noEmpCrea:empCrea,
-                      inforResul:'LAS ACTIVIDADES QUE SE ASIGNARON EN LA COMISION FUERON REALIZADAS SATISFACTORIAMENTE',
+                      inforResul:'LAS ACTIVIDADES QUE SE ASIGNARON EN LA COMISION FUERON REALIZADAS SATISFACTORIAMENTE * VERSION WEB',
                   } as Viaticos;
 
                   const newPartida = {
@@ -236,19 +221,17 @@ let initialValues = {} as Props;
                       fecha: new Date(values.fecha),
                       origenId: values.origenid,
                       destinoId: values.destinoid,
-                      motivo: values.motivo,
+                      motivo: values.motivo.toUpperCase(),
                       fechaSal: new Date(values.fechasal),
                       fechaReg: new Date(values.fechareg),
                       dias: values.dias,
                       inforFecha: new Date(values.fechareg),
-                      inforAct: values.inforact,
+                      inforAct: values.inforact.toUpperCase(),
                       fechaMod: new Date(values.fecha),
-                      inforResul:'LAS ACTIVIDADES QUE SE ASIGNARON EN LA COMISION FUERON REALIZADAS SATISFACTORIAMENTE'
+                      inforResul:'LAS ACTIVIDADES QUE SE ASIGNARON EN LA COMISION FUERON REALIZADAS SATISFACTORIAMENTE * VERSION WEB'
                   } as Viaticos;
 
-
                     await startUpdateViatico( updateViatico ).then( () => {
-                    
                       alert('Viatico actualizado correctamente!');
                       setFieldValue('noViat', 0);
                       setFieldValue('fecha',new Date());
@@ -270,11 +253,8 @@ let initialValues = {} as Props;
 
                     
                   }
-                 
                   else {
-
                     await startAddNewViatico( newViatico ).then( () => {
-                        
                       startAddNewPartidas( newPartida );
                           alert(`Viatico generado con el numero: ${newViatico.noViat}`);
                           setFieldValue('noViat', 0);
@@ -301,9 +281,7 @@ let initialValues = {} as Props;
                     }).finally(() => setSubmitting(false));
                   }
               }}
-              
               enableReinitialize={ true }
-              
           >
             {
               ({ values, setFieldValue, isSubmitting, status }) => (
@@ -550,7 +528,6 @@ let initialValues = {} as Props;
                               <td>{ values.idoficina }</td>
                               <td>{ values.ejercicio }</td>
                               <td>{ values.noViat }</td>
-                              
                             </tr>
                           </tbody>
                         </table>
