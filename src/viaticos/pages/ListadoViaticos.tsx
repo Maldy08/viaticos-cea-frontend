@@ -1,6 +1,5 @@
 
 import { ViaticosLayout } from "../layout/ViaticosLayout"
-import { Viaticos } from '../../interfaces/interfaces';
 import { TableListadoViaticos } from "../components";
 import { useLocalData } from "../../hooks";
 import "../styles/ListadoViaticos.css"
@@ -8,7 +7,7 @@ import "../styles/ListadoViaticos.css"
 export const ListadoViaticos = () => {
 
  // const  data  = JSON.parse( localStorage.getItem('data' ) || '{ }');
-  const ejercicio = 2023;
+  const ejercicio =  + localStorage.getItem('ejercicio')!;
   //const empleado = 86
   const { noEmpleado } = useLocalData();
   // data.userData.noEmpleado;

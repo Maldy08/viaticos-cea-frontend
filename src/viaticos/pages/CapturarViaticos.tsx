@@ -85,7 +85,7 @@ let initialValues = {} as Props;
   }
   else{
       initialValues.idoficina = empleado.oficina;
-      initialValues.ejercicio = 2023;
+      initialValues.ejercicio = +localStorage.getItem('ejercicio')!;
       initialValues.fecha = new Date();
       initialValues.estatus = 0;
       initialValues.noViat = 0;
@@ -201,7 +201,7 @@ let initialValues = {} as Props;
 
                   const newPartida = {
                     partida:partida,
-                    ejercicio: 2023,
+                    ejercicio: values.ejercicio,
                     importe: importePorDias( values.dias,empleado.nivel,fueraDelEstado ),
                     noviat: consecutivo + 1,
                     oficina: values.idoficina

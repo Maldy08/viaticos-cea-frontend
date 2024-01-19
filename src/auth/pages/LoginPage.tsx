@@ -22,11 +22,12 @@ export const LoginPage = () => {
                     <Formik
                         initialValues={ { 
                             login: '',
-                            password: ''
+                            password: '',
+                            ejercicio: new Date().getFullYear(),
                         }}
 
-                        onSubmit={ async ( { login, password } ) =>{
-                           await startLogin( login, password );
+                        onSubmit={ async ( { login, password,ejercicio } ) =>{
+                           await startLogin( login, password,ejercicio );
                            //await startLogin( login.toUpperCase(), password.toUpperCase() );
                         }}
 
@@ -40,7 +41,7 @@ export const LoginPage = () => {
                         }
                     >
                         {
-                            () => (     
+                            ({initialValues}) => (     
                                 <Form>
                                     <div className="form-group mb-2">
                                         <Field 
@@ -60,6 +61,17 @@ export const LoginPage = () => {
                                             />
                                          <ErrorMessage name="password" component="span"/>
 
+                                    </div>
+                                    <div className="form-group mb-2">
+                                        <Field 
+                                                name="ejercicio" 
+                                                type="number" 
+                                                min={initialValues.ejercicio - 1}
+                                                max={initialValues.ejercicio}
+                                                className="form-control text-uppercase"
+                                                placeholder="Ejercicio" 
+                                            />
+                                         <ErrorMessage name="ejercicio" component="span"/>
                                     </div>
                                     <div className="d-grid gap-2">
                                         <button 

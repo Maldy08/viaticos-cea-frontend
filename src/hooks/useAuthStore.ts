@@ -15,12 +15,12 @@ export const useAuthStore = () => {
         userData:{ }
     }
 
-    const startLogin = async ( login: string, pass: string ) => {
+    const startLogin = async ( login: string, pass: string, ejercicio:number ) => {
         dispatch( onCheking() );
         
         try {
             const { data } = await viaticosApi.post(`/Auth/login?user=${ login }&password=${ pass }`);
-
+            localStorage.setItem('ejercicio',ejercicio.toString());
             localStorage.setItem('token', data.token );
             localStorage.setItem("data", JSON.stringify(data));
             dispatch( onLogin( { user: data } ) )
