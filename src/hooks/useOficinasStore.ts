@@ -17,8 +17,8 @@ export const useOficinasStore = () => {
     const startLoadingOficinas = async() => {
         try {
 
-            const { data } = await viaticosApi.get<Response>(`/Oficinas`);
-            dispatch( onListOficinas( data ));
+            const { data } = await viaticosApi.get<Response>(`api/Oficinas`);
+            dispatch( onListOficinas( data.data ));
             
         } catch (error) {
             console.log({ error });

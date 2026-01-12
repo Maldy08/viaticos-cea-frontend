@@ -33,6 +33,7 @@ interface Props {
   destinoid:number;
   motivo:string;
   inforact:string;
+  lugartrab:number;
 }
 
 export const CapturarViaticos = () => {
@@ -49,7 +50,7 @@ export const CapturarViaticos = () => {
   const { isLoading ,oficinas, startLoadingOficinas } = useOficinasStore();
   const { isLoading: isLoadingCiudades, startLoadingCiudades, ciudades } = useCiudadesStore();
   const { empleado, startLoadingEmpleadoById } = useEmpleadosStore();
-  const { startAddNewPartidas } = usePartidasStore();
+  const { startAddNewPartidas, startUpdatePartidas } = usePartidasStore();
 
   const {isLoading: isLoadingPaises,paises, startLoadingPaises } = usePaisesStore();
   const { isLoading:isLoadingEstados, estados, startLoadingEstados } = useEstadosStore();
@@ -81,6 +82,8 @@ let initialValues = {} as Props;
       initialValues.destinoid = viatico.destinoId;
       initialValues.motivo = viatico.motivo;
       initialValues.inforact =viatico.inforAct;
+      initialValues.lugartrab = viatico.oficina;
+      
       isModificarViatico = true;
   }
   else{
@@ -92,10 +95,23 @@ let initialValues = {} as Props;
       initialValues.fechasal = new Date();
       initialValues.fechareg = new Date();
       initialValues.dias = 1;
-      initialValues.origenid = empleado.municipio;
+  
+      switch( empleado.oficina ) { 
+        case 1:
+        case 2:
+        case 5:
+          initialValues.origenid = 1;
+          break;
+        case 3:
+          initialValues.origenid = 2;
+          break;
+        default:
+      }
       initialValues.destinoid = 0;
       initialValues.motivo = "";
       initialValues.inforact = "";
+      initialValues.lugartrab = empleado.lugartrab;
+      
   }
 
 
@@ -113,8 +129,8 @@ let initialValues = {} as Props;
       fueraDelEstado = false;
     }
     idpais[0].idPais > 1 ? fueraDelPais = true : fueraDelPais = false;
-    fueraDelPais ? partida = 37502 : partida = 37501;
-    partida == 37502 ? descripcionPartida = "VIATICOS FUERA DEL PAIS" : descripcionPartida = "VIATICOS EN EL PAIS";
+    fueraDelPais ? partida = 37601 : partida = 37501;
+    partida == 37601 ? descripcionPartida = "VIATICOS FUERA DEL PAIS" : descripcionPartida = "VIATICOS EN EL PAIS";
 
   }
     
@@ -186,7 +202,7 @@ let initialValues = {} as Props;
                       dias: values.dias,
                       inforFecha: new Date(values.fechareg),
                       inforAct: values.inforact.toUpperCase(),
-                      
+                      lugarTrab: values.idoficina,
                       nota:'nada',
                       estatus:1,
                       pol:0,
@@ -231,21 +247,30 @@ let initialValues = {} as Props;
                       inforResul:'LAS ACTIVIDADES QUE SE ASIGNARON EN LA COMISION FUERON REALIZADAS SATISFACTORIAMENTE * VERSION WEB'
                   } as Viaticos;
 
+                  const updatePartida = {
+                    partida:partida,
+                    ejercicio: values.ejercicio,
+                    importe: importePorDias( values.dias,empleado.nivel,fueraDelEstado ),
+                    noviat: values.noViat,
+                    oficina: values.idoficina
+                  } as ViaticosPart;
+
                     await startUpdateViatico( updateViatico ).then( () => {
-                      alert('Viatico actualizado correctamente!');
-                      setFieldValue('noViat', 0);
-                      setFieldValue('fecha',new Date());
-                      setFieldValue('estatus',0);
-                      setFieldValue('fechasal', new Date());
-                      setFieldValue('fechareg', new Date());
-                      setFieldValue('dias', 1);
-                      setFieldValue('origenid',empleado.municipio);
-                      setFieldValue('destinoid',0);
-                      setFieldValue('motivo',"");
-                      setFieldValue('inforact', "");
-                      setStatus('submitted');
-                      setSubmitting(false);
-                      return ;
+                      startUpdatePartidas( updatePartida );
+                        alert('Viatico actualizado correctamente!');
+                        setFieldValue('noViat', 0);
+                        setFieldValue('fecha',new Date());
+                        setFieldValue('estatus',0);
+                        setFieldValue('fechasal', new Date());
+                        setFieldValue('fechareg', new Date());
+                        setFieldValue('dias', 1);
+                        setFieldValue('origenid',empleado.municipio);
+                        setFieldValue('destinoid',0);
+                        setFieldValue('motivo',"");
+                        setFieldValue('inforact', "");
+                        setStatus('submitted');
+                        setSubmitting(false);
+                        return ;
 
                     }).catch( (error) => {
                       alert( error );
@@ -270,9 +295,9 @@ let initialValues = {} as Props;
                           setStatus('submitted');
                           setSubmitting(false);
                           
-                          window.open( "formato-comision/"+ newViatico.oficina + "/" + newViatico.ejercicio + "/" + newViatico.noViat ,  '_blank', 'location=yes,height=570,width=520,scrollbars=yes,status=yes');
-                          window.open( "recibo-viatico/"+ newViatico.oficina + "/" + newViatico.ejercicio + "/" + newViatico.noViat ,  '_blank', 'location=yes,height=570,width=520,scrollbars=yes,status=yes');
-                          window.open( "informe-actividades/"+ newViatico.oficina + "/" + newViatico.ejercicio + "/" + newViatico.noViat ,  '_blank', 'location=yes,height=570,width=520,scrollbars=yes,status=yes');
+                          //window.open( "formato-comision/"+ newViatico.oficina + "/" + newViatico.ejercicio + "/" + newViatico.noViat ,  '_blank', 'location=yes,height=570,width=520,scrollbars=yes,status=yes');
+                         // window.open( "recibo-viatico/"+ newViatico.oficina + "/" + newViatico.ejercicio + "/" + newViatico.noViat ,  '_blank', 'location=yes,height=570,width=520,scrollbars=yes,status=yes');
+                         // window.open( "informe-actividades/"+ newViatico.oficina + "/" + newViatico.ejercicio + "/" + newViatico.noViat ,  '_blank', 'location=yes,height=570,width=520,scrollbars=yes,status=yes');
                           
                           return;
 
@@ -324,7 +349,9 @@ let initialValues = {} as Props;
                               className="form-control"
                               dateFormat="dd/MM/yyyy"
                               disabled={ isSubmitting }
-                              selected={ values.fecha } 
+                              selected={ values.fecha }
+                              minDate={ new Date(`01-01-${values.ejercicio}`)} 
+                              maxDate={new Date(`12-31-${values.ejercicio}`)}
                               onChange={
                                 ( date:any ) => setFieldValue('fecha', date)
                               }
@@ -361,6 +388,7 @@ let initialValues = {} as Props;
                                 selected={ values.fechasal }
                                 dateFormat="dd/MM/yyyy"
                                 disabled={ isSubmitting }
+                                maxDate={new Date(`12-31-${values.ejercicio}`)}
                                 onChange={
                                   ( date:any ) => 
                                     { 
@@ -384,6 +412,7 @@ let initialValues = {} as Props;
                                 minDate={ values.fechasal }
                                 selected={ values.fechareg }
                                 disabled={ isSubmitting }
+                                maxDate={new Date(`12-31-${values.ejercicio}`)}
                                 dateFormat="dd/MM/yyyy"
                                 onChange={
                                   ( date:any ) =>

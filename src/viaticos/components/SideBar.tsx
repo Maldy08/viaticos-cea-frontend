@@ -21,6 +21,7 @@ export const SideBar = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   const toggle = () => setIsOpen(!isOpen);
+  const ejercicio = localStorage.getItem('ejercicio')
 
   return (
       <Navbar expand="lg" className='vertical-nav py-3 px-2'>
@@ -58,6 +59,14 @@ export const SideBar = () => {
                 <span className='m-1'>Cerrar Sesion</span>
               </NavLink>
             </NavItem>
+
+            <NavItem>
+              <NavLink className="nav-link guinda" to='/'>
+              
+                <span className='m-1'>Ejercicio:{ ejercicio }</span>
+              </NavLink>
+            </NavItem>
+            
           </Nav>
         </Collapse>
       </Navbar>

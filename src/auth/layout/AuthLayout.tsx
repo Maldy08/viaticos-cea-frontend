@@ -10,7 +10,6 @@ export const AuthLayout: React.FunctionComponent<ModuleProps> = ({ children }) =
   return (
     <div className="AuthLayout">
       <Header/>     
-
         <div className='container mt-3'>
            { children }
         </div>

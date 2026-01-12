@@ -16,8 +16,8 @@ export const useCiudadesStore = () => {
 
     const startLoadingCiudades = async() => {
         try {
-            const { data } = await viaticosApi.get<Response>(`/Ciudades`);
-            dispatch( onListCiudades( data ));
+            const { data } = await viaticosApi.get<Response>(`api/Viaticos/Ciudades`);
+            dispatch( onListCiudades( data.data ));
             
         } catch (error) {
             console.log({ error });
@@ -26,9 +26,9 @@ export const useCiudadesStore = () => {
 
     const startLoadingCiudadById = async( id:number ) => {
         try {
-            const { data } = await viaticosApi.get(`/Ciudades/ByIdestado/${ id }`);
+            const { data } = await viaticosApi.get(`api/Viaticos/Ciudades/${ id }`);
             console.log(data);
-            dispatch( onGetCiudadById( data ));
+            dispatch( onGetCiudadById( data.data ));
             
         } catch (error) {
             console.log({error});

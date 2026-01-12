@@ -19,8 +19,8 @@ export const useEmpleadosStore = () => {
 
         try {
 
-            const { data } = await viaticosApi.get<EmpleadoResponseArray>(`/Empleados/byDeptocomi/${ depto }`);
-            dispatch( onListEmpleadosByDepto( data ));
+            const { data } = await viaticosApi.get(`api/Empleados/GetEmpleadosByDeptoComi/${ depto }`);
+            dispatch( onListEmpleadosByDepto( data.data ));
 
         } catch (error) {
             throw new Error("Error en obtener el listado de empleados.");
@@ -31,8 +31,8 @@ export const useEmpleadosStore = () => {
     const startLoadingEmpleadosByDeptoppto = async( deptoppto:number ) => {
 
         try {
-            const { data } = await viaticosApi.get<EmpleadoResponseArray>(`/Empleados/byDeptoppto/${ deptoppto }`);
-            dispatch( onListEmpleadosByDeptoppto( data ));
+            const { data } = await viaticosApi.get(`api/Empleados/GetEmpleadosByDeptoPpto/${ deptoppto }`);
+            dispatch( onListEmpleadosByDeptoppto( data.data ));
             
         } catch (error) {
             throw new Error("Error en obtener el listado de empleados.");
@@ -41,9 +41,9 @@ export const useEmpleadosStore = () => {
 
     const startLoadingEmpleadoById = async( idempleado:number ) => {
         try {
-            const { data } = await viaticosApi.get<EmpleadoResponse>(`/VistaEmpleados/byId/${ idempleado }`);
+            const { data } = await viaticosApi.get(`api/Empleados/GetEmpleadoById/${ idempleado }`);
             console.log({data})
-            dispatch(onGetEmpleadoById( data ));
+            dispatch(onGetEmpleadoById( data.data ));
             
         } catch (error) {
             throw new Error("Error en obtener empleado por el id.");

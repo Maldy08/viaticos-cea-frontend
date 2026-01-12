@@ -11,7 +11,7 @@ export const useEstadosStore = () => {
 
     const startLoadingEstados = async() => {
         try {
-            const { data } = await viaticosApi.get(`/Estados`);
+            const { data } = await viaticosApi.get(`api/Estados`);
             dispatch( onGetEstados( data ));
             
         } catch (error) {
@@ -21,7 +21,7 @@ export const useEstadosStore = () => {
 
     const startLoadingEstadoById = async( id: number ) => {
         try {
-            const { data } = await viaticosApi.get(`/Estados/ByIdEstado/${ id }`)
+            const { data } = await viaticosApi.get(`api/Estados/ByIdEstado/${ id }`)
             dispatch( onGetEstadoById( data ));
             
         } catch (error) {

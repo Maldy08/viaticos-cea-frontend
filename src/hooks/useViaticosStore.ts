@@ -23,9 +23,9 @@ export const useViaticosStore = () => {
 
         try {
             const { data } = await viaticosApi
-                .get(`/Viaticos/lista-viaticos-empleado/${ ejercicio }/${ empleado }`);
+                .get(`api/Viatico/ListaViaticosPorEmpleado/${ ejercicio }/${ empleado }`);
 
-                dispatch( onListViaticosByEmpleado( data ));
+                dispatch( onListViaticosByEmpleado( data.data ));
             
         } catch ( error:any ) {
 
@@ -39,9 +39,9 @@ export const useViaticosStore = () => {
     const startGetConsecutivo = async ( ejercicio:number, oficina:number ) : Promise<any> => {
 
         try {
-            const { data } = await viaticosApi.get(`/Viaticos/get-consecutivo/${ ejercicio }/${ oficina }`)
-            dispatch( onGetConsecutivo( data ));
-            return (data);
+            const { data } = await viaticosApi.get(`api/Viatico/GetNoViat/${ ejercicio }/${ oficina }`)
+            dispatch( onGetConsecutivo( data.data ));
+            return (data.data);
             //console.log( data );
             
         } catch ( error:any ) {
@@ -53,10 +53,9 @@ export const useViaticosStore = () => {
     }
 
     const startAddNewViatico = async ( data: Viaticos )  => {
-
         try {
 
-            const { data: viatico } = await viaticosApi.post<Viaticos>(`/Viaticos`, data );
+            const { data: viatico } = await viaticosApi.post<Viaticos>(`api/Viatico`, data );
             dispatch( onAddNewViatico( { ...viatico } ) )
           
             //console.log({viatico});
@@ -66,14 +65,13 @@ export const useViaticosStore = () => {
             console.log( error );
             throw new Error("Error al agregar Viatico");
         }
-
     }
 
     
     const startGetFormatoComision = async ( oficina:number, ejercicio:number, noviat:number ) => {
         try {
-            const { data } = await viaticosApi.get(`/Viaticos/formato-comision/${ oficina }/${ ejercicio }/${ noviat }`);
-            dispatch( onGetFormatoComision( data ) );
+            const { data } = await viaticosApi.get(`api/Viatico/FormatoComision/${ oficina }/${ ejercicio }/${ noviat }`);
+            dispatch( onGetFormatoComision( data.data ) );
             
         } catch (error) {
             console.log( error );
@@ -83,9 +81,9 @@ export const useViaticosStore = () => {
 
     const startGetViaticoByEjercicioOficinaNoviat = async ( oficina:number, ejercicio:number, noviat: number) => {
         try {
-            const { data } = await viaticosApi.get(`/Viaticos/${ ejercicio }/${ oficina }/${ noviat }`);
+            const { data } = await viaticosApi.get(`api/Viatico/GetAllByEjercicioOficinaNoviat/${ ejercicio }/${ oficina }/${ noviat }`);
            //console.log(data);
-            dispatch( onGetViaticoEjercicioOficinaNoviat( data ));
+            dispatch( onGetViaticoEjercicioOficinaNoviat( data.data ));
             
         } catch (error) {
             console.log( error );
@@ -96,7 +94,7 @@ export const useViaticosStore = () => {
     const startUpdateViatico = async (viatico: Viaticos ) => {
 
         try {
-            const { data } = await viaticosApi.put(`/Viaticos`,viatico);
+            const { data } = await viaticosApi.put(`api/Viatico`,viatico);
             dispatch( onUpdateViatico( { ...data}));
 
         } catch (error) {
@@ -104,11 +102,7 @@ export const useViaticosStore = () => {
             throw new Error("Error");
             
         }
-
     }
-
-    
-    
 
     const startResetData = () => {
         dispatch( onResetData() );
@@ -129,6 +123,4 @@ export const useViaticosStore = () => {
         startUpdateViatico,
         startResetData,
     }
-
-
 }

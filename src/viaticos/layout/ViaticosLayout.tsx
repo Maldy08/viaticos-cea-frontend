@@ -16,7 +16,7 @@ export const ViaticosLayout: React.FunctionComponent<ModuleProps> = ({ children 
           { children }
 
         </div>
-      <EmpleadosModal/>
+      {/* <EmpleadosModal/> */}
       <Footer/>
       
     </div>

@@ -28,8 +28,6 @@ export const Header = () => {
               </NavLink>
           </div>
         }
-        
-        
       </div>
 
     </div>

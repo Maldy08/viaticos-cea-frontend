@@ -88,7 +88,8 @@ export interface Empleado {
   obra: number;
   deptoPpto: number;
   municipio: number;
-  activo: string
+  activo: string;
+  lugartrab:number;
 }
 
 export interface VistaEmpledo {
@@ -106,6 +107,7 @@ export interface VistaEmpledo {
   municipio:number;
   oficina:number;
   nivel:number;
+  lugartrab:number;
   
 }
 

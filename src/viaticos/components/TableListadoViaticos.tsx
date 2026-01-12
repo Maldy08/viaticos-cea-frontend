@@ -28,8 +28,12 @@ export const TableListadoViaticos = ( { ejercicio, empleado }: Props ) => {
 
  
 const abrirFormato = (formato:string, oficina: number, ejercicio: number, noViatico: number) => {
+  console.log("abrirFormato", formato, oficina, ejercicio, noViatico);
+  let url = `${viaticosApiUrl}api/Viatico/${formato}/${ ejercicio }/${ oficina }/${ noViatico }`;
+  //console.log("url", url);
+  
   const element = document.createElement("a");
-  element.href = `${viaticosApiUrl}/Pdf/${formato}?ejercicio=${ ejercicio }&oficina=${ oficina }&noviat=${ noViatico }`;
+  element.href = url;
   element.download = "a.pdf";
   element.click();
 }
@@ -82,7 +86,7 @@ interface DataRow {
   fecha:Date; //date
   origen:string;
   destino:string;
-  movito:string;
+  motivo:string;
   salida:Date; //date
   regreso:Date; //date
   estatus:string;
@@ -124,7 +128,7 @@ interface DataRow {
     },
     { 
       name: 'Motivo',
-      selector: row => row.movito,
+      selector: row => row.motivo,
       grow: 3,
       compact: true,
       wrap: true,

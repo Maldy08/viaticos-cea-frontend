@@ -12,8 +12,8 @@ const startLoadingPaises = async () => {
 
     try {
 
-        const {data} =  await viaticosApi.get(`/Paises`);
-        dispatch( onListPaises ( data ));
+        const {data} =  await viaticosApi.get(`api/Paises`);
+        dispatch( onListPaises ( data.data ));
         
     } catch (error) {
         console.log({ error });

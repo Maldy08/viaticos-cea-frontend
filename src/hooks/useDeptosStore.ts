@@ -19,7 +19,7 @@ export const useDeptosStore = () => {
 
     const startLoadingDeptos = async() => {
        try {
-        const { data } = await viaticosApi.get<Response>('/Departamentos');
+        const { data } = await viaticosApi.get<Response>('/api/Departamentos');
        
         dispatch( onListDeptos( data ));
         
@@ -30,7 +30,7 @@ export const useDeptosStore = () => {
 
     const startLoadingDeptoById = async( id: number) => {
       try {
-         const { data } = await viaticosApi.get<ResponseById>(`/Departamentos/byId/${ id }`);
+         const { data } = await viaticosApi.get<ResponseById>(`api/Departamentos/GetDeptoById/${ id }`);
          dispatch( onGetDeptoById( data ));
         
       } catch (error) {

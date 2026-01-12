@@ -34,8 +34,8 @@ export const CambiarPass = () => {
                         initialValues={ initialValues }
                         validationSchema={ validationSchema }
                         onSubmit={ async ( values ) =>  {
-                            console.log( values );
-                            //await startUpdatePassword(values.password)
+                            //console.log( values );
+                            await startUpdatePassword(user.Id,values.password)
                         }}
                     >
                         {

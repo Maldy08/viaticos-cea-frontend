@@ -29,7 +29,7 @@ export const LoginPage = () => {
 
     const loginSubmit = ( event: React.FormEvent<HTMLFormElement> ) => {
         event.preventDefault();
-        startLogin( login, password );
+        //startLogin( login, password );
     }
 
   return (

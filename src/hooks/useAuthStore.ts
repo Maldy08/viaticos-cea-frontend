@@ -19,7 +19,8 @@ export const useAuthStore = () => {
         dispatch( onCheking() );
         
         try {
-            const { data } = await viaticosApi.post(`/Auth/login?user=${ login }&password=${ pass }`);
+            const { data } = await viaticosApi.post(`api/Auth/login?user=${ login }&password=${ pass }`);
+ 
             localStorage.setItem('ejercicio',ejercicio.toString());
             localStorage.setItem('token', data.token );
             localStorage.setItem("data", JSON.stringify(data));
@@ -39,7 +40,7 @@ export const useAuthStore = () => {
         if( !token ) return dispatch( onLogout({ user: { } }) );
         dispatch( onCheking() );
         try {
-           const { data } = await viaticosApi.get<Response>(`/Auth/validate-token?token=${ token }`);
+           const { data } = await viaticosApi.get<Response>(`api/Auth/validate-token?token=${ token }`);
            dispatch( onLogin( { user: data }) )
             
         } catch (error) {
@@ -59,7 +60,7 @@ export const useAuthStore = () => {
         const token = localStorage.getItem('token');
         if( !token ) return dispatch( onLogout( { user: { }}) );
         try {
-            const { data } = await viaticosApi.get<Response>(`/Auth/usuarioById?id=${ id }`);
+            const { data } = await viaticosApi.get<Response>(`api/Usuario/GetUserById?id=${ id }`);
             dispatch( onCheckUserById( { user: data } ) );
             
         } catch (error) {
@@ -69,10 +70,13 @@ export const useAuthStore = () => {
     }
 
     const startUpdatePassword = async ( user : any, newpassword: string ) => {
+       // console.log({ user, newpassword });
+       // return;
 
         try {
-            const { data } = await viaticosApi.put(`/Auth/cambiopass?=user${ user.user }/newPassword=${ newpassword }`);
-            
+            const { data } = await viaticosApi.put(`api/Auth/cambiopass?=user${ user }&newPassword=${ newpassword }`);
+            console.log({ data });
+            return data;
         } catch (error) {
             console.log({ error })
             

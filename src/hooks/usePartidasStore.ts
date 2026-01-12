@@ -11,10 +11,9 @@ export const usePartidasStore = () => {
     const dispatch = useDispatch();
 
     const startAddNewPartidas = async( partidas: ViaticosPart )  => {
-
         try {
 
-            const { data } = await viaticosApi.post(`/ViaticosPart`, partidas );
+            const { data } = await viaticosApi.post(`api/Viatico/ViaticosPart`, partidas );
             dispatch( onAddNew( { ...data } ) );
             
 
@@ -23,12 +22,26 @@ export const usePartidasStore = () => {
             console.log( error );
             throw new Error('Error al guardar partidas de viaticos');
         }
-
     }
+
+    const startUpdatePartidas = async( partidas: ViaticosPart )  => {
+            try {
+    
+                const { data } = await viaticosApi.put(`api/Viatico/ViaticosPart`, partidas );
+                dispatch( onAddNew( { ...data } ) );
+                
+    
+            } catch ( error:any ) {
+                
+                console.log( error );
+                throw new Error('Error al guardar partidas de viaticos');
+            }
+        }
 
     return {
         isLoading,
         partidas,
         startAddNewPartidas,
+        startUpdatePartidas,
     }
 }
