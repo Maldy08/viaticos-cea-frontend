@@ -47,7 +47,7 @@ export const CapturarViaticos = () => {
 
   let isModificarViatico = false;
   
-  let { noEmpleado, nombreCompleto, deptoDescripcion, descripcionPuesto } = useLocalData();
+  let { noEmpleado, nombreCompleto, deptoDescripcion, descripcionPuesto, viaticosNivel } = useLocalData();
   const { isLoading ,oficinas, startLoadingOficinas } = useOficinasStore();
   const { isLoading: isLoadingCiudades, startLoadingCiudades, ciudades } = useCiudadesStore();
   const { empleado, startLoadingEmpleadoById } = useEmpleadosStore();
@@ -56,11 +56,13 @@ export const CapturarViaticos = () => {
   const {isLoading: isLoadingPaises,paises, startLoadingPaises } = usePaisesStore();
   const { isLoading:isLoadingEstados, estados, startLoadingEstados } = useEstadosStore();
 
-    const { openEmpleadosModal, empleadoModalSelected } = useUiStore();
-    const empleadoActivoId = empleadoModalSelected || noEmpleado;
-    const empleadoHeaderId = empleado?.empleado || empleadoActivoId;
+  const { openEmpleadosModal, empleadoModalSelected } = useUiStore();
+  const empleadoActivoId = empleadoModalSelected || noEmpleado;
+  const empleadoHeaderId = empleado?.empleado || empleadoActivoId;
   
   const { startGetConsecutivo, isLoading: isLoadingViatico, startAddNewViatico, viatico, startUpdateViatico } = useViaticosStore();
+
+  
     
   useEffect(() => {
      startLoadingOficinas();
@@ -155,14 +157,17 @@ let initialValues = {} as Props;
                 <span className="d-block nombre-completo">{ empleado?.nombreCompleto || nombreCompleto }</span>
                 <span className="d-block">{ empleado?.descripcionDepto || deptoDescripcion }</span>
                 <span className="d-block">{ empleado?.descripcionPuesto || descripcionPuesto }</span>
-                <button
-                  type="button"
-                  className="btn btn-outline-primary btn-sm guinda mt-2"
-                  onClick={ openEmpleadosModal }
-                  title="Buscar Empleados"
-                >
-                  Cambiar de empleado
-                </button>
+                {
+                  viaticosNivel === 9 ?               
+                  <button
+                    type="button"
+                    className="btn btn-outline-primary btn-sm guinda mt-2"
+                    onClick={ openEmpleadosModal }
+                    title="Buscar Empleados"
+                  >
+                       Cambiar de empleado
+                  </button> : <></>
+                }
             </div>
           </div>
         </div>

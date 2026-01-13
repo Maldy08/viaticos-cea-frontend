@@ -2,6 +2,12 @@ import { useEffect, useMemo, useState } from 'react';
 import Modal from 'react-modal';
 import { useEmpleadosStore, useLocalData, useUiStore } from '../../hooks';
 
+const normalizeText = (value: string) =>
+  value
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .toLowerCase();
+
 const customStyles = {
   content: {
     top: '50%',
@@ -28,6 +34,7 @@ export const EmpleadosModal = () => {
 
   const [selectedEmpleadoId, setSelectedEmpleadoId] = useState<number>(0);
   const [isSelecting, setIsSelecting] = useState(false);
+  const [filterText, setFilterText] = useState('');
 
   useEffect(() => {
       startLoadingEmpleadosByDepto( depto )
@@ -37,6 +44,7 @@ export const EmpleadosModal = () => {
     if (!isEmpleadosModalOpen) {
       setSelectedEmpleadoId(0);
       setIsSelecting(false);
+      setFilterText('');
     }
   }, [isEmpleadosModalOpen]);
   
@@ -70,6 +78,16 @@ export const EmpleadosModal = () => {
         .filter(Boolean) as Array<{ empleadoId: number; nombre: string; paterno: string; materno: string }>;
     }, [empleados]);
 
+    const filteredRows = useMemo(() => {
+      const q = normalizeText(filterText.trim());
+      if (!q) return rows;
+
+      return rows.filter(({ empleadoId, nombre, paterno, materno }) => {
+        const fullName = normalizeText(`${nombre} ${paterno} ${materno}`);
+        return String(empleadoId).includes(q) || fullName.includes(q);
+      });
+    }, [rows, filterText]);
+
   return (
     <Modal
       isOpen={ isEmpleadosModalOpen }
@@ -84,7 +102,7 @@ export const EmpleadosModal = () => {
           <div>
             <h4 className="m-0">Empleados</h4>
             <small className="text-muted">
-              {isLoadingEmpleados ? 'Cargando listado…' : `Registros: ${rows.length}`}
+              {isLoadingEmpleados ? 'Cargando listado…' : `Registros: ${filteredRows.length}`}
             </small>
             {isSelecting && selectedEmpleadoId ? (
               <div className="mt-1">
@@ -97,6 +115,16 @@ export const EmpleadosModal = () => {
             className="btn-close"
             aria-label="Cerrar"
             onClick={ closeEmpleadosModal }
+          />
+        </div>
+        <div className="px-3 pt-2">
+          <input
+            type="text"
+            className="form-control form-control-sm"
+            placeholder="Filtrar por número o nombre…"
+            value={ filterText }
+            onChange={ (e) => setFilterText(e.target.value) }
+            disabled={ isLoadingEmpleados || isSelecting }
           />
         </div>
         <hr className="my-2" />
@@ -120,14 +148,14 @@ export const EmpleadosModal = () => {
                       Cargando…
                     </td>
                   </tr>
-                ) : rows.length === 0 ? (
+                ) : filteredRows.length === 0 ? (
                   <tr>
                     <td colSpan={2} className="text-center py-4 text-muted">
-                      No hay empleados para mostrar.
+                      No hay resultados.
                     </td>
                   </tr>
                 ) : (
-                  rows.map(({ empleadoId, nombre, paterno, materno }) => (
+                  filteredRows.map(({ empleadoId, nombre, paterno, materno }) => (
                     <tr
                       key={ empleadoId }
                       className={ selectedEmpleadoId === empleadoId ? 'table-active' : '' }

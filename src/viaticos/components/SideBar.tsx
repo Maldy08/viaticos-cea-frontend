@@ -1,6 +1,7 @@
 import { NavLink } from 'react-router-dom';
 import { useState } from "react";
 import '../styles/SideBar.css';
+import { useEmpleadosStore, useLocalData, useUiStore } from '../../hooks';
 import {
   Collapse,
   Navbar,
@@ -19,9 +20,15 @@ import {
 export const SideBar = () => {
 
   const [isOpen, setIsOpen] = useState(false);
+  const { noEmpleado } = useLocalData();
+  const { empleadoModalSelected } = useUiStore();
+  const { empleado } = useEmpleadosStore();
 
   const toggle = () => setIsOpen(!isOpen);
   const ejercicio = localStorage.getItem('ejercicio')
+  const empleadoActivoId = empleadoModalSelected || noEmpleado;
+  const isEmpleadoSeleccionado = !!empleadoModalSelected && empleadoModalSelected !== noEmpleado;
+  const empleadoActivoNombre = (empleado?.empleado === empleadoActivoId) ? empleado?.nombreCompleto : '';
 
   return (
       <Navbar expand="lg" className='vertical-nav py-3 px-2'>
@@ -32,6 +39,12 @@ export const SideBar = () => {
               <NavLink className='text-gray font-weight-bold px-2 small pb-4 mt-2 menu-principal' to='/'>
                   <span>Menu Principal</span>
               </NavLink>
+
+              <div className='mx-2 mb-2 p-2 activo rounded small'>
+                <div><b>Empleado activo:</b> { empleadoActivoId }</div>
+                { empleadoActivoNombre ? <div className='small'>{ empleadoActivoNombre }</div> : null }
+                { isEmpleadoSeleccionado ? <div className='small'>(seleccionado)</div> : null }
+              </div>
             
             <NavItem>
               <NavLink className={ ({ isActive }) => isActive ? 'nav-link activo mt-2': 'nav-link guinda' } to='/capturar-viatico'>
