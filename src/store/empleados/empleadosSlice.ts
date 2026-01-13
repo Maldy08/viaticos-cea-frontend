@@ -13,6 +13,12 @@ export const empleadosSlice = createSlice({
         errorMessage: ''
     },
     reducers: {
+        onResetEmpleadosState: ( state ) => {
+            state.isLoading = true;
+            state.empleados = [];
+            state.empleado = {} as VistaEmpledo;
+            state.errorMessage = '';
+        },
         onListEmpleadosByDepto: ( state, { payload = [] } ) => {
             state.isLoading = false;
             state.empleados = payload;
@@ -36,4 +42,4 @@ export const empleadosSlice = createSlice({
     }
 });
 
-export const { onListEmpleadosByDepto, onListEmpleadosByDeptoppto, onGetEmpleadoById, onError, clearErrorMessage } = empleadosSlice.actions;
+export const { onResetEmpleadosState, onListEmpleadosByDepto, onListEmpleadosByDeptoppto, onGetEmpleadoById, onError, clearErrorMessage } = empleadosSlice.actions;

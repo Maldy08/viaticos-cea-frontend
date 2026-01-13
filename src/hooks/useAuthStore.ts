@@ -1,6 +1,8 @@
 import { useSelector, useDispatch } from "react-redux"
 import { viaticosApi } from "../api";
 import { onCheckUserById, onCheking, onAuthError, onLogin, onLogout } from "../store/auth/authSlice";
+import { onResetEmpleadosState } from "../store/empleados/empleadosSlice";
+import { onResetUiState } from "../store/ui/uiSlice";
 import { RootState } from '../store/store';
 
 export const useAuthStore = () => {
@@ -53,6 +55,8 @@ export const useAuthStore = () => {
     const startLogOut = () => {
         localStorage.clear();
         dispatch( onCheking() );
+        dispatch( onResetUiState() );
+        dispatch( onResetEmpleadosState() );
         dispatch( onLogout({ user: { } }));
     }
 

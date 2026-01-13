@@ -3,18 +3,19 @@
 export const useLocalData = () => {
 
     const localData = JSON.parse( localStorage.getItem('data') || '{ }');
+    const userData = localData?.userData ?? {};
 
-    const activo = localData.userData.activo;
-    const depto = localData.userData.depto;
-    const deptoDescripcion = localData.userData.deptoDescripcion;
-    const descripcionPuesto = localData.userData.descripcionPuesto;
-    const idPuesto = localData.userData.idPue;
-    const noEmpleado = localData.userData.noEmpleado;
-    const nombreCompleto =  localData.userData.nombreCompleto;
-    const isActivoViaticos = localData.userData.viaticos;
-    const viaticosNivel = localData.userData.viaticosNivel;
-    const municipio = localData.userData.municipio;
-    const oficina = localData.userData.oficina;
+    const activo = userData?.activo ?? userData?.Activo;
+    const depto = userData?.depto ?? userData?.Depto;
+    const deptoDescripcion = userData?.deptoDescripcion ?? userData?.DeptoDescripcion;
+    const descripcionPuesto = userData?.descripcionPuesto ?? userData?.DescripcionPuesto;
+    const idPuesto = userData?.idPue ?? userData?.IdPue ?? userData?.IdPuesto;
+    const noEmpleado = userData?.noEmpleado ?? userData?.NoEmpleado;
+    const nombreCompleto =  userData?.nombreCompleto ?? userData?.NombreCompleto;
+    const isActivoViaticos = userData?.viaticos ?? userData?.Viaticos;
+    const viaticosNivel = userData?.viaticosNivel ?? userData?.ViaticosNivel;
+    const municipio = userData?.municipio ?? userData?.Municipio;
+    const oficina = userData?.oficina ?? userData?.Oficina;
 
 
 

@@ -10,6 +10,7 @@ import { useCiudadesStore,
          useOficinasStore, 
          usePaisesStore, 
          usePartidasStore, 
+         useUiStore,
          useViaticosStore } from "../../hooks";
 
 import { Viaticos, ViaticosPart } from "../../interfaces/interfaces";
@@ -46,7 +47,7 @@ export const CapturarViaticos = () => {
 
   let isModificarViatico = false;
   
-  let { noEmpleado, nombreCompleto, deptoDescripcion, descripcionPuesto, oficina } = useLocalData();
+  let { noEmpleado, nombreCompleto, deptoDescripcion, descripcionPuesto } = useLocalData();
   const { isLoading ,oficinas, startLoadingOficinas } = useOficinasStore();
   const { isLoading: isLoadingCiudades, startLoadingCiudades, ciudades } = useCiudadesStore();
   const { empleado, startLoadingEmpleadoById } = useEmpleadosStore();
@@ -55,6 +56,9 @@ export const CapturarViaticos = () => {
   const {isLoading: isLoadingPaises,paises, startLoadingPaises } = usePaisesStore();
   const { isLoading:isLoadingEstados, estados, startLoadingEstados } = useEstadosStore();
 
+    const { openEmpleadosModal, empleadoModalSelected } = useUiStore();
+    const empleadoActivoId = empleadoModalSelected || noEmpleado;
+    const empleadoHeaderId = empleado?.empleado || empleadoActivoId;
   
   const { startGetConsecutivo, isLoading: isLoadingViatico, startAddNewViatico, viatico, startUpdateViatico } = useViaticosStore();
     
@@ -63,8 +67,11 @@ export const CapturarViaticos = () => {
      startLoadingCiudades();
      startLoadingPaises();
      startLoadingEstados();
-     startLoadingEmpleadoById( noEmpleado );
   }, [])
+
+    useEffect(() => {
+      startLoadingEmpleadoById( empleadoActivoId );
+    }, [ empleadoActivoId ])
  
 
 let initialValues = {} as Props;
@@ -138,30 +145,26 @@ let initialValues = {} as Props;
   return (
     <ViaticosLayout>
       <div className="capturar-viaticos">
-        <div className="header">
+        <div className="header bg-light rounded">
           <div className="row">
             <div className="col-md-2">
               <label htmlFor="empleado" className="form-label mb-2">EMPLEADO</label>
-              <span className="form-control">{ noEmpleado }</span>
+              <span className="form-control">{ empleadoHeaderId }</span>
             </div>
             <div className="col">
-                <span className="d-block nombre-completo">{ nombreCompleto }</span>
-                <span className="d-block">{ deptoDescripcion }</span>
-                <span className="d-block">{ descripcionPuesto }</span>
+                <span className="d-block nombre-completo">{ empleado?.nombreCompleto || nombreCompleto }</span>
+                <span className="d-block">{ empleado?.descripcionDepto || deptoDescripcion }</span>
+                <span className="d-block">{ empleado?.descripcionPuesto || descripcionPuesto }</span>
+                <button
+                  type="button"
+                  className="btn btn-outline-primary btn-sm guinda mt-2"
+                  onClick={ openEmpleadosModal }
+                  title="Buscar Empleados"
+                >
+                  Cambiar de empleado
+                </button>
             </div>
           </div>
-          {/* <div className="row mt-2">
-            <div className="col-md-4">
-              <button
-              type="button"
-              className="btn btn-outline-primary btn-sm guinda"
-              onClick={ onClickCatalogoEmpleados }
-              disabled = {isModificarViatico}
-              title="Buscar Empleados">
-                Buscar en Catalogo
-              </button>
-            </div>
-          </div> */}
         </div>
         {/* <select name="" id="" onChange={}></select> */}
         <hr />
@@ -363,7 +366,7 @@ let initialValues = {} as Props;
 
                       <div className="col-md-2">
                         <div className="form-floating">
-                          <span className="form-control">{ noEmpleado }</span>
+                          <span className="form-control">{ empleadoActivoId }</span>
                           <label htmlFor="empleado2">Empleado</label>
                         </div>
                       </div>

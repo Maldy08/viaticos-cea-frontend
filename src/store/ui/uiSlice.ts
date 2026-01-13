@@ -13,6 +13,12 @@ export const uiSlice = createSlice({
         }
     },
     reducers: {
+        onResetUiState: ( state ) => {
+            state.isEmpleadosModalOpen = false;
+            state.empleadoModalSelected = 0;
+            state.isModificarViatico = false;
+            state.ViaticoModificar = { oficina: 0, ejercicio: 0, noViat: 0 };
+        },
         onOpenEmpleadosModal: ( state ) => {
             state.isEmpleadosModalOpen = true ;
         },
@@ -34,6 +40,7 @@ export const uiSlice = createSlice({
 });
 
 export const { 
+    onResetUiState,
     onOpenEmpleadosModal, 
     onCloseEmpleadosModal, 
     onSelectEmpleado,

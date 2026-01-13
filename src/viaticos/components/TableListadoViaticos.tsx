@@ -24,7 +24,7 @@ export const TableListadoViaticos = ( { ejercicio, empleado }: Props ) => {
 
  useEffect(() => {
    startLoadingViaticosByEmpleado( ejercicio, empleado );
- }, [])
+ }, [ejercicio, empleado])
 
  
 const abrirFormato = (formato:string, oficina: number, ejercicio: number, noViatico: number) => {
