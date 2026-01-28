@@ -6,21 +6,15 @@ import {
   Collapse,
   Navbar,
   NavbarToggler,
-  NavbarBrand,
   Nav,
   NavItem,
-  UncontrolledDropdown,
-  DropdownToggle,
-  DropdownMenu,
-  DropdownItem,
-  NavbarText,
 } from 'reactstrap';
 
 
 export const SideBar = () => {
 
   const [isOpen, setIsOpen] = useState(false);
-  const { noEmpleado } = useLocalData();
+  const { noEmpleado, viaticosNivel } = useLocalData();
   const { empleadoModalSelected } = useUiStore();
   const { empleado } = useEmpleadosStore();
 
@@ -31,57 +25,59 @@ export const SideBar = () => {
   const empleadoActivoNombre = (empleado?.empleado === empleadoActivoId) ? empleado?.nombreCompleto : '';
 
   return (
-      <Navbar expand="lg" className='vertical-nav py-3 px-2'>
-        <NavbarToggler onClick={toggle} />
-        <Collapse isOpen={isOpen} navbar>
-        
-          <Nav className="nav flex-column bg-white" navbar>
-              <NavLink className='text-gray font-weight-bold px-2 small pb-4 mt-2 menu-principal' to='/'>
-                  <span>Menu Principal</span>
-              </NavLink>
+    <Navbar expand="lg" className='vertical-nav bg-light py-3 px-2'>
+      <NavbarToggler onClick={toggle} aria-label="Toggle sidebar" />
+      <Collapse isOpen={isOpen} navbar>
 
+        <Nav className="sidebar-nav nav flex-column bg-light" navbar>
+          <NavLink className='text-gray font-weight-bold px-2 small pb-4 mt-2 menu-principal' to='/'>
+            <span>Menu Principal</span>
+          </NavLink>
+
+          {
+            viaticosNivel === 9 ?
               <div className='mx-2 mb-2 p-2 activo rounded small'>
-                <div><b>Empleado activo:</b> { empleadoActivoId }</div>
-                { empleadoActivoNombre ? <div className='small'>{ empleadoActivoNombre }</div> : null }
-                { isEmpleadoSeleccionado ? <div className='small'>(seleccionado)</div> : null }
-              </div>
-            
-            <NavItem>
-              <NavLink className={ ({ isActive }) => isActive ? 'nav-link activo mt-2': 'nav-link guinda' } to='/capturar-viatico'>
-                <i className="fa-solid fa-file mr-3"></i>
-                  <span className='m-1'>Capturar</span>
-              </NavLink>
-            </NavItem>
-            <NavItem>
-              <NavLink className={ ({ isActive }) => isActive ? 'nav-link activo': 'nav-link guinda' } to='/listado-viaticos'>
-                <i className="fa-regular fa-folder-open"></i>
-                <span className='m-1'>Listado</span>
-              </NavLink>
-            </NavItem>
-            <hr/>
-            <NavItem>
-              <NavLink className={ ({ isActive }) => isActive ? 'nav-link activo': 'nav-link guinda' } to='/cambiar-password'>
-                <i className="fa-solid fa-lock"></i>
-                <span className='m-1'>Cambiar contraseña</span>
-              </NavLink>
-            </NavItem>
+                <div><b>Empleado activo:</b> {empleadoActivoId}</div>
+                {empleadoActivoNombre ? <div className='small'>{empleadoActivoNombre}</div> : null}
+                {isEmpleadoSeleccionado ? <div className='small'>(seleccionado)</div> : null}
+              </div> : null
+          }
 
-            <NavItem>
-              <NavLink className={ ({ isActive }) => isActive ? 'nav-link activo': 'nav-link guinda' } to='/cerrar-sesion'>
-                <i className="fa-solid fa-right-from-bracket"></i>
-                <span className='m-1'>Cerrar Sesion</span>
-              </NavLink>
-            </NavItem>
+          <NavItem>
+            <NavLink className={({ isActive }) => isActive ? 'nav-link sidebar-link activo mt-2' : 'nav-link sidebar-link guinda'} to='/capturar-viatico'>
+              <i className="fa-solid fa-file sidebar-icon" aria-hidden="true"></i>
+              <span className='sidebar-text'>Capturar</span>
+            </NavLink>
+          </NavItem>
+          <NavItem>
+            <NavLink className={({ isActive }) => isActive ? 'nav-link sidebar-link activo' : 'nav-link sidebar-link guinda'} to='/listado-viaticos'>
+              <i className="fa-regular fa-folder-open sidebar-icon" aria-hidden="true"></i>
+              <span className='sidebar-text'>Listado</span>
+            </NavLink>
+          </NavItem>
+          <hr />
+          <NavItem>
+            <NavLink className={({ isActive }) => isActive ? 'nav-link sidebar-link activo' : 'nav-link sidebar-link guinda'} to='/cambiar-password'>
+              <i className="fa-solid fa-lock sidebar-icon" aria-hidden="true"></i>
+              <span className='sidebar-text'>Cambiar contraseña</span>
+            </NavLink>
+          </NavItem>
 
-            <NavItem>
-              <NavLink className="nav-link guinda" to='/'>
-              
-                <span className='m-1'>Ejercicio:{ ejercicio }</span>
-              </NavLink>
-            </NavItem>
-            
-          </Nav>
-        </Collapse>
-      </Navbar>
+          <NavItem>
+            <NavLink className={({ isActive }) => isActive ? 'nav-link sidebar-link activo' : 'nav-link sidebar-link guinda'} to='/cerrar-sesion'>
+              <i className="fa-solid fa-right-from-bracket sidebar-icon" aria-hidden="true"></i>
+              <span className='sidebar-text'>Cerrar Sesion</span>
+            </NavLink>
+          </NavItem>
+
+          <NavItem>
+            <NavLink className="nav-link sidebar-link guinda" to='/'>
+              <span className='sidebar-text'>Ejercicio: {ejercicio}</span>
+            </NavLink>
+          </NavItem>
+
+        </Nav>
+      </Collapse>
+    </Navbar>
   )
 }
