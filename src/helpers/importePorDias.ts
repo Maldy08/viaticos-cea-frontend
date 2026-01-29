@@ -1,21 +1,23 @@
-export const importePorDias = (dias:number, nivelEmpleado:number,fueraDelEstado: boolean ): number => {
-    
-   //modificar el importe de viatico por nivel de empleado
-   // 04/04/2024
-    const importeViaticoDentroEstadoNivel1 = 270;
-    const importeViaticoDentroEstadoNivel2 = 300;
-    const importeViaticoDentroEstadoNivel1Titular = 350
+/**
+ * @deprecated Use ViaticoCalculator from services/domain instead
+ * Este archivo se mantiene solo por compatibilidad
+ */
 
-    const importeViaticoFueraEstadoNivel1 = 400;
-    const importeViaticoFueraEstadoNivel2 = 500;
-    const importeViaticoFueraEstadoNivel2Titular = 600;
+import { viaticoCalculator } from '../services/domain';
 
-    let importeViatico: number;
-    if( fueraDelEstado ) {
-       importeViatico = nivelEmpleado < 17 ? importeViaticoFueraEstadoNivel1 * dias : nivelEmpleado >= 17 && nivelEmpleado <= 19 ? importeViaticoFueraEstadoNivel2 * dias : importeViaticoFueraEstadoNivel2Titular * dias;
-    } else {
-       importeViatico = nivelEmpleado < 17 ? importeViaticoDentroEstadoNivel1 * dias : nivelEmpleado >= 17 && nivelEmpleado <= 19 ? importeViaticoDentroEstadoNivel2 * dias : importeViaticoDentroEstadoNivel1Titular * dias;
-    }
+export const importePorDias = (
+  dias: number,
+  nivelEmpleado: number,
+  fueraDelEstado: boolean
+): number => {
+  console.warn('importePorDias is deprecated. Use ViaticoCalculator instead.');
+  
+  const resultado = viaticoCalculator.calcular({
+    dias,
+    nivelEmpleado,
+    fueraDelEstado,
+    fueraDelPais: false, // El helper antiguo no manejaba fuera del país
+  });
 
-    return importeViatico;
-}
+  return resultado.importe;
+};

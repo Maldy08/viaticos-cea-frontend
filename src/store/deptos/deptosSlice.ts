@@ -1,27 +1,28 @@
-import { createSlice } from "@reduxjs/toolkit";
-import { Deptos } from '../../interfaces/interfaces';
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { Departamento, DepartamentosState } from "../../types";
 
-const deptos = {} as Deptos[];
-const depto = {} as Deptos;
+const departamentoVacio = {} as Departamento;
+const departamentosVacios: Departamento[] = [];
+
+const initialState: DepartamentosState = {
+  isLoadingDeptos: true, 
+  deptos: departamentosVacios,
+  depto: departamentoVacio
+};
 
 export const deptosSlice = createSlice({
-    name:'deptos',
-    initialState: {
-        isLoadingDeptos:true, 
-        deptos: deptos ,
-        depto: depto
-
+  name: 'deptos',
+  initialState,
+  reducers: {
+    onListDeptos: (state, action: PayloadAction<Departamento[]>) => {
+      state.isLoadingDeptos = false;
+      state.deptos = action.payload;
     },
-    reducers:{
-        onListDeptos: ( state, { payload = [] } ) => {
-            state.isLoadingDeptos  = false;
-            state.deptos = payload;
-        },
-        onGetDeptoById: ( state, { payload } ) => {
-            state.isLoadingDeptos = false;
-            state.depto = payload;
-        }
+    onGetDeptoById: (state, action: PayloadAction<Departamento>) => {
+      state.isLoadingDeptos = false;
+      state.depto = action.payload;
     }
+  }
 });
 
 export const { onListDeptos, onGetDeptoById } = deptosSlice.actions;

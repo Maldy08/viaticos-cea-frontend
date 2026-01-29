@@ -1,10 +1,7 @@
+import { useAuthStore } from "./useAuthStore";
+import type { AuthStatus } from "../types/common/base.types";
 
-import { useAuthStore } from "./useAuthStore"
-
-
-export const useCheckAuth = () =>{
-    const { status } = useAuthStore();
-
-    return status;
-
-}
+export const useCheckAuth = (): AuthStatus | string => {
+  const { status } = useAuthStore();
+  return status;
+};

@@ -1,23 +1,29 @@
-import { createSlice } from "@reduxjs/toolkit";
-import { ViaticosPart } from "../../interfaces/interfaces";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import type { ViaticoPartida } from "../../types/viaticos/partida.types";
 
-const partidas = { } as ViaticosPart
+// Estado de partidas
+export interface PartidasState {
+  isLoading: boolean;
+  partidas: ViaticoPartida | Record<string, never>;
+}
+
+// Estado inicial
+const partidasVacias = {} as ViaticoPartida;
+
+const initialState: PartidasState = {
+  isLoading: true,
+  partidas: partidasVacias
+};
 
 export const partidasSlice = createSlice({
-    name:'partidas',
-    initialState:{
-        isLoading:true,
-        partidas:partidas
-
+  name: 'partidas',
+  initialState,
+  reducers: {
+    onAddNew: (state, action: PayloadAction<ViaticoPartida>) => {
+      state.isLoading = false;
+      state.partidas = action.payload;
     },
-    reducers:{
-        onAddNew:( state, { payload } ) => {
-            state.isLoading = false;
-            state.partidas = payload;
-           // console.log(payload);
-           
-        },
-    }
-})
+  }
+});
 
 export const { onAddNew } = partidasSlice.actions;

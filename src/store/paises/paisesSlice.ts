@@ -1,23 +1,26 @@
-import { createSlice } from "@reduxjs/toolkit";
-import { Paises } from "../../interfaces/interfaces";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { Pais, PaisesState } from "../../types";
 
-const paises = [] as Paises[];
-const pais = {} as Paises;
+
+// Estado inicial
+const paisVacio = {} as Pais;
+const paisesVacios: Pais[] = [];
+
+const initialState: PaisesState = {
+  isLoading: true,
+  paises: paisesVacios,
+  pais: paisVacio,
+};
 
 export const paisesSlice = createSlice({
-    name : 'paises',
-    initialState:{
-        isLoading:true,
-        paises:paises,
-        pais:pais,
-
+  name: 'paises',
+  initialState,
+  reducers: {
+    onListPaises: (state, action: PayloadAction<Pais[]>) => {
+      state.isLoading = false;
+      state.paises = action.payload;
     },
-    reducers: {
-        onListPaises:(state, { payload = []}) => {
-            state.isLoading = false;
-            state.paises = payload;
-        },
-    },
+  },
 });
 
-export const { onListPaises} = paisesSlice.actions;
+export const { onListPaises } = paisesSlice.actions;

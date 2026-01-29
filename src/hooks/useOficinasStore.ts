@@ -1,33 +1,25 @@
-import { useDispatch, useSelector } from "react-redux"
-import { viaticosApi } from "../api";
-import { Oficina } from "../interfaces/interfaces";
+import { useDispatch, useSelector } from "react-redux";
 import { onListOficinas } from "../store/oficinas/oficinasSlice";
-import { RootState } from "../store/store"
-
+import type { RootState } from "../types/store/store.types";
+import { oficinasRepository } from '../services/repositories';
 
 export const useOficinasStore = () => {
+  const { oficinas, isLoading } = useSelector((state: RootState) => state.oficinas);
+  const dispatch = useDispatch();
 
-    type Response = {
-        data: Oficina[]
+  const startLoadingOficinas = async (): Promise<void> => {
+    try {
+      const data = await oficinasRepository.getAll();
+      dispatch(onListOficinas(data));
+      
+    } catch (error) {
+      console.log({ error });
     }
+  };
 
-    const { oficinas, isLoading } = useSelector( ( state: RootState ) => state.oficinas );
-    const dispatch = useDispatch();
-
-    const startLoadingOficinas = async() => {
-        try {
-
-            const { data } = await viaticosApi.get<Response>(`api/Oficinas`);
-            dispatch( onListOficinas( data.data ));
-            
-        } catch (error) {
-            console.log({ error });
-        }
-    }
-
-    return {
-        oficinas,
-        isLoading,
-        startLoadingOficinas,
-    }
-}
+  return {
+    oficinas,
+    isLoading,
+    startLoadingOficinas,
+  };
+};

@@ -1,126 +1,127 @@
-import { useDispatch, useSelector } from "react-redux"
-import { viaticosApi } from "../api";
-import { Viaticos } from "../interfaces/interfaces";
-import { RootState } from "../store/store"
+import { useDispatch, useSelector } from "react-redux";
+import type { RootState } from "../types/store/store.types";
 import {
-     onAddNewViatico, 
-     onGetConsecutivo, 
-     onGetFormatoComision, 
-     onGetViaticoEjercicioOficinaNoviat, 
-     onListViaticosByEmpleado, 
-     onResetData, 
-     onUpdateViatico,
-    }
-     from "../store/viaticos/viaticosSlice";
-
+  onAddNewViatico, 
+  onGetConsecutivo, 
+  onGetFormatoComision, 
+  onGetViaticoEjercicioOficinaNoviat, 
+  onListViaticosByEmpleado, 
+  onResetData, 
+  onUpdateViatico,
+} from "../store/viaticos/viaticosSlice";
+import type { Viatico } from "../types/viaticos/viatico.types";
+import type { ID } from "../types/common/base.types";
+import { viaticosRepository } from '../services/repositories';
 
 export const useViaticosStore = () => {
+  const { 
+    isLoading, 
+    listviaticos, 
+    viatico, 
+    errorMessage, 
+    consecutivo, 
+    formatoComision 
+  } = useSelector((state: RootState) => state.viaticos);
+  const dispatch = useDispatch();
 
-    const { isLoading, listviaticos, viatico, errorMessage, consecutivo, formatoComision } = useSelector( ( state: RootState ) => state.viaticos );
-    const dispatch = useDispatch();
-
-    const startLoadingViaticosByEmpleado = async ( ejercicio:number, empleado:number ) => {
-
-        try {
-            const { data } = await viaticosApi
-                .get(`api/Viatico/ListaViaticosPorEmpleado/${ ejercicio }/${ empleado }`);
-
-                dispatch( onListViaticosByEmpleado( data.data ));
-            
-        } catch ( error:any ) {
-
-            console.log( { error } );
-            throw new Error("Error al obtener el listado de viaticos por empleado.");
-            
-        }
-
+  const startLoadingViaticosByEmpleado = async (
+    ejercicio: number, 
+    empleado: ID
+  ): Promise<void> => {
+    try {
+      const data = await viaticosRepository.getByEmpleadoEjercicio(ejercicio, empleado);
+      dispatch(onListViaticosByEmpleado(data));
+      
+    } catch (error: any) {
+      console.log({ error });
+      throw new Error("Error al obtener el listado de viaticos por empleado.");
     }
+  };
 
-    const startGetConsecutivo = async ( ejercicio:number, oficina:number ) : Promise<any> => {
-
-        try {
-            const { data } = await viaticosApi.get(`api/Viatico/GetNoViat/${ ejercicio }/${ oficina }`)
-            dispatch( onGetConsecutivo( data.data ));
-            return (data.data);
-            //console.log( data );
-            
-        } catch ( error:any ) {
-
-            console.log( { error } );
-            throw new Error("Error al obtener el numero de consecutivo.");
-            
-        }
+  const startGetConsecutivo = async (
+    ejercicio: number, 
+    oficina: ID
+  ): Promise<number> => {
+    try {
+      const data = await viaticosRepository.getConsecutivo(ejercicio, oficina);
+      dispatch(onGetConsecutivo(data));
+      return data.consecutivo;
+      
+    } catch (error: any) {
+      console.log({ error });
+      throw new Error("Error al obtener el numero de consecutivo.");
     }
+  };
 
-    const startAddNewViatico = async ( data: Viaticos )  => {
-        try {
-
-            const { data: viatico } = await viaticosApi.post<Viaticos>(`api/Viatico`, data );
-            dispatch( onAddNewViatico( { ...viatico } ) )
-          
-            //console.log({viatico});
-            
-        } catch (error) {
-            
-            console.log( error );
-            throw new Error("Error al agregar Viatico");
-        }
+  const startAddNewViatico = async (viaticoData: Viatico): Promise<void> => {
+    try {
+      const data = await viaticosRepository.create(viaticoData);
+      dispatch(onAddNewViatico(data));
+      
+    } catch (error) {
+      console.log(error);
+      throw new Error("Error al agregar Viatico");
     }
+  };
 
-    
-    const startGetFormatoComision = async ( oficina:number, ejercicio:number, noviat:number ) => {
-        try {
-            const { data } = await viaticosApi.get(`api/Viatico/FormatoComision/${ oficina }/${ ejercicio }/${ noviat }`);
-            dispatch( onGetFormatoComision( data.data ) );
-            
-        } catch (error) {
-            console.log( error );
-            throw new Error("Error");
-        }
+  const startGetFormatoComision = async (
+    oficina: ID, 
+    ejercicio: number, 
+    noviat: number
+  ): Promise<void> => {
+    try {
+      const data = await viaticosRepository.getFormatoComision(oficina, ejercicio, noviat);
+      dispatch(onGetFormatoComision(data));
+      
+    } catch (error) {
+      console.log(error);
+      throw new Error("Error al obtener formato de comisión");
     }
+  };
 
-    const startGetViaticoByEjercicioOficinaNoviat = async ( oficina:number, ejercicio:number, noviat: number) => {
-        try {
-            const { data } = await viaticosApi.get(`api/Viatico/GetAllByEjercicioOficinaNoviat/${ ejercicio }/${ oficina }/${ noviat }`);
-           //console.log(data);
-            dispatch( onGetViaticoEjercicioOficinaNoviat( data.data ));
-            
-        } catch (error) {
-            console.log( error );
-            throw new Error("Error");
-        }
+  const startGetViaticoByEjercicioOficinaNoviat = async (
+    oficina: ID, 
+    ejercicio: number, 
+    noviat: number
+  ): Promise<void> => {
+    try {
+      const data = await viaticosRepository.getByOficinaEjercicioNoviat(oficina, ejercicio, noviat);
+      dispatch(onGetViaticoEjercicioOficinaNoviat(data));
+      
+    } catch (error) {
+      console.log(error);
+      throw new Error("Error al obtener viático");
     }
+  };
 
-    const startUpdateViatico = async (viatico: Viaticos ) => {
+  const startUpdateViatico = async (viatico: Viatico): Promise<void> => {
+    try {
+      const data = await viaticosRepository.update(viatico);
+      dispatch(onUpdateViatico(data));
 
-        try {
-            const { data } = await viaticosApi.put(`api/Viatico`,viatico);
-            dispatch( onUpdateViatico( { ...data}));
-
-        } catch (error) {
-            console.log(error);
-            throw new Error("Error");
-            
-        }
+    } catch (error) {
+      console.log(error);
+      throw new Error("Error al actualizar viático");
     }
+  };
 
-    const startResetData = () => {
-        dispatch( onResetData() );
-    }
+  const startResetData = (): void => {
+    dispatch(onResetData());
+  };
 
-    return {
-        isLoading,
-        consecutivo,
-        viatico,
-        listviaticos,
-        formatoComision,
-        errorMessage,
-        startLoadingViaticosByEmpleado,
-        startGetConsecutivo,
-        startAddNewViatico,
-        startGetFormatoComision,
-        startGetViaticoByEjercicioOficinaNoviat,
-        startUpdateViatico,
-        startResetData,
-    }
-}
+  return {
+    isLoading,
+    consecutivo,
+    viatico,
+    listviaticos,
+    formatoComision,
+    errorMessage,
+    startLoadingViaticosByEmpleado,
+    startGetConsecutivo,
+    startAddNewViatico,
+    startGetFormatoComision,
+    startGetViaticoByEjercicioOficinaNoviat,
+    startUpdateViatico,
+    startResetData,
+  };
+};

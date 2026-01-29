@@ -1,45 +1,39 @@
-import { useDispatch, useSelector } from "react-redux"
-import { viaticosApi } from "../api"
-import { Ciudades } from "../interfaces/interfaces"
-import { onGetCiudadById, onListCiudades } from "../store/ciudades/ciudadesSlice"
-import { RootState } from "../store/store"
-
+import { useDispatch, useSelector } from "react-redux";
+import { onGetCiudadById, onListCiudades } from "../store/ciudades/ciudadesSlice";
+import type { RootState } from "../types/store/store.types";
+import type { ID } from "../types/common/base.types";
+import { ciudadesRepository } from '../services/repositories';
 
 export const useCiudadesStore = () => {
+  const { isLoading, ciudades, ciudad } = useSelector((state: RootState) => state.ciudades);
+  const dispatch = useDispatch();
 
-    type Response = {
-        data: Ciudades[]
+  const startLoadingCiudades = async (): Promise<void> => {
+    try {
+      const data = await ciudadesRepository.getAll();
+      dispatch(onListCiudades(data));
+      
+    } catch (error) {
+      console.log({ error });
     }
+  };
 
-    const { isLoading, ciudades, ciudad } = useSelector( ( state: RootState ) => state.ciudades );
-    const dispatch = useDispatch();
-
-    const startLoadingCiudades = async() => {
-        try {
-            const { data } = await viaticosApi.get<Response>(`api/Viaticos/Ciudades`);
-            dispatch( onListCiudades( data.data ));
-            
-        } catch (error) {
-            console.log({ error });
-        }
+  const startLoadingCiudadById = async (id: ID): Promise<void> => {
+    try {
+      const data = await ciudadesRepository.getById(id);
+      console.log(data);
+      dispatch(onGetCiudadById(data));
+      
+    } catch (error) {
+      console.log({ error });
     }
+  };
 
-    const startLoadingCiudadById = async( id:number ) => {
-        try {
-            const { data } = await viaticosApi.get(`api/Viaticos/Ciudades/${ id }`);
-            console.log(data);
-            dispatch( onGetCiudadById( data.data ));
-            
-        } catch (error) {
-            console.log({error});
-        }
-    }
-
-    return {
-        isLoading,
-        ciudades,
-        ciudad,
-        startLoadingCiudades,
-        startLoadingCiudadById
-    }
-}
+  return {
+    isLoading,
+    ciudades,
+    ciudad,
+    startLoadingCiudades,
+    startLoadingCiudadById
+  };
+};

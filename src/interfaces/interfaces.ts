@@ -1,167 +1,27 @@
-export interface User {
-    usuario:number;
-    login:string;
-    pass:string;
-    activo:boolean;
-    depto:number;
-    noEmpleado:number;
-    viaticos:boolean;
-    viaticosNivel:number;
-    deptoDescripcion:string;
-    nombreCompleto:string;
-    idPue:number;
-    descripcion:string;
-    municipio:number;
-    oficina:number;
-}
+/**
+ * DEPRECATED: Este archivo se mantiene solo por compatibilidad con código legacy
+ * 
+ * Por favor, usa los nuevos tipos segregados desde src/types en su lugar:
+ * 
+ * - Para auth: import { User, LoginCredentials } from '../types/auth'
+ * - Para empleados: import { Empleado, VistaEmpleado } from '../types/empleados'
+ * - Para viáticos: import { Viatico, ViaticoPartida } from '../types/viaticos'
+ * - Para catálogos: import { Departamento, Oficina, Ciudad } from '../types/catalogos'
+ * 
+ * Este archivo será removido en una versión futura.
+ */
 
-export interface Deptos {
-    id:number;
-    idCea:number;
-    idShpoa: number;
-    descripcion:string;
-    nivel:number;
-    oficial:number;
-    idReporta:number;
-    agrupaPoa:number;
-    meta:number;
-    accion:number;
-    prog:string;
-    empRespon:number;
-    agrupaDir: number
-}
-
-export interface Viaticos {
-  oficina:number;
-  ejercicio:number;
-  noViat:number;
-  fecha:Date; //date
-  noEmp:number;
-  origenId:number;
-  destinoId:number;
-  motivo:string;
-  fechaSal:Date; //date
-  fechaReg:Date; //date
-  dias:number;
-  inforFecha:Date //date
-  inforAct:string;
-  nota:string;
-  estatus:number;
-  fechaMod:Date; //date
-  pol:number;
-  polMes:number;
-  caja:number;
-  cajaVale:number;
-  cajaRepo:number;
-  noEmpCrea:number;
-  inforResul:string;
-
-}
-
-export interface ViaticosPart {
-  oficina:number;
-  ejercicio:number;
-  noviat:number;
-  partida:number;
-  importe:number;
-
-}
-
-export interface ListViaticos {
-  viatico:number;
-  fecha:string; //date
-  origen:string;
-  destino:string;
-  motivo:string;
-  salida:string; //date
-  regreso:string; //date
-  estatus:string;
-}
-
-export interface Empleado {
-  idEmpleado: number;
-  nombre: string;
-  paterno: string;
-  materno: string;
-  nivel: number;
-  depto: number;
-  obra: number;
-  deptoPpto: number;
-  municipio: number;
-  activo: string;
-  lugartrab:number;
-}
-
-export interface VistaEmpledo {
-  activo:string;
-  empleado:number;
-  paterno:string;
-  materno:string;
-  nombre:string;
-  idPue:number;
-  descripcionPuesto:string;
-  deptoue:number;
-  descripcionDepto:string;
-  deptocomi:number;
-  nombreCompleto:string;
-  municipio:number;
-  oficina:number;
-  nivel:number;
-  lugartrab:number;
-  
-}
-
-export interface Oficina {
-  idOfi:number;
-  nombre: string;
-  rutaTrans: string;
-}
-
-export interface Ciudades {
-  idCiudad:number;
-  idEstado:number;
-  ciudad:string;
-}
-
-export interface Estados {
-  idEstado:number;
-  idPais:number;
-  estado:string;
-}
-
-export interface Paises {
-  idPais:number;
-  pais:string;
-}
-
-export interface ViaticosConsecutivo {
- consecutivo:number;
-}
-
-export interface FormatoComisionReporte {
-  oficina:number;
-  ejercicio:number;
-  noViat:number;
-  fecha:Date;
-  noEmp:number;
-  origenId:number;
-  destinoId:number;
-  motivo:string;
-  fechaSal:Date;
-  fechaReg:Date;
-  dias:number;
-  inforAct:string;
-  importe:number;
-  nombre:string;
-  materno:string;
-  paterno:string;
-  descripcionPuesto:string
-  cdOrigen:string;
-  cdDestino:string;
-  quienLoComisiona:string;
-  puestoQuienLoComisiona:string;
-  edoOrigen:string;
-  edoDestino:string;
-  deptoDescripcion:string;
-  inforResul:string;
-}
+// Re-exportar SOLO desde los nuevos tipos para mantener compatibilidad
+export type { User } from '../types/auth/user.types';
+export type { Departamento as Deptos } from '../types/catalogos/departamento.types';
+export type { Viatico as Viaticos } from '../types/viaticos/viatico.types';
+export type { ViaticoPartida as ViaticosPart } from '../types/viaticos/partida.types';
+export type { ViaticoListItem as ListViaticos } from '../types/viaticos/viatico.types';
+export type { Empleado } from '../types/empleados/empleado.types';
+export type { VistaEmpleado as VistaEmpledo } from '../types/empleados/empleado.types';
+export type { Oficina } from '../types/catalogos/oficina.types';
+export type { Ciudad as Ciudades } from '../types/catalogos/ciudad.types';
+export type { Estado as Estados } from '../types/catalogos/estado.types';
+export type { Pais as Paises } from '../types/catalogos/pais.types';
+export type { ViaticoConsecutivo } from '../types/viaticos/reporte.types';
+export type { FormatoComision as FormatoComisionReporte } from '../types/viaticos/reporte.types';

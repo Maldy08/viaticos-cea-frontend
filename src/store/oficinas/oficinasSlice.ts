@@ -1,24 +1,27 @@
-import { createSlice } from "@reduxjs/toolkit";
-import { Oficina } from "../../interfaces/interfaces";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { Oficina, OficinasState } from "../../types";
 
-const oficinas = {} as Oficina[];
-const oficina = {} as Oficina;
+
+// Estado inicial
+const oficinaVacia = {} as Oficina;
+const oficinasVacias: Oficina[] = [];
+
+const initialState: OficinasState = {
+  isLoading: true,
+  oficinas: oficinasVacias,
+  oficina: oficinaVacia,
+  errorMessage: undefined
+};
 
 export const oficinasSlice = createSlice({
-    name:'oficinas',
-    initialState: {
-        isLoading:true,
-        oficinas:oficinas,
-        oficina:oficina,
-        errorMessage: undefined
-    },
-    reducers: {
-        onListOficinas: ( state, { payload = [] }) => {
-            state.isLoading = false;
-            state.oficinas = payload;
-        }
+  name: 'oficinas',
+  initialState,
+  reducers: {
+    onListOficinas: (state, action: PayloadAction<Oficina[]>) => {
+      state.isLoading = false;
+      state.oficinas = action.payload;
     }
-
+  }
 });
 
 export const { onListOficinas } = oficinasSlice.actions;

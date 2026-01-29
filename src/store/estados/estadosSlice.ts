@@ -1,28 +1,30 @@
-import { createSlice } from '@reduxjs/toolkit';
-import { Estados } from '../../interfaces/interfaces';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { Estado, EstadosState } from '../../types';
 
-const estados = [] as Estados[];
-const estado = {} as Estados;
+
+// Estado inicial
+const estadoVacio = {} as Estado;
+const estadosVacios: Estado[] = [];
+
+const initialState: EstadosState = {
+  isLoading: true,
+  estados: estadosVacios,
+  estado: estadoVacio
+};
 
 export const estadosSlice = createSlice({
-    name:'estados',
-    initialState: {
-        isLoading: true,
-        estados:estados,
-        estado:estado
+  name: 'estados',
+  initialState,
+  reducers: {
+    onGetEstados: (state, action: PayloadAction<Estado[]>) => {
+      state.isLoading = false;
+      state.estados = action.payload;
     },
-    reducers:{
-        onGetEstados: ( state, { payload = [] }) => {
-            state.isLoading = false;
-            state.estados = payload;
-        },
-        onGetEstadoById: ( state , { payload } ) => {
-            state.isLoading = false;
-            state.estado = payload;
-        }
-
+    onGetEstadoById: (state, action: PayloadAction<Estado>) => {
+      state.isLoading = false;
+      state.estado = action.payload;
     }
-
+  }
 });
 
 export const { onGetEstados, onGetEstadoById } = estadosSlice.actions;

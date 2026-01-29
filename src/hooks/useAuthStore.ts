@@ -1,102 +1,99 @@
-import { useSelector, useDispatch } from "react-redux"
-import { viaticosApi } from "../api";
+import { useSelector, useDispatch } from "react-redux";
 import { onCheckUserById, onCheking, onAuthError, onLogin, onLogout } from "../store/auth/authSlice";
 import { onResetEmpleadosState } from "../store/empleados/empleadosSlice";
 import { onResetUiState } from "../store/ui/uiSlice";
-import { RootState } from '../store/store';
+import type { RootState } from '../types/store/store.types';
+import type { LoginCredentials } from '../types/auth/auth.types';
+import type { ID } from '../types/common/base.types';
+import { authRepository } from '../services/repositories';
 
 export const useAuthStore = () => {
-    const { status , user , errorMessage } = useSelector( ( state: RootState ) => state.auth );
-    const dispatch = useDispatch();
+  const { status, user, errorMessage } = useSelector((state: RootState) => state.auth);
+  const dispatch = useDispatch();
 
-    type Response = {
-        token:string;
-        ok:boolean;
-        id:number;
-        user:string;
-        userData:{ }
+  const startLogin = async (login: string, pass: string, ejercicio: number): Promise<void> => {
+    dispatch(onCheking());
+    
+    try {
+      const credentials: LoginCredentials = { login, password: pass, ejercicio };
+      const data = await authRepository.login(credentials);
+
+      localStorage.setItem('ejercicio', ejercicio.toString());
+      localStorage.setItem('token', data.token);
+      localStorage.setItem("data", JSON.stringify(data));
+      dispatch(onLogin({ user: data }));
+
+    } catch (error) {
+      console.log({ error });
+      dispatch(onAuthError());
+    }
+  };
+
+  const checkAuthToken = async (): Promise<void> => {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      dispatch(onLogout());
+      return;
     }
 
-    const startLogin = async ( login: string, pass: string, ejercicio:number ) => {
-        dispatch( onCheking() );
-        
-        try {
-            const { data } = await viaticosApi.post(`api/Auth/login?user=${ login }&password=${ pass }`);
- 
-            localStorage.setItem('ejercicio',ejercicio.toString());
-            localStorage.setItem('token', data.token );
-            localStorage.setItem("data", JSON.stringify(data));
-            dispatch( onLogin( { user: data } ) )
+    dispatch(onCheking());
+    try {
+      const data = await authRepository.validateToken(token);
+      dispatch(onLogin({ user: data }));
+      
+    } catch (error) {
+      localStorage.clear();
+      console.log({ error });
+      dispatch(onLogout());
+    }
+  };
 
-        } catch (error) {
-            console.log({ error });
-            dispatch( onAuthError() );
-           // dispatch( onError( { error }) );
-        }
-        
+  const startLogOut = (): void => {
+    localStorage.clear();
+    dispatch(onCheking());
+    dispatch(onResetUiState());
+    dispatch(onResetEmpleadosState());
+    dispatch(onLogout());
+  };
+
+  const startCheckingUserById = async (id: ID): Promise<void> => {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      dispatch(onLogout());
+      return;
     }
 
-    const checkAuthToken = async() => {
-       
-        const token = localStorage.getItem('token');
-        if( !token ) return dispatch( onLogout({ user: { } }) );
-        dispatch( onCheking() );
-        try {
-           const { data } = await viaticosApi.get<Response>(`api/Auth/validate-token?token=${ token }`);
-           dispatch( onLogin( { user: data }) )
-            
-        } catch (error) {
-            localStorage.clear();
-            console.log({ error });
-            dispatch( onLogout({ user: { } }));
-        }
+    try {
+      const data = await authRepository.getUserById(id);
+      dispatch(onCheckUserById({ user: data }));
+      
+    } catch (error) {
+      localStorage.clear();
+      console.log({ error });
     }
+  };
 
-    const startLogOut = () => {
-        localStorage.clear();
-        dispatch( onCheking() );
-        dispatch( onResetUiState() );
-        dispatch( onResetEmpleadosState() );
-        dispatch( onLogout({ user: { } }));
+  const startUpdatePassword = async (userId: string, newpassword: string): Promise<any> => {
+    try {
+      const data = await authRepository.changePassword(userId, newpassword);
+      console.log({ data });
+      return data;
+    } catch (error) {
+      console.log({ error });
+      throw error;
     }
+  };
 
-    const startCheckingUserById = async ( id: number) => {
-        const token = localStorage.getItem('token');
-        if( !token ) return dispatch( onLogout( { user: { }}) );
-        try {
-            const { data } = await viaticosApi.get<Response>(`api/Usuario/GetUserById?id=${ id }`);
-            dispatch( onCheckUserById( { user: data } ) );
-            
-        } catch (error) {
-            localStorage.clear();
-            console.log({ error });
-        }
-    }
-
-    const startUpdatePassword = async ( user : any, newpassword: string ) => {
-       // console.log({ user, newpassword });
-       // return;
-
-        try {
-            const { data } = await viaticosApi.put(`api/Auth/cambiopass?=user${ user }&newPassword=${ newpassword }`);
-            console.log({ data });
-            return data;
-        } catch (error) {
-            console.log({ error })
-            
-        }
-
-    }
-
-    return {
-        //*Propiedades
-        errorMessage,
-        status,
-        user,
-        startLogin,
-        startLogOut,
-        checkAuthToken,
-        startCheckingUserById,
-        startUpdatePassword,
-    }
-}
+  return {
+    // Propiedades
+    errorMessage,
+    status,
+    user,
+    // Métodos
+    startLogin,
+    startLogOut,
+    checkAuthToken,
+    startCheckingUserById,
+    startUpdatePassword,
+  };
+};
