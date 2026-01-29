@@ -8,5 +8,6 @@ export * from './useCiudadesStore';
 export * from './useLocalData';
 export * from './useUiStore';
 export * from './useEstadosStore';
-export * from  './usePartidasStore';
-export * from  './usePaisesStore';
+export * from './usePartidasStore';
+export * from './usePaisesStore';
+export * from './viaticos';
