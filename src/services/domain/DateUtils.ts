@@ -69,4 +69,13 @@ export class DateUtils {
   static obtenerFinEjercicio(ejercicio: number): Date {
     return new Date(ejercicio, 11, 31);
   }
+
+  /**
+   * Normaliza una fecha a medianoche local eliminando la información de hora
+   * Esto evita problemas de zona horaria al enviar fechas al backend
+   */
+  static normalizarFecha(fecha: Date | string): Date {
+    const fechaObj = typeof fecha === 'string' ? new Date(fecha) : fecha;
+    return new Date(fechaObj.getFullYear(), fechaObj.getMonth(), fechaObj.getDate());
+  }
 }

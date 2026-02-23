@@ -29,11 +29,11 @@ export const useViaticoForm = (
         fechasal: new Date(viatico.fechaSal),
         fechareg: new Date(viatico.fechaReg),
         dias: viatico.dias,
-        origenid: empleadoMunicipio,
+        origenid: viatico.origenId,
         destinoid: viatico.destinoId,
         motivo: viatico.motivo,
         inforact: viatico.inforAct,
-        lugartrab: viatico.oficina,
+        lugartrab: empleadoLugarTrab,
       });
       setIsModificarViatico(true);
     } else {

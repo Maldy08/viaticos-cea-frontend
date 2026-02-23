@@ -5,6 +5,7 @@ import type { Viatico, ViaticoFormData } from '../../types/viaticos/viatico.type
 
 import { useViaticosStore, usePartidasStore, useLocalData } from '../index';
 import { CalculoViaticoResult } from '../../types';
+import { DateUtils } from '../../services/domain';
 
 interface SubmitHandlers {
   onSuccess?: (noViat: number) => void;
@@ -38,22 +39,22 @@ export const useViaticoSubmit = (
           oficina: values.idoficina,
           ejercicio: values.ejercicio,
           noViat: values.noViat,
-          fecha: new Date(values.fecha),
+          fecha: DateUtils.normalizarFecha(values.fecha),
           noEmp: empleadoId,
           origenId: values.origenid,
           destinoId: values.destinoid,
           motivo: values.motivo.toUpperCase(),
-          fechaSal: new Date(values.fechasal),
-          fechaReg: new Date(values.fechareg),
+          fechaSal: DateUtils.normalizarFecha(values.fechasal),
+          fechaReg: DateUtils.normalizarFecha(values.fechareg),
           dias: values.dias,
-          inforFecha: new Date(values.fechareg),
+          inforFecha: DateUtils.normalizarFecha(values.fechareg),
           inforAct: values.inforact.toUpperCase(),
           nota: 'nada',
           estatus: values.estatus,
           pol: 0,
           polMes: 0,
           caja: 0,
-          fechaMod: new Date(values.fecha),
+          fechaMod: DateUtils.normalizarFecha(values.fecha),
           cajaVale: 0,
           cajaRepo: 0,
           noEmpCrea: empCrea,
@@ -81,22 +82,22 @@ export const useViaticoSubmit = (
           oficina: values.idoficina,
           ejercicio: values.ejercicio,
           noViat,
-          fecha: new Date(values.fecha),
+          fecha: DateUtils.normalizarFecha(values.fecha),
           noEmp: empleadoId,
           origenId: values.origenid,
           destinoId: values.destinoid,
           motivo: values.motivo.toUpperCase(),
-          fechaSal: new Date(values.fechasal),
-          fechaReg: new Date(values.fechareg),
+          fechaSal: DateUtils.normalizarFecha(values.fechasal),
+          fechaReg: DateUtils.normalizarFecha(values.fechareg),
           dias: values.dias,
-          inforFecha: new Date(values.fechareg),
+          inforFecha: DateUtils.normalizarFecha(values.fechareg),
           inforAct: values.inforact.toUpperCase(),
           nota: 'nada',
           estatus: 1,
           pol: 0,
           polMes: 0,
           caja: 0,
-          fechaMod: new Date(values.fecha),
+          fechaMod: DateUtils.normalizarFecha(values.fecha),
           cajaVale: 0,
           cajaRepo: 0,
           noEmpCrea: empCrea,
@@ -127,7 +128,8 @@ export const useViaticoSubmit = (
       startUpdateViatico,
       startAddNewPartidas,
       startUpdatePartidas,
-      handlers,
+      handlers?.onSuccess,
+      handlers?.onError,
     ]
   );
 

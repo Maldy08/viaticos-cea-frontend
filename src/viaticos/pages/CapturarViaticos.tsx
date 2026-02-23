@@ -148,6 +148,13 @@ export const CapturarViaticos = () => {
     startLoadingEmpleadoById(empleadoActivoId);
   }, [empleadoActivoId]);
 
+  // Calcular automáticamente cuando se carga un viático en modo edición
+  useEffect(() => {
+    if (isModificarViatico && initialValues.destinoid && initialValues.dias) {
+      calcularViatico(initialValues.destinoid, initialValues.dias);
+    }
+  }, [isModificarViatico, initialValues.destinoid, initialValues.dias, calcularViatico]);
+
   return (
     <ViaticosLayout>
       <div className="capturar-viaticos">
