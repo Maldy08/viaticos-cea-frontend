@@ -1,6 +1,7 @@
 import { NavLink } from 'react-router-dom';
 import { useState } from "react";
 import '../styles/SideBar.css';
+import logo from '../../assets/logo.png';
 import { useEmpleadosStore, useLocalData, useUiStore } from '../../hooks';
 import {
   Collapse,
@@ -25,21 +26,29 @@ export const SideBar = () => {
   const empleadoActivoNombre = (empleado?.empleado === empleadoActivoId) ? empleado?.nombreCompleto : '';
 
   return (
-    <Navbar expand="lg" className='vertical-nav bg-light py-3 px-2'>
-      <NavbarToggler onClick={toggle} aria-label="Toggle sidebar" />
+    <Navbar expand="lg" className='vertical-nav py-3 px-2'>
+      <NavbarToggler onClick={toggle} aria-label="Toggle sidebar" className="sidebar-toggle">
+        <i className={`fa-solid ${isOpen ? 'fa-xmark' : 'fa-bars'}`} aria-hidden="true"></i>
+      </NavbarToggler>
       <Collapse isOpen={isOpen} navbar>
 
-        <Nav className="sidebar-nav nav flex-column bg-light" navbar>
-          <NavLink className='text-gray font-weight-bold px-2 small pb-4 mt-2 menu-principal' to='/'>
-            <span>Menu Principal</span>
+        <Nav className="sidebar-nav nav flex-column" navbar>
+          <div className="sidebar-brand">
+            <img src={logo} alt="Comision Estatal del Agua" />
+          </div>
+
+          <NavLink className='menu-principal' to='/'>
+            <i className="fa-solid fa-house sidebar-icon" aria-hidden="true"></i>
+            <span>Principal</span>
           </NavLink>
 
           {
             viaticosNivel === 9 ?
-              <div className='mx-2 mb-2 p-2 activo rounded small'>
-                <div><b>Empleado activo:</b> {empleadoActivoId}</div>
-                {empleadoActivoNombre ? <div className='small'>{empleadoActivoNombre}</div> : null}
-                {isEmpleadoSeleccionado ? <div className='small'>(seleccionado)</div> : null}
+              <div className='empleado-activo'>
+                <span>Empleado activo</span>
+                <strong>{empleadoActivoId}</strong>
+                {empleadoActivoNombre ? <small>{empleadoActivoNombre}</small> : null}
+                {isEmpleadoSeleccionado ? <small>(Seleccionado)</small> : null}
               </div> : null
           }
 
@@ -72,6 +81,7 @@ export const SideBar = () => {
 
           <NavItem>
             <NavLink className="nav-link sidebar-link guinda" to='/'>
+              <i className="fa-regular fa-calendar sidebar-icon" aria-hidden="true"></i>
               <span className='sidebar-text'>Ejercicio: {ejercicio}</span>
             </NavLink>
           </NavItem>

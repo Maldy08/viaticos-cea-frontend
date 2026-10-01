@@ -1,6 +1,12 @@
+.capturar-viaticos {
+    padding-top: 4px;
+}
+
 .capturar-viaticos .header{
-    /* background-color:#fbfafa; */
-    padding: 15px;
+    padding: 18px;
+    border: 1px solid #e5e7eb;
+    background-color: #fff !important;
+    box-shadow: 0 10px 24px rgba(15, 23, 42, .06);
 }
 
 
@@ -14,6 +20,40 @@
     color: red;
     margin-top: 0.25rem;
   }
+
+.partida-table-wrapper {
+    overflow-x: auto;
+}
+
+.partida-table {
+    margin-bottom: 0;
+    overflow: hidden;
+    border-color: #edf0f3;
+    border-radius: 6px;
+    background: #fff;
+}
+
+.partida-table thead th {
+    border-color: #e5e8ec;
+    background: #f6f1f3;
+    color: #651930;
+    font-size: 12px;
+    font-weight: 800;
+    vertical-align: middle;
+}
+
+.partida-table tbody td {
+    border-color: #edf0f3;
+    color: #30353c;
+    font-weight: 700;
+    vertical-align: middle;
+}
+
+.partida-table-amount {
+    color: #651930 !important;
+    background: #faf8f5 !important;
+    font-size: 15px;
+}
 
 .guinda{
     color:#651930;

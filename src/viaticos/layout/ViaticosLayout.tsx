@@ -11,7 +11,7 @@ export const ViaticosLayout: React.FunctionComponent<ModuleProps> = ({ children 
       <Header/>
       <SideBar/>
 
-        <div className='page-content p-3'>
+        <div className='page-content'>
          
           { children }
 

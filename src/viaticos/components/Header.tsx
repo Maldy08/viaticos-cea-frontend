@@ -1,4 +1,3 @@
-import logo from '../../assets/logo.png';
 import '../styles/Header.css';
 import { useLocalData } from "../../hooks";
 import { NavLink } from 'react-router-dom';
@@ -17,19 +16,21 @@ export const Header = () => {
   }
 
   return (
-    <div className="navbar headercea">
-      <div className="navbar-left d-flex justify-content-between mx-1">
-        <img src={ logo } alt="logo" />
+    <header className="headercea">
+      <nav className="headercea-nav">
+        <span className="headercea-title">Sistema de Control de Viaticos</span>
         {(nombreUsuario != null) && 
-          <div className='d-flex flex-row gap-2 align-items-center guinda-header'>
-            <p> <span>Usuario:</span> <br /> <b> {nombreUsuario} </b></p>
-              <NavLink className='guinda-header-buton' to='/cerrar-sesion'>
-              <i className="fa-solid fa-right-from-bracket p-3"></i>
+          <div className='headercea-user'>
+            <div className="headercea-user-copy">
+              <span>Usuario</span>
+              <strong>{nombreUsuario}</strong>
+            </div>
+              <NavLink className='guinda-header-buton' to='/cerrar-sesion' aria-label="Cerrar sesion">
+              <i className="fa-solid fa-right-from-bracket"></i>
               </NavLink>
           </div>
         }
-      </div>
-
-    </div>
+      </nav>
+    </header>
   )
 }

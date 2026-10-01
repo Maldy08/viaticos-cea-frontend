@@ -17,8 +17,12 @@ export const LoginPage = () => {
     <AuthLayout>
         <div className="loginPage">
             <div className="row d-flex justify-content-center">
-                <div className="col-md-6 login-form-1 login-container">
-                    <h3>Acceso al Sistema</h3>
+                <div className="col-sm-10 col-md-7 col-lg-5 col-xl-4 login-form-1 login-container">
+                    <div className="login-header">
+                        <span className="login-badge">CEA</span>
+                        <h3>Acceso al Sistema</h3>
+                        <p>Sistema de Control de Viaticos</p>
+                    </div>
                     <Formik
                         initialValues={ { 
                             login: '',
@@ -42,28 +46,34 @@ export const LoginPage = () => {
                     >
                         {
                             ({initialValues}) => (     
-                                <Form>
-                                    <div className="form-group mb-2">
+                                <Form className="login-form">
+                                    <div className="form-group mb-3">
+                                        <label htmlFor="login" className="form-label">Usuario</label>
                                         <Field 
+                                            id="login"
                                             name="login" 
                                             type="text" 
                                             className="form-control text-uppercase "
                                             placeholder="Usuario" 
                                          />
-                                         <ErrorMessage name="login" component="span"/>
+                                         <ErrorMessage name="login" component="span" className="login-field-error"/>
                                     </div>
-                                    <div className="form-group mb-2">
+                                    <div className="form-group mb-3">
+                                        <label htmlFor="password" className="form-label">Password</label>
                                         <Field 
+                                                id="password"
                                                 name="password" 
                                                 type="password" 
                                                 className="form-control text-uppercase"
                                                 placeholder="Password" 
                                             />
-                                         <ErrorMessage name="password" component="span"/>
+                                         <ErrorMessage name="password" component="span" className="login-field-error"/>
 
                                     </div>
-                                    <div className="form-group mb-2">
+                                    <div className="form-group mb-3">
+                                        <label htmlFor="ejercicio" className="form-label">Ejercicio</label>
                                         <Field 
+                                                id="ejercicio"
                                                 name="ejercicio" 
                                                 type="number" 
                                                 min={initialValues.ejercicio - 1}
@@ -71,7 +81,7 @@ export const LoginPage = () => {
                                                 className="form-control text-uppercase"
                                                 placeholder="Ejercicio" 
                                             />
-                                         <ErrorMessage name="ejercicio" component="span"/>
+                                         <ErrorMessage name="ejercicio" component="span" className="login-field-error"/>
                                     </div>
                                     <div className="d-grid gap-2">
                                         <button 
@@ -89,8 +99,8 @@ export const LoginPage = () => {
             </div>
 
             <div className="row d-flex justify-content-center">
-                <div className="col-md-6">
-                    <div className="error-message mt-5">
+                <div className="col-sm-10 col-md-7 col-lg-5 col-xl-4">
+                    <div className="error-message">
                       { status != 'not-authenticated' &&  <p className="text-center">{ status }</p> } 
                     </div> 
                 </div>

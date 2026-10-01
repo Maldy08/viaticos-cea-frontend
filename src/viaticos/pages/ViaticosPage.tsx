@@ -6,15 +6,35 @@ export const ViaticosPage = () => {
 
   return (
     <ViaticosLayout >
-      <div className=" h-100 d-flex gap-3">
-              <NavLink className='w-25 h-50 bg-white btn-guinda rounded d-flex justify-content-center align-items-center border border-2 gap-3 flex-column' to='/capturar-viatico'>
-                <i className="fa-solid fa-file icono"></i>
-                  <span className='letra'>Capturar viaticos</span>
-              </NavLink>
-              <NavLink className='w-25 h-50 bg-white btn-guinda rounded d-flex justify-content-center align-items-center border border-2 gap-3 flex-column' to='/listado-viaticos'>
-                <i className="fa-regular fa-folder-open icono"></i>
-                <span className='letra'>Consultar viaticos</span>
-              </NavLink>
+      <div className="viaticos-home">
+        <section className="home-hero">
+          <div>
+            <span className="home-kicker">Menu Principal</span>
+            <h1>Sistema de Control de Viaticos</h1>
+            <p>Selecciona una opcion para comenzar la captura o consulta de movimientos.</p>
+          </div>
+          <div className="home-year">
+            <span>Ejercicio</span>
+            <strong>{ localStorage.getItem('ejercicio') || new Date().getFullYear() }</strong>
+          </div>
+        </section>
+
+        <section className="home-actions" aria-label="Accesos principales">
+          <NavLink className='home-action btn-guinda' to='/capturar-viatico'>
+            <span className="home-action-icon">
+              <i className="fa-solid fa-file icono"></i>
+            </span>
+            <span className='letra'>Capturar viaticos</span>
+            <span className="home-action-copy">Registra una nueva solicitud de viaticos.</span>
+          </NavLink>
+          <NavLink className='home-action btn-guinda' to='/listado-viaticos'>
+            <span className="home-action-icon">
+              <i className="fa-regular fa-folder-open icono"></i>
+            </span>
+            <span className='letra'>Consultar viaticos</span>
+            <span className="home-action-copy">Consulta, revisa y da seguimiento a capturas existentes.</span>
+          </NavLink>
+        </section>
       </div>
     </ViaticosLayout>
   )

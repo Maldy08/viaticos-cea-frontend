@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import DatePicker  from "react-datepicker";
 
 import {  ErrorMessage, Field, Form, Formik } from "formik";
@@ -59,6 +59,7 @@ export const CapturarViaticos = () => {
   const { openEmpleadosModal, empleadoModalSelected } = useUiStore();
   const empleadoActivoId = empleadoModalSelected || noEmpleado;
   const empleadoHeaderId = empleado?.empleado || empleadoActivoId;
+  const empleadoSinLugarTrabajoAlertado = useRef<number | null>(null);
   
   const { startGetConsecutivo, isLoading: isLoadingViatico, startAddNewViatico, viatico, startUpdateViatico } = useViaticosStore();
 
@@ -74,6 +75,13 @@ export const CapturarViaticos = () => {
     useEffect(() => {
       startLoadingEmpleadoById( empleadoActivoId );
     }, [ empleadoActivoId ])
+
+    useEffect(() => {
+      if( empleado?.empleado && empleado.oficina === 0 && empleadoSinLugarTrabajoAlertado.current !== empleado.empleado ) {
+        empleadoSinLugarTrabajoAlertado.current = empleado.empleado;
+        alert('El empleado no cuenta con lugar de trabajo asignado, favor de verificarlo con el area de recursos humanos.');
+      }
+    }, [ empleado?.empleado, empleado?.oficina ])
  
 
 let initialValues = {} as Props;
@@ -194,6 +202,12 @@ let initialValues = {} as Props;
               
               onSubmit={ async ( values, { setSubmitting,setFieldValue, setStatus, resetForm } ) => {
                  // await new Promise( resolve => setTimeout(resolve, 3000));
+                  if( empleado.oficina === 0 ) {
+                    alert('El empleado no cuenta con lugar de trabajo asignado, favor de verificarlo con el area de recursos humanos.');
+                    setSubmitting(false);
+                    return;
+                  }
+
                   const consecutivo = await startGetConsecutivo( values.ejercicio, values.idoficina );
                   const { noEmpleado:empCrea } = useLocalData()
                   const newViatico = {
@@ -364,7 +378,6 @@ let initialValues = {} as Props;
                                 ( date:any ) => setFieldValue('fecha', date)
                               }
                             />
-
                           </div>
                         </div>
                       </div>
@@ -384,7 +397,6 @@ let initialValues = {} as Props;
                       </div>
 
                     </div>
-
                     <div className="row gx-4 mt-3">
                       <div className="col">
                         <div className="form-floating">
@@ -506,7 +518,6 @@ let initialValues = {} as Props;
                       </div> */}
 
                     </div>
-
                     <div className="row d-block mt-3">
                       <div className="col"> 
                         <div className="form-floating">
@@ -546,28 +557,30 @@ let initialValues = {} as Props;
 
                     <div className="row gx-4 mt-3">
                       <div className="col">
-                        <table className="table table-bordered table-sm">
-                          <thead className="text-center">
-                            <tr>
-                              <th>PARTIDA</th>
-                              <th>DESCRIPCION</th>
-                              <th>IMPORTE</th>
-                              <th>OFI</th>
-                              <th>ANO</th>
-                              <th>VIAT</th>
-                            </tr>
-                          </thead>
-                          <tbody className="text-center">
-                            <tr>
-                              <td>{ partida }</td>
-                              <td>{ descripcionPartida }</td>
-                              <td>{ importePorDias( values.dias, empleado.nivel, fueraDelEstado ) }</td>
-                              <td>{ values.idoficina }</td>
-                              <td>{ values.ejercicio }</td>
-                              <td>{ values.noViat }</td>
-                            </tr>
-                          </tbody>
-                        </table>
+                        <div className="partida-table-wrapper">
+                          <table className="table table-bordered table-sm partida-table">
+                            <thead className="text-center">
+                              <tr>
+                                <th>PARTIDA</th>
+                                <th>DESCRIPCION</th>
+                                <th>IMPORTE</th>
+                                <th>OFI</th>
+                                <th>ANO</th>
+                                <th>VIAT</th>
+                              </tr>
+                            </thead>
+                            <tbody className="text-center">
+                              <tr>
+                                <td>{ partida }</td>
+                                <td>{ descripcionPartida }</td>
+                                <td className="partida-table-amount">{ importePorDias( values.dias, empleado.nivel, fueraDelEstado ) }</td>
+                                <td>{ values.idoficina }</td>
+                                <td>{ values.ejercicio }</td>
+                                <td>{ values.noViat }</td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
                       </div>
                     </div>
                           

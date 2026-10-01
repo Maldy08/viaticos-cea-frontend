@@ -1,10 +1,19 @@
 
 .btn-primario{
     color: #fff;
-    background-color: #651930;
+    background-color: var(--cea-primary-900);
     
 }
 
 .btn-primario:hover{
-    background-color: #d6d6d6;
+    background-color: var(--cea-primary-800);
+}
+
+.main {
+    min-height: 100vh;
+    background-color: var(--cea-page);
+}
+
+.page-content > * {
+    max-width: 100%;
 }
